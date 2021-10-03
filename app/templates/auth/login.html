@@ -2,7 +2,6 @@
 {% block title %}Login{% endblock %}
 
 {% block navbar %}
-  {% include "generic/navbar/navbar_back.html" %}
 {% endblock %}
 
 {% block content %}
@@ -14,7 +13,7 @@
     <form class="row my-2" action="{{ url_for('auth_authenticate') }}" method="POST">
       <div class="col">
         <div class="row my-2"><div class="col-3"></div><input class="col card mx-2 p-2" name="email" placeholder="Correo" required/><div class="col-3"></div></div>
-        <div class="row my-2"><div class="col-3"></div><input class="col card mx-2 p-2" name="password" placeholder="Clave" required/><div class="col-3"></div></div>
+        <div class="row my-2"><div class="col-3"></div><input class="col card mx-2 p-2" type="password" name="password" placeholder="Clave" required/><div class="col-3"></div></div>
         <div class="row my-2"><div class="col-3"></div><input class="col card mx-2 p-2 bg-success text-light border-0" type="submit" value="Login"><div class="col-3"></div></div>
       </div>
     </form>

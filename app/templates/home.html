@@ -2,7 +2,7 @@
 {% block title %}Home{% endblock %}
 
 {% block navbar %}
-  {% include "generic/navbar/navbar_not_auth.html" %}
+    {% include "generic/navbar.html" %} 
 {% endblock %}
 
 {% block content %}
@@ -16,7 +16,6 @@
     </div>
 
     <div class="row my-2">
-      <a class="col-auto card mx-2 p-3 text-center" href="{{ url_for('issue_index') }}" class="link">Consultas</a>
       {% if is_authenticated(session) %}
         <a class="col card mx-2 p-3 text-center" href="{{ url_for('user_index') }}" class="link">Usuarios</a>
         <a class="col card mx-2 p-3 text-center" href="{{ url_for('auth_logout') }}" class="link">Cerrar sesión</a>

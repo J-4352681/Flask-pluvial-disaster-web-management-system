@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-# Grupo 38
-Tomas Oliva, 17233/5 
-
-=======
 # Proyecto de Software - Aplicación de ejemplo
 
 Aplicación de ejemplo para la cátedra de Proyecto de Software de la Facultad de Informática de la U.N.L.P.
@@ -58,4 +53,3 @@ __init__.py       # Instancia de la aplicación y ruteo
 ## TODO
 
 - [ ] Usar una hoja de estilos simple para que quede de ejemplo.
->>>>>>> 684509f8757d4a9345f3b4c01b857868c0653037

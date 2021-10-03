@@ -1,12 +1,10 @@
 from os import path, environ
-from flask import Flask, render_template, g, Blueprint
+from flask import Flask, render_template, g, Blueprint, session, redirect, url_for
 from flask_session import Session
 from config import config
 from app import db
-from app.resources import issue
 from app.resources import user
 from app.resources import auth
-from app.resources.api.issue import issue_api
 from app.helpers import handler
 from app.helpers import auth as helper_auth
 
@@ -36,11 +34,6 @@ def create_app(environment="development"):
         "/autenticacion", "auth_authenticate", auth.authenticate, methods=["POST"]
     )
 
-    # Rutas de Consultas
-    app.add_url_rule("/consultas", "issue_index", issue.index)
-    app.add_url_rule("/consultas", "issue_create", issue.create, methods=["POST"])
-    app.add_url_rule("/consultas/nueva", "issue_new", issue.new)
-
     # Rutas de Usuarios
     app.add_url_rule("/usuarios", "user_index", user.index)
     app.add_url_rule("/usuarios", "user_create", user.create, methods=["POST"])
@@ -49,13 +42,10 @@ def create_app(environment="development"):
     # Ruta para el Home (usando decorator)
     @app.route("/")
     def home():
+        if not helper_auth.authenticated(session):
+            return redirect(url_for("auth_login"))
+
         return render_template("home.html")
-
-    # Rutas de API-REST (usando Blueprints)
-    api = Blueprint("api", __name__, url_prefix="/api")
-    api.register_blueprint(issue_api)
-
-    app.register_blueprint(api)
 
     # Handlers
     app.register_error_handler(404, handler.not_found_error)

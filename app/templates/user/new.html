@@ -7,6 +7,10 @@
   <h1>Crear un usuario</h1>
   <form action="{{ url_for('user_create') }}" method="POST">
     <p>
+      <label>Nombre de usuario<label></br>
+      <input name="username" placeholder="Nombre de usuario"/>
+    </p>
+    <p>
       <label>Email<label></br>
       <input name="email" placeholder="Correo"/>
     </p>

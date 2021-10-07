@@ -1,7 +1,7 @@
 from flask import redirect, render_template, request, url_for, session, abort
 from app.models.user import User
 from app.helpers.auth import authenticated
-from app.db import
+import app.db
 
 # Protected resources
 def index():

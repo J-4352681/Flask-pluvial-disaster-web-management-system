@@ -7,6 +7,7 @@ from datetime import datetime
 
 """Este modulo incluye todo la informacion relacionada al modelo de usuarios, y como pedir informacion a la base de datos en relacion a estos"""
 class User(db.Model):
+    """Classe que representa los usuarios de la base datos"""
     __tablename__ = "users"
     id = Column(Integer, primary_key=True)
 

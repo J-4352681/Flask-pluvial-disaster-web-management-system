@@ -1,8 +1,32 @@
 <nav id="navbar" class="py-3 shadow-sm">
   <div class="container">
     <div class="row">
+        <a class="col-auto card p-2 px-3 mx-2 text-center text-decoration-none" href="{{ url_for('home') }}">Home</a>
+        
         <div class="col"></div>
-        <a class="col-auto card p-2 px-3 mx-2 bg-success border-0 text-center text-light text-decoration-none" href="{{ url_for('auth_logout') }}">Cerrar sesión</a>
+        
+        <a class="col-auto card p-2 px-3 mx-2 text-center text-decoration-none" href="{{ url_for('user_index') }}">Usuarios</a>
+        <div id="nav-user-icon" class="mx-3 btn p-0 col-auto m-auto text-decoration-none" href=""><ion-icon class="nav-icon" name="person"></ion-icon></div>
+
+        <div id="nav-drop-menu" class="position-fixed container card shadow-sm" style="visibility: hidden; width: 200px; height: auto; top: 65px; right: 310px;">
+          <a class="row text-decoration-none" href="{{ url_for('auth_profile') }}">
+            <p class="col my-3">Perfil</p>
+          </a>
+      
+          <a class="row text-decoration-none border-top" href="{{ url_for('auth_logout') }}">
+            <p class="col my-3">Cerrar sesión</p>
+          </a>
+        </div>
     </div>
   </div>
 </nav>
+
+<script>
+  $(document).ready(function() {
+    $('#nav-user-icon').click(function() {
+      menu = $('#nav-drop-menu');
+      if(menu.css('visibility') == 'hidden') menu.css('visibility', 'visible');
+      else menu.css('visibility', 'hidden');
+    });
+  });
+</script>

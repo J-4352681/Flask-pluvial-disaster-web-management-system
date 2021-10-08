@@ -37,6 +37,7 @@ def create_app(environment="development"):
     app.add_url_rule(
         "/autenticacion", "auth_authenticate", auth.authenticate, methods=["POST"]
     )
+    app.add_url_rule("/perfil", "auth_profile", auth.perfil)
 
     # Rutas de Usuarios
     app.add_url_rule("/usuarios", "user_index", user.index)

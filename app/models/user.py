@@ -16,7 +16,7 @@ class User(db.Model):
     username = Column(String(30), nullable=false, unique=True)
     email = Column(String(30), nullable=false, unique=True) #¿Que tan largo puede ser un mail?
     password = Column(String(30), nullable=false)
-    activo = Column(Boolean, nullable=false, default=true) #Activo o bloqueado. Los usuarios de rol administrador no podran ser bloqueados
+    active = Column(Boolean, nullable=false, default=true) #Activo o bloqueado. Los usuarios de rol administrador no podran ser bloqueados
     roles = Column('roles', ARRAY(String(10))) #Agregar una clase ROLES e importar
     created_at = Column(DateTime(), default=datetime.now()) #No es necesario pero puede ser util
 
@@ -50,10 +50,10 @@ class User(db.Model):
         return user
     
     @classmethod
-    def find_all_active_or_bloqued(cls, activo=None):
+    def find_all_active_or_blocked(cls, activo=None):
         """Devuelve todos los usuarios activos si el parametro activo=true o todos los usuarios bloqueados si el parametro activo=false"""
         res = cls.query.filter(
-            cls.activo == activo
+            cls.active == activo
         ).all() 
         return res #Devuelve todos los usuarios activos o bloqueados, cambie el nombre a res porque "users" es el nombre de la tabla y queria evitar confusion
 
@@ -62,6 +62,29 @@ class User(db.Model):
         """Crea un nuevo usuario con los parametros mandados"""
         new_user = User(params)
         db.session.add(new_user)
+        db.session.commit()
+
+    @classmethod
+    def block_user(cls, username_param=None): #CAMBIAR STRING ADMINISTRADOR/A
+        """Bloquea un usuario cuyo username coincida con el parametro enviado. Si ya estaban bloqueados no hace nada. Usar "unblock_user" para desbloquear."""
+        user_selected = User.query.filter_by(username=username_param).first()
+        if ( ( user_selected.active ) and ( "Administrador/a" in map( lambda x: x.name, user_selected.roles ) )): #En el TP: "los únicos usuarios que no puedan ser bloqueados, sean aquellos con el rol Administrador"
+            user_selected.active = false
+            db.session.commit()
+
+    @classmethod
+    def unblock_user(cls, username_param=None):
+        """Desbloquea un usuario cuyo username coincida con el parametro enviado. Si ya estaban activos no hace nada.  Usar "block_user" para bloquear."""
+        user_selected = User.query.filter_by(username=username_param).first()
+        if ( not user_selected.activo ):
+            user_selected.active = true
+            db.session.commit()
+
+    @classmethod
+    def assign_rol(cls, username_param=None, role_param=None):
+        """Asigna un rol a un usuario existente."""
+        user_selected = User.query.filter_by(username=username_param).first()
+        user_selected.roles.append(role_param)
         db.session.commit()
 
     def __init__(self, first_name=None, last_name=None, username=None, email=None, password=None):

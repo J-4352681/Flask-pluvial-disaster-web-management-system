@@ -1,9 +1,8 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
-from sqlalchemy.sql.expression import false, true
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String
+from sqlalchemy.sql.expression import false
 from app.db import db
 
-class Role(db.Model):
+class Permit(db.Model):
     """Clase que representa los permisos de la base datos"""
     __tablename__ = "permits"
     id = Column(Integer, primary_key=True)

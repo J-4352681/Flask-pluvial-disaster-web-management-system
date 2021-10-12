@@ -71,6 +71,10 @@ def create_app(environment="development"):
         {
             "nombre": "Puntos de encuentro",
             "url": url_for("puntos_index")
+        },
+        {
+            "nombre": "Configuración",
+            "url": ""
         }
     ])
 

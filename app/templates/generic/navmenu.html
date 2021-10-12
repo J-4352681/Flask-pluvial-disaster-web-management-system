@@ -2,8 +2,8 @@
   <h4 class="col mt-4">Menú</h4>
 </div>
 
-{% for apartado in apartados %}
+{% for apartado in session['apartados'] %}
   <div class="row px-2">
     <a class="col border-bottom rounded p-3 text-decoration-none text-secondary navmenu-apartado" href="{{ apartado.url }}">{{ apartado.nombre }}</a>
   </div>
-{% endfor %}
+  {% endfor %}

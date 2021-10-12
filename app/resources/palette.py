@@ -1,7 +1,7 @@
 from flask import redirect, render_template, request, url_for, session, abort
 from sqlalchemy.sql.expression import false, true
 from app.models.user import User
-from app.helpers.auth import authenticated, authorized
+from app.helpers.auth import authenticated
 import app.db
 
 # Protected resources

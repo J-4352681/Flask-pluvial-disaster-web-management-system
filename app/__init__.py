@@ -3,7 +3,7 @@ from flask import Flask, render_template, g, Blueprint, session, redirect, url_f
 from flask_session import Session
 from config import config
 from app import db
-from app.resources import user, auth, palette
+from app.resources import user, auth, palette, points
 from app.helpers import handler
 from app.helpers import auth as helper_auth
 import logging
@@ -44,7 +44,10 @@ def create_app(environment="development"):
     app.add_url_rule("/usuarios/nuevo", "user_new", user.new)
 
     # Paleta de colores
-    app.add_url_rule("/paleta_color", "paleta_color", palette.index)
+    app.add_url_rule("/paleta_color", "paleta_index", palette.index)
+
+    # Puntos de encuentro
+    app.add_url_rule("/puntos_encuentro", "puntos_index", points.index)
 
     # Ruta para el Home (usando decorator)
     @app.route("/")
@@ -55,7 +58,7 @@ def create_app(environment="development"):
         return render_template("home.html", apartados=[
         {
             "nombre": "Paleta de colores",
-            "url": url_for("paleta_color")
+            "url": url_for("paleta_index")
         },
         {
             "nombre": "Usuarios",
@@ -64,6 +67,10 @@ def create_app(environment="development"):
         {
             "nombre": "Perfil",
             "url": url_for("auth_profile")
+        },
+        {
+            "nombre": "Puntos de encuentro",
+            "url": url_for("puntos_index")
         }
     ])
 

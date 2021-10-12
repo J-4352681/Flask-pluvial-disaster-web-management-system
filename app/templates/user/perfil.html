@@ -10,15 +10,15 @@
     {% include "generic/navbar.html" %} 
 {% endblock %}
 
-{% block content %}
-  <div class="container">
-    <div class="row mt-5 mb-4">
-      <h1 class="col">Perfil de usuario</h1>
-    </div>
+{% block navmenu %}
+<!-- {% with apartados=apartados %} -->
+{% include "generic/navmenu.html" %}
+<!-- {% endwith %} -->
+{% endblock %}
 
-    <div class="row my-2">
-      <p class="col">Edición del perfil de usuario</p>
-    </div>
-  </div>
+{% block content %}
+  {% with titulo_apartado="Perfil de usuario", subtitulo_apartado="Edición del perfil de usuario" %}
+    {% include "generic/generic_content.html" %}
+  {% endwith %}
 
 {% endblock %}

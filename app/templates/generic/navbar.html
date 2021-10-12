@@ -1,4 +1,4 @@
-<nav id="navbar" class="py-3 shadow-sm">
+<nav id="navbar" class="py-3 shadow-sm position-fixed w-100 bg-white">
   <div class="container">
     <div class="row">
         <a class="col-auto card p-2 px-3 mx-2 text-center text-decoration-none" href="{{ url_for('home') }}">Home</a>
@@ -28,5 +28,11 @@
       if(menu.css('visibility') == 'hidden') menu.css('visibility', 'visible');
       else menu.css('visibility', 'hidden');
     });
+
+    nav_height = $('#navbar').height() + 10;
+
+    $('.mt-navbar')
+    .css('margin-top', nav_height + 'px');
+    console.log(nav_height);
   });
 </script>

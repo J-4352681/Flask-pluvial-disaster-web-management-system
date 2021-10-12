@@ -2,3 +2,17 @@
     width: 35px; height: 35px;
     color: black;
 }
+
+.h-100vh {
+    height: 100vh;
+}
+
+a.text-secondary:hover {
+    color: black !important;
+}
+
+#nav-drop-menu {
+    visibility: hidden;
+    width: 200px;
+    height: auto;
+}

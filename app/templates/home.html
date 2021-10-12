@@ -1,28 +1,19 @@
-{% extends "generic/base.html" %}
-{% block import %}
-    <!-- CSS propio -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
-{% endblock %}
+{% extends "generic/base.html"%}
 
 {% block title %}Home{% endblock %}
 
 {% block navbar %}
-    {% include "generic/navbar.html" %} 
+    {% include "generic/navbar.html" %}
+{% endblock %}
+
+{% block navmenu %}
+  {% with apartados=apartados %}
+    {% include "generic/navmenu.html" %}
+  {% endwith %}
 {% endblock %}
 
 {% block content %}
-  <div class="container">
-    <div class="row mt-5 mb-4">
-      <h1 class="col">Inicio</h1>
-    </div>
-
-    <div class="row my-2">
-      <p class="col">Página de inicio de la aplicación</p>
-    </div>
-
-    <div class="row my-2">
-        <a class="col card mx-2 p-3 text-center" href="{{ url_for('user_index') }}" class="link">Usuarios</a>
-    </div>
-  </div>
-
+  {% with titulo_apartado="Página principal", subtitulo_apartado="Página principal de configuración" %}
+    {% include "generic/generic_content.html" %}
+  {% endwith %}
 {% endblock %}

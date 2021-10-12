@@ -1,13 +1,18 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import Table, Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.sql.expression import false, true
 from sqlalchemy.sql.sqltypes import Boolean
 from sqlalchemy.orm import relationship
 from app.db import db
 
 from datetime import datetime
-from role import Role
+from app.models import role
 
 """Este modulo incluye todo la informacion relacionada al modelo de usuarios, y como pedir informacion a la base de datos en relacion a estos"""
+
+association_table_user_has_role = Table('user_has_role', db.Model.metadata,
+    Column('user_id', ForeignKey('users.id')),
+    Column('role_id', ForeignKey('roles.id'))
+)
 class User(db.Model):
     """Classe que representa los usuarios de la base datos"""
     __tablename__ = "users"
@@ -19,7 +24,7 @@ class User(db.Model):
     email = Column(String(30), nullable=false, unique=True) #¿Que tan largo puede ser un mail?
     password = Column(String(30), nullable=false)
     active = Column(Boolean, nullable=false, default=true) #Activo o bloqueado. Los usuarios de rol administrador no podran ser bloqueados
-    roles = relationship("roles")
+    roles = relationship("Role", secondary=association_table_user_has_role) 
     created_at = Column(DateTime(), default=datetime.now()) #No es necesario pero puede ser util
 
     @classmethod
@@ -77,7 +82,7 @@ class User(db.Model):
     def block_user(cls, username_param=None):
         """Bloquea un usuario cuyo username coincida con el parametro enviado. Si ya estaban bloqueados no hace nada. Usar "unblock_user" para desbloquear."""
         user_selected = User.query.filter_by(username=username_param).first()
-        if ( ( user_selected.active ) and ( Role.get_admin() not in user_selected.roles )): #En el TP: "los únicos usuarios que no puedan ser bloqueados, sean aquellos con el rol Administrador"
+        if ( ( user_selected.active ) and ( role.Role.get_admin() not in user_selected.roles )): #En el TP: "los únicos usuarios que no puedan ser bloqueados, sean aquellos con el rol Administrador"
             user_selected.active = false
             db.session.commit()
 
@@ -110,3 +115,4 @@ class User(db.Model):
         self.username = username
         self.email = email
         self.password = password #Los roles se pueden agregar a parte y el resto de atributos se agregan por defecto
+

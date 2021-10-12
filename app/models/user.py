@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship
 from app.db import db
 
 from datetime import datetime
-from role import Role
+from app.models.role import Role
 
 """Este modulo incluye todo la informacion relacionada al modelo de usuarios, y como pedir informacion a la base de datos en relacion a estos"""
 class User(db.Model):

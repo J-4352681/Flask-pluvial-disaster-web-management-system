@@ -7,6 +7,12 @@
     height: 100vh;
 }
 
-.navmenu-apartado:hover {
+a.text-secondary:hover {
     color: black !important;
+}
+
+#nav-drop-menu {
+    visibility: hidden;
+    width: 200px;
+    height: auto;
 }

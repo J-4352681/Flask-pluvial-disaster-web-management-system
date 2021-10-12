@@ -1,4 +1,8 @@
 {% extends "generic/not_auth_base.html" %}
+{% block import %}
+    <!-- CSS propio -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
+{% endblock %}
 
 {% block full_content %}
   <div class="container-fluid">

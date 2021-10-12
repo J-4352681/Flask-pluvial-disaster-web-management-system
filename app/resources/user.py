@@ -49,6 +49,8 @@ def block_user( username ):
 
     User.block_user(username)
 
+
+
 def unblock_user( username ):
     """Cambiara el estado de un usuario de "bloqueado" a "activo". Los usuarios administradores no pueden ser bloqueados."""
     if not authenticated(session):
@@ -58,6 +60,8 @@ def unblock_user( username ):
         abort(401)
 
     User.unblock_user(username)
+    
+
 
 def assign_rol( username, role ):
     """Le otorgara un nuevo rol a un usuario existende, determinado por su username."""
@@ -68,4 +72,6 @@ def assign_rol( username, role ):
         abort(401)
 
     User.assign_rol(username, role)
+
+
 

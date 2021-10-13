@@ -1,9 +1,10 @@
 from flask import redirect, render_template, request, url_for, session, abort, flash
 from sqlalchemy.sql.expression import false, true
+
 from app.models.user import User
-from app.helpers.auth import assert_permit, authenticated
-from app.helpers.user import username_already_exists, username_or_email_already_exist
-import app.db
+from app.helpers.auth import assert_permit
+from app.helpers.user import username_or_email_already_exist
+
 
 # Protected resources
 def index():
@@ -49,7 +50,7 @@ def assign_role(user, role):
     User.assign_role(user, role)
     return redirect(url_for("user_index"))
 
-def unassing_role(user, role):
+def unassign_role(user, role):
     """Le quita un rol a un usuario existente."""
     assert_permit(session, "user_unassign_rol")
     User.unassign_role(user, role)

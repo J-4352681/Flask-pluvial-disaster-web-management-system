@@ -24,7 +24,7 @@ class User(db.Model):
     email = Column(String(30), nullable=false, unique=True)
     password = Column(String(30), nullable=false)
     active = Column(Boolean, nullable=false, default=true) # Los usuarios de rol administrador no podran ser bloqueados
-    roles = relationship("Role", secondary=association_table_user_has_role) 
+    roles = relationship("Role", secondary=association_table_user_has_role, lazy='subquery') 
     created_at = Column(DateTime(), default=datetime.now()) # No es necesario pero puede ser util
 
     @classmethod

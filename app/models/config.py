@@ -22,12 +22,24 @@ class Config(db.Model):
     palette_public = relationship("Color", secondary=association_palet_has_colors)
 
     @classmethod
-    def all(cls):
+    def get(cls):
         """Devuelve los datos de configuracion"""
         return cls.query.first()
 
-    def __init__(self, name=None, elements_per_page=None, sort_users=None, sort_meeting_points=None):
-        self.name = name
+    @classmethod
+    def create(cls):
+        """Crea una nueva configuracion si no existe una ya en el sistema"""
+        configExists = Config.get()
+        if ( not configExists ):
+            new_user = Config(elements_per_page=10, sort_users='username', sort_meeting_points='name')
+            db.session.add(new_user)
+            db.session.commit()
+    
+    @classmethod
+    def modify(cls):
+        """Modifica la configuracion del sistema"""
+
+    def __init__(self, elements_per_page=None, sort_users=None, sort_meeting_points=None):
         self.elements_per_page = elements_per_page
         self.sort_users = sort_users
         self.sort_meeting_points = sort_meeting_points

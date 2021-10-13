@@ -3,6 +3,7 @@ from sqlalchemy.sql.expression import false, true
 from app.db import db
 from app.models.user import User
 from app.helpers.auth import authenticated, authorized
+from app.helpers.filter import apply_filter
 import app.db
 
 # Protected resources
@@ -15,10 +16,7 @@ def index():
     if query == {}:
         users = User.all()
     else:
-        # q = "select * from users where " + list(query.keys())[0] + "=" + "'" + list(query.values())[0] + "'"
-        # users = db.session.query(q)
-        # users = User.query.filter_by(User.first_name=query["first_name"] if "first_name" in query.keys()))
-        users = User.all()
+        users = apply_filter(User, query)
     
     return render_template("user/index.html", users=users, filters={"first_name": "Nombre", "last_name":"Apellido"})
 

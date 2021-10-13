@@ -17,9 +17,16 @@ def index():
     if query == {}:
         users = User.all()
     else:
+        # print(getattr(User, list(request.args.keys())[2]))
         users = apply_filter(User, query)
     
-    return render_template("user/index.html", users=users, filters={"first_name": "Nombre", "last_name":"Apellido"})
+    return render_template("user/index.html", users=users, filters={
+        "find_by_email": "Email",
+        "find_by_first_name": "Nombre", 
+        "find_by_last_name": "Apellido", 
+        "find_by_roles": "Roles",
+        "find_by_permits": "Permisos"
+        })
 
 
 def new():

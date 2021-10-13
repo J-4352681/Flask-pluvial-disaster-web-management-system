@@ -16,6 +16,7 @@ def authenticate():
         return redirect(url_for("auth_login"))
 
     session["user"] = user
+    session["user_permits"] = set([permit.name for permits in map(lambda rol: rol.permits, user.roles) for permit in permits])
     flash("La sesión se inició correctamente.")
 
     return redirect(url_for("home"))

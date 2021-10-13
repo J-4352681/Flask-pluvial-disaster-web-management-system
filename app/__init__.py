@@ -40,8 +40,13 @@ def create_app(environment="development"):
 
     # Rutas de Usuarios
     app.add_url_rule("/usuarios", "user_index", user.index)
+    app.add_url_rule("/usuarios/nuevo", "user_new", user.new) 
     app.add_url_rule("/usuarios", "user_create", user.create, methods=["POST"])
-    app.add_url_rule("/usuarios/nuevo", "user_new", user.new)
+    app.add_url_rule("/usuarios", "user_modify", user.modify, methods=["PUT"])
+    app.add_url_rule("/usuarios", "user_block", user.block, methods=["DELETE"])
+    app.add_url_rule("/usuarios/alta", "user_unblock", user.unblock, methods=["PUT"])
+    app.add_url_rule("/usuarios/rol", "user_assing_role", user.assign_role, methods=["POST"])
+    app.add_url_rule("/usuarios/rol", "user_unassing_role", user.unassign_role, methods=["DELETE"])
 
     # Paleta de colores
     app.add_url_rule("/paleta_color", "paleta_index", palette.index)
@@ -80,6 +85,7 @@ def create_app(environment="development"):
 
     # Handlers
     app.register_error_handler(404, handler.not_found_error)
+    app.register_error_handler(403, handler.forbidden_error)
     app.register_error_handler(401, handler.unauthorized_error)
     # Implementar lo mismo para el error 500
 

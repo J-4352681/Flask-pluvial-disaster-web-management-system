@@ -1,5 +1,6 @@
 from flask import redirect, render_template, request, url_for, session, abort
 from sqlalchemy.sql.expression import false, true
+from app.db import db
 from app.models.user import User
 from app.helpers.auth import authenticated, authorized
 import app.db
@@ -9,9 +10,17 @@ def index():
     if not authenticated(session):
         abort(401)
 
-    users = User.all()
+    query = {k: v for k, v in request.args.items() if v != ''}
+
+    if query == {}:
+        users = User.all()
+    else:
+        # q = "select * from users where " + list(query.keys())[0] + "=" + "'" + list(query.values())[0] + "'"
+        # users = db.session.query(q)
+        # users = User.query.filter_by(User.first_name=query["first_name"] if "first_name" in query.keys()))
+        users = User.all()
     
-    return render_template("user/index.html", users=users)
+    return render_template("user/index.html", users=users, filters={"first_name": "Nombre", "last_name":"Apellido"})
 
 
 def new():

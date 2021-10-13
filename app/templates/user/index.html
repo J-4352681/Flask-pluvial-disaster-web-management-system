@@ -17,9 +17,9 @@
     {% include "generic/generic_content.html" %}
   {% endwith %}
   
-  <div class="row px-3">
+  <div class="row mx-3">
     <table class="col table table-hover h-100">
-      <thead class="thead">
+      <thead class="row">
         <tr class="row">
           <th class="col">Email</th>
           <th class="col">Nombre</th>
@@ -28,7 +28,7 @@
           <th class="col">Editar</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="row">
         {% for user in users %}
           <tr class="row">
             <td class="col">{{ user.email }}</td>

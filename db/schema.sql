@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-10-2021 a las 04:33:24
+-- Tiempo de generación: 13-10-2021 a las 16:35:45
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 8.0.11
 
@@ -34,6 +34,13 @@ CREATE TABLE `permits` (
   `name` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `permits`
+--
+
+INSERT INTO `permits` (`id`, `name`) VALUES
+(1, 'user_index');
+
 -- --------------------------------------------------------
 
 --
@@ -45,6 +52,13 @@ CREATE TABLE `roles` (
   `name` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `roles`
+--
+
+INSERT INTO `roles` (`id`, `name`) VALUES
+(1, 'admin');
+
 -- --------------------------------------------------------
 
 --
@@ -55,6 +69,13 @@ CREATE TABLE `role_has_permit` (
   `role_id` int(11) DEFAULT NULL,
   `permit_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `role_has_permit`
+--
+
+INSERT INTO `role_has_permit` (`role_id`, `permit_id`) VALUES
+(1, 1);
 
 -- --------------------------------------------------------
 
@@ -78,7 +99,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `username`, `email`, `password`, `active`, `created_at`) VALUES
-(1, 'cosme', 'fulanito', 'admin@', 'admin', '123123', 1, '2021-10-13 04:31:24');
+(1, 'cosme', 'fulanito', 'admin@', 'admin', '123123', 1, '2021-10-13 16:30:13');
 
 -- --------------------------------------------------------
 
@@ -90,6 +111,13 @@ CREATE TABLE `user_has_role` (
   `user_id` int(11) DEFAULT NULL,
   `role_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `user_has_role`
+--
+
+INSERT INTO `user_has_role` (`user_id`, `role_id`) VALUES
+(1, 1);
 
 --
 -- Índices para tablas volcadas
@@ -137,13 +165,13 @@ ALTER TABLE `user_has_role`
 -- AUTO_INCREMENT de la tabla `permits`
 --
 ALTER TABLE `permits`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `users`

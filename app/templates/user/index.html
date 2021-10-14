@@ -1,13 +1,48 @@
-{% extends "layout.html" %}
+{% extends "generic/base.html" %}
+
 {% block title %}Usuarios{% endblock %}
-{% block head %}
-  {{ super() }}
+
+{% block navbar %}
+    {% include "generic/navbar.html" %} 
 {% endblock %}
+
+{% block navmenu %}
+    {% include "generic/navmenu.html" %}
+{% endblock %}
+
 {% block content %}
-  <h1>usuarios</h1>
-  {% for user in users %}
-  <li>{{ user.email }} - {{ user.first_name }} - {{ user.last_name }} - {{ user.password }}</li>
-  {% endfor %}
-  <a href="{{ url_for('home') }}" class="link">Volver</a>
-  <a href="{{ url_for('user_new') }}" class="link">Nuevo</a>
+  {% with titulo_apartado="Usuarios", subtitulo_apartado="Listado y edición de usuarios del sistema" %}
+    {% include "generic/generic_content.html" %}
+  {% endwith %}
+  
+  <div class="row mx-3">
+    <table class="col table table-hover h-100">
+      <thead class="row">
+        <tr class="row">
+          <th class="col">Email</th>
+          <th class="col">Nombre</th>
+          <th class="col">Apellido</th>
+          <th class="col">Contraseña</th>
+          <th class="col">Editar</th>
+        </tr>
+      </thead>
+      <tbody class="row">
+        {% for user in users %}
+          <tr class="row">
+            <td class="col">{{ user.email }}</td>
+            <td class="col">{{ user.first_name }}</td>
+            <td class="col">{{ user.last_name }}</td>
+            <td class="col">{{ user.password }}</td>
+            <td class="col"><a href="">Editar {{user.first_name}}</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {% with fields=filters %}
+    {% include "user/filter.html" %}
+    {% endwith %}
+  </div>
+  
+
 {% endblock %}

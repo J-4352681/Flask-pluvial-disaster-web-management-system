@@ -1,12 +1,17 @@
 from os import path, environ
+import logging
+
 from flask import Flask, render_template, g, Blueprint, session, redirect, url_for
 from flask_session import Session
+
 from config import config
 from app import db
-from app.resources import user
-from app.resources import auth
+from app.resources import user, auth, palette ,points, config as configObject
 from app.helpers import handler
 from app.helpers import auth as helper_auth
+
+logging.basicConfig()
+logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
 
 
 def create_app(environment="development"):
@@ -26,6 +31,7 @@ def create_app(environment="development"):
 
     # Funciones que se exportan al contexto de Jinja2
     app.jinja_env.globals.update(is_authenticated=helper_auth.authenticated)
+    app.jinja_env.globals.update(get_navigation_actions=helper_auth.get_navigation_actions)
 
     # Autenticación
     app.add_url_rule("/iniciar_sesion", "auth_login", auth.login)
@@ -33,11 +39,24 @@ def create_app(environment="development"):
     app.add_url_rule(
         "/autenticacion", "auth_authenticate", auth.authenticate, methods=["POST"]
     )
+    app.add_url_rule("/perfil", "auth_profile", auth.perfil)
 
     # Rutas de Usuarios
     app.add_url_rule("/usuarios", "user_index", user.index)
+    app.add_url_rule("/usuarios/nuevo", "user_new", user.new) 
     app.add_url_rule("/usuarios", "user_create", user.create, methods=["POST"])
-    app.add_url_rule("/usuarios/nuevo", "user_new", user.new)
+    app.add_url_rule("/usuarios", "user_modify", user.modify, methods=["PUT"])
+    app.add_url_rule("/usuarios", "user_block", user.block, methods=["DELETE"])
+    app.add_url_rule("/usuarios/alta", "user_unblock", user.unblock, methods=["PUT"])
+    app.add_url_rule("/usuarios/rol", "user_assing_role", user.assign_role, methods=["POST"])
+    app.add_url_rule("/usuarios/rol", "user_unassing_role", user.unassign_role, methods=["DELETE"])
+
+    # Rutas de Puntos de encuentro
+    app.add_url_rule("/puntos_encuentro", "puntos_index", points.index)
+
+    # Rutas de Config
+    app.add_url_rule("/config", "config_index", configObject.index)
+    #app.add_url_rule("/config/edit", "config_index", configObject.index)
 
     # Ruta para el Home (usando decorator)
     @app.route("/")
@@ -49,6 +68,7 @@ def create_app(environment="development"):
 
     # Handlers
     app.register_error_handler(404, handler.not_found_error)
+    app.register_error_handler(403, handler.forbidden_error)
     app.register_error_handler(401, handler.unauthorized_error)
     # Implementar lo mismo para el error 500
 

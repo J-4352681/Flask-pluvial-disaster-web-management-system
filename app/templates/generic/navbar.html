@@ -1,8 +1,45 @@
-<nav id="navbar" class="py-3 shadow-sm">
+<nav id="navbar" class="py-3 shadow-sm position-fixed w-100 bg-white">
   <div class="container">
     <div class="row">
+        <!-- <a class="col-auto card p-2 px-3 mx-2 text-center text-decoration-none" href="{{ url_for('home') }}">Home</a> -->
+        <a class="mx-3 btn p-0 col-auto m-auto text-decoration-none" href="{{ url_for('home') }}"><ion-icon class="nav-icon" name="water"></ion-icon></a>
+        
         <div class="col"></div>
-        <a class="col-auto card p-2 px-3 mx-2 bg-success border-0 text-center text-light text-decoration-none" href="{{ url_for('auth_logout') }}">Cerrar sesión</a>
+        
+        <div id="nav-user-icon" class="mx-3 btn p-0 col-auto m-auto text-decoration-none" href=""><ion-icon class="nav-icon" name="person"></ion-icon></div>
+
+        <div id="nav-drop-menu" class="position-fixed container card shadow-sm">
+          <a class="row text-decoration-none text-secondary" href="{{ url_for('auth_profile') }}">
+            <p class="col my-3">Perfil</p>
+          </a>
+      
+          <a class="row text-decoration-none border-top text-secondary" href="{{ url_for('auth_logout') }}">
+            <p class="col my-3">Cerrar sesión</p>
+          </a>
+        </div>
     </div>
   </div>
 </nav>
+
+<script>
+  $(document).ready(function() {
+    let menu = $('#nav-drop-menu'), menu_width =  menu.outerWidth(true);
+    let u_icon = $('#nav-user-icon'), u_icon_width = u_icon.outerWidth(true), u_icon_height = u_icon.outerHeight(true), u_icon_pos = u_icon.position();
+    let navbar = $('#navbar'), nv_height = navbar.outerHeight(true);
+
+    menu.css('left', u_icon_pos.left - menu_width + u_icon_width/2 + 'px');
+    menu.css('top', u_icon_pos.top + nv_height*1.5 + 'px');
+
+    u_icon.click(function() {
+      // let menu = $('#nav-drop-menu');
+      if(menu.css('visibility') == 'hidden') menu.css('visibility', 'visible');
+      else menu.css('visibility', 'hidden');
+    });
+
+    nv_height_inc = nv_height + 20;
+
+    $('.mt-navbar')
+    .css('margin-top', nv_height_inc + 'px');
+    console.log(nav_height);
+  });
+</script>

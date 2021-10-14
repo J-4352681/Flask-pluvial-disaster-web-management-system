@@ -1,5 +1,7 @@
 from os import environ
 
+from sqlalchemy.sql.expression import false
+
 
 class Config(object):
     """Base configuration."""
@@ -20,10 +22,13 @@ class ProductionConfig(Config):
     """Production configuration."""
 
     DB_HOST = environ.get("DB_HOST", "localhost")
-    DB_USER = environ.get("DB_USER", "MY_DB_USER")
-    DB_PASS = environ.get("DB_PASS", "MY_DB_PASS")
-    DB_NAME = environ.get("DB_NAME", "MY_DB_NAME")
-
+    DB_USER = environ.get("DB_USER", "grupo38")
+    DB_PASS = environ.get("DB_PASS", "NjIxMzkyZjYwYTM4")
+    DB_NAME = environ.get("DB_NAME", "grupo38")
+    SQLALCHEMY_TRACK_MODIFICATIONS = false
+    SQLALCHEMY_DATABASE_URI = (
+        f"mysql+pymysql://{DB_USER}:{DB_PASS}@{DB_HOST}:3306/{DB_NAME}"
+    )
 
 class DevelopmentConfig(Config):
     """Development configuration."""
@@ -32,6 +37,10 @@ class DevelopmentConfig(Config):
     DB_USER = environ.get("DB_USER", "MY_DB_USER")
     DB_PASS = environ.get("DB_PASS", "MY_DB_PASS")
     DB_NAME = environ.get("DB_NAME", "MY_DB_NAME")
+    SQLALCHEMY_TRACK_MODIFICATIONS = false
+    SQLALCHEMY_DATABASE_URI = (
+        f"mysql+pymysql://{DB_USER}:{DB_PASS}@{DB_HOST}:3306/{DB_NAME}"
+    )
 
 
 class TestingConfig(Config):

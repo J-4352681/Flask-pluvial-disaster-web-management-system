@@ -35,7 +35,7 @@
             <td class="col">{{ user.first_name }}</td>
             <td class="col">{{ user.last_name }}</td>
             <td class="col">{{ user.password }}</td>
-            <td class="col"><a href="">Editar {{user.first_name}}</a></td>
+            <td class="col"><a href="{{ url_for('user_modify', user_id=user.id)}}">Editar {{user.first_name}}</a></td>
           </tr>
         {% endfor %}
       </tbody>

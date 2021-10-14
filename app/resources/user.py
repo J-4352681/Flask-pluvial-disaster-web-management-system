@@ -5,6 +5,10 @@ from app.models.user import User
 from app.helpers.auth import assert_permit
 from app.helpers.user import username_or_email_already_exist
 from app.helpers.filter import apply_filter
+from app.db import db
+
+from app.forms.user_forms import UserModificationForm
+from app.forms.filter_forms import UserFilter
 
 
 # Protected resources
@@ -12,21 +16,15 @@ def index():
     """Muestra la lista de usuarios."""
     assert_permit(session, "user_index")
 
-    query = {k: v for k, v in request.args.items() if v != ''}
+    form = UserFilter(request.args)
+    form_query_fields = {k: v for k, v in request.args.items() if v != "" and k not in ["csrf_token", "submit"]}
 
-    if query == {}:
-        users = User.all()
+    if form_query_fields:
+        users = User.query.filter(*[getattr(User, k)==v for k, v in form_query_fields.items()])
     else:
-        # print(getattr(User, list(request.args.keys())[2]))
-        users = apply_filter(User, query)
-    
-    return render_template("user/index.html", users=users, filters={
-        "find_by_email": "Email",
-        "find_by_first_name": "Nombre", 
-        "find_by_last_name": "Apellido", 
-        "find_by_roles": "Roles",
-        "find_by_permits": "Permisos"
-        })
+        users = User.all()
+        
+    return render_template("user/index.html", form=form, users=users)
 
 
 def new():
@@ -70,5 +68,16 @@ def unassign_role(user, role):
     User.unassign_role(user, role)
     return redirect(url_for("user_index"))
 
-def modify(user):
+def modify(user_id):
     """Modifica los datos de un usuario."""
+    assert_permit(session, "user_modify")
+    user = User.query.filter(User.id==user_id).first()
+    form = UserModificationForm(obj=user)
+    form.populate_obj(user)
+
+    if request.method == "POST" and form.validate():
+        db.session.commit()
+        return redirect(url_for('user_index'))
+    return render_template("generic/edit_item.html", form=form, user=user)
+    
+    

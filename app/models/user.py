@@ -31,21 +31,6 @@ class User(db.Model):
     created_at = Column(DateTime(), default=datetime.now()) # No es necesario pero puede ser util
 
     @classmethod
-    def appply_filter(cls, kwargs):
-        """Realiza un filtro teniendo en cuenta
-        first_name="", last_name="", username="", email="", password="", active="", roles_names=[], created_at="", permissions_names=[]"""
-
-        inner_queries = ["roles_names", "permissions_names"]
-        users = cls.query.filter(*[getattr(cls, k)==v for k, v in kwargs.items() if k not in inner_queries])
-
-        if "roles_names" in kwargs.keys():
-            users.query.filter(cls.roles.any(name="roles_names"))
-
-        if "permissions_names" in kwargs.keys():
-            users.query.filter(cls.roles.any(name="roles_names"))
-
-
-    @classmethod
     def create(cls, params):
         """Crea un nuevo usuario con los parametros mandados."""
         new_user = User(params)

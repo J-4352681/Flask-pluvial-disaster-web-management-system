@@ -6,10 +6,9 @@ from flask_session import Session
 
 from config import config
 from app import db
-from app.resources import user, auth, palette, points, config as configObject
+from app.resources import user, auth, palette ,points, config as configObject
 from app.helpers import handler
 from app.helpers import auth as helper_auth
-
 
 logging.basicConfig()
 logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
@@ -52,13 +51,10 @@ def create_app(environment="development"):
     app.add_url_rule("/usuarios/rol", "user_assing_role", user.assign_role, methods=["POST"])
     app.add_url_rule("/usuarios/rol", "user_unassing_role", user.unassign_role, methods=["DELETE"])
 
-    # Rutas de Config
-    app.add_url_rule("/configuracion", "config_index", app_config.index)
-
     # Rutas de Puntos de encuentro
     app.add_url_rule("/puntos_encuentro", "puntos_index", points.index)
 
-    # Configuracion
+    # Rutas de Config
     app.add_url_rule("/config", "config_index", configObject.index)
     #app.add_url_rule("/config/edit", "config_index", configObject.index)
 
@@ -68,28 +64,7 @@ def create_app(environment="development"):
         if not helper_auth.authenticated(session):
             return redirect(url_for("auth_login"))
 
-        return render_template("home.html", apartados=[
-        {
-            "nombre": "Paleta de colores",
-            "url": url_for("paleta_index")
-        },
-        {
-            "nombre": "Usuarios",
-            "url": url_for("user_index")
-        },
-        {
-            "nombre": "Perfil",
-            "url": url_for("auth_profile")
-        },
-        {
-            "nombre": "Puntos de encuentro",
-            "url": url_for("puntos_index")
-        },
-        {
-            "nombre": "Configuración",
-            "url": url_for("config_index")
-        }
-    ])
+        return render_template("home.html")
 
     # Handlers
     app.register_error_handler(404, handler.not_found_error)

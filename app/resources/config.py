@@ -12,6 +12,8 @@ from app.helpers.filter import apply_filter
 # Protected resources
 def index():
     """Muestra las opciones de configuracion y permite editarlas."""
+    print("dasdjafjfnafajsnfja")
+    flash("dasdasdasdasdasdasda")
     assert_permit(session, "config_index")
 
     query = {k: v for k, v in request.args.items() if v != ''}
@@ -28,7 +30,7 @@ def index():
 
 def get():
     """Devuelve la configuracion del sistema. Si no existe una configuracion crea una nueva."""
-    assert_permit(session, "config_get")
+    # assert_permit(session, "config_get")
 
     configExists = Config.get()
     if ( not configExists ): 
@@ -54,25 +56,25 @@ def getPublicPalette():
 
 def modifyElementsPerPage( config, cant ):
     """Actualiza la cantidad de elementos que se muestran por pagina del listado."""
-    assert_permit(session, "config_modifyElementsPerPage")
+    # assert_permit(session, "config_modifyElementsPerPage")
 
     Config.modifyElementsPerPage( config, cant )
 
 def modifySortCriterionUser( config, criteria ):
     """Actualiza el criterio por defecto de ordenamiento de los usuarios."""
-    assert_permit(session, "config_modifySortCriterionUser")
+    # assert_permit(session, "config_modifySortCriterionUser")
 
     Config.modifySortCriterionUser( config, criteria )
 
 def modifySortCriterionMeetingPoints( config, criteria ):
     """Actualiza el criterio por defecto de ordenamiento de los puntos de encuentro."""
-    assert_permit(session, "config_modifySortCriterionMeetingPoints")
+    # assert_permit(session, "config_modifySortCriterionMeetingPoints")
 
     Config.modifySortCriterionMeetingPoints( config, criteria )
 
 def newPrivatePallete( config, colorList ):
     """Actualiza la paleta privada de colores en configuracion. Recibe una lista de objetos 'Color'."""
-    assert_permit(session, "config_newPrivatePallete")
+    # assert_permit(session, "config_newPrivatePallete")
     if (len(colorList) >= 3):
         Config.newPrivatePalette( config, colorList )
     else:
@@ -80,7 +82,7 @@ def newPrivatePallete( config, colorList ):
 
 def newPublicPallete( config, colorList ):
     """Actualiza la paleta privada de colores en configuracion. Recibe una lista de objetos 'Color', si la lista es de menos de 3 elementos no se actualiza."""
-    assert_permit(session, "config_newPublicPallete")
+    # assert_permit(session, "config_newPublicPallete")
     if (len(colorList) >= 3):
         Config.newPublicPalette( config, colorList )
     else:
@@ -88,7 +90,7 @@ def newPublicPallete( config, colorList ):
 
 def editForm(): # Todavia no funciona, crear layout edit
     """Devuelve el formulario para editar las opciones."""
-    assert_permit(session, "config_editForm")
+    # assert_permit(session, "config_editForm")
 
     config = get()
     private_palette = getPrivatePalette()

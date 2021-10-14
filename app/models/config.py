@@ -37,7 +37,25 @@ class Config(db.Model):
     
     @classmethod
     def modify(cls):
-        """Modifica la configuracion del sistema"""
+        """Modifica la configuracion del sistema. NO FUNCIONA. No se si lo vamos a usar directamente"""
+
+    @classmethod
+    def modifyElementsPerPage(cls, config, cant):
+        """actualiza la cantidad de elementos por pagina."""
+        config.elements_per_page = cant
+        db.session.commit()
+
+    @classmethod
+    def modifySortCriterionUser(cls, config, criteria):
+        """actualiza el criterio por defecto de ordenamiento de los usuarios"""
+        config.sort_users = criteria
+        db.session.commit()
+
+    @classmethod
+    def modifySortCriterionMeetingPoints(cls, config, criteria):
+        """actualiza el criterio por defecto de ordenamiento de los puntos de encuentro"""
+        config.sort_meeting_points = criteria
+        db.session.commit()
 
     @classmethod
     def newPrivatePalette(cls, config, newPalette):

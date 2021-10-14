@@ -2,10 +2,10 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 13-10-2021 a las 16:35:45
+-- Servidor: localhost
+-- Tiempo de generación: 14-10-2021 a las 02:43:43
 -- Versión del servidor: 10.4.21-MariaDB
--- Versión de PHP: 8.0.11
+-- Versión de PHP: 7.3.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -21,7 +21,40 @@ SET time_zone = "+00:00";
 -- Base de datos: `proyecto`
 --
 
-CREATE database proyecto;
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `colors`
+--
+
+CREATE TABLE `colors` (
+  `id` int(11) NOT NULL,
+  `value` varchar(30) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `config`
+--
+
+CREATE TABLE `config` (
+  `id` int(11) NOT NULL,
+  `elements_per_page` int(11) DEFAULT NULL,
+  `sort_users` varchar(30) DEFAULT NULL,
+  `sort_meeting_points` varchar(30) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `palet_has_color`
+--
+
+CREATE TABLE `palet_has_color` (
+  `config_id` int(11) DEFAULT NULL,
+  `color_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -124,6 +157,25 @@ INSERT INTO `user_has_role` (`user_id`, `role_id`) VALUES
 --
 
 --
+-- Indices de la tabla `colors`
+--
+ALTER TABLE `colors`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `config`
+--
+ALTER TABLE `config`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `palet_has_color`
+--
+ALTER TABLE `palet_has_color`
+  ADD KEY `config_id` (`config_id`),
+  ADD KEY `color_id` (`color_id`);
+
+--
 -- Indices de la tabla `permits`
 --
 ALTER TABLE `permits`
@@ -162,6 +214,18 @@ ALTER TABLE `user_has_role`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `colors`
+--
+ALTER TABLE `colors`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `config`
+--
+ALTER TABLE `config`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `permits`
 --
 ALTER TABLE `permits`
@@ -182,6 +246,13 @@ ALTER TABLE `users`
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `palet_has_color`
+--
+ALTER TABLE `palet_has_color`
+  ADD CONSTRAINT `palet_has_color_ibfk_1` FOREIGN KEY (`config_id`) REFERENCES `config` (`id`),
+  ADD CONSTRAINT `palet_has_color_ibfk_2` FOREIGN KEY (`color_id`) REFERENCES `colors` (`id`);
 
 --
 -- Filtros para la tabla `role_has_permit`

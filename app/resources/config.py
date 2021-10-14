@@ -31,6 +31,30 @@ def get():
 
     return render_template("user/index.html")
 
+def modifyElementsPerPage( cant ):
+    """Actualiza la cantidad de elementos que se muestran por pagina del listado."""
+    assert_permit(session, "config_modifyElementsPerPage")
+
+    Config.modifyElementsPerPage( Config.get(), cant )
+
+    return render_template("user/index.html")
+
+def modifySortCriterionUser( criteria ):
+    """Actualiza el criterio por defecto de ordenamiento de los usuarios."""
+    assert_permit(session, "config_modifySortCriterionUser")
+
+    Config.modifySortCriterionUser( Config.get(), criteria )
+
+    return render_template("user/index.html")
+
+def modifySortCriterionMeetingPoints( criteria ):
+    """Actualiza el criterio por defecto de ordenamiento de los puntos de encuentro."""
+    assert_permit(session, "config_modifySortCriterionMeetingPoints")
+
+    Config.modifySortCriterionMeetingPoints( Config.get(), criteria )
+
+    return render_template("user/index.html")
+
 def newPrivatePallete( colorList ):
     """Actualiza la paleta privada de colores en configuracion. Recibe una lista de objetos 'Color'."""
     assert_permit(session, "config_newPrivatePallete")
@@ -50,5 +74,5 @@ def newPublicPallete( colorList ):
     return render_template("user/index.html")
     
 def modify(config, cant):
-    """Modifica los datos de la configuracion."""
+    """Modifica los datos de la configuracion. POR AHORA NO FUNCIONA. USAR INDIVIDUALES."""
     

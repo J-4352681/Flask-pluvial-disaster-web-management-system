@@ -27,6 +27,7 @@ def get_navigation_actions(session):
         return generate_navigation_actions(session)
 
 def generate_navigation_actions(session):
+    print("Tiene permiso ", session.get("user_permits"), "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
     actions = [
         {
             "nombre": "Configuración",
@@ -47,6 +48,7 @@ def generate_navigation_actions(session):
     allowed_actions = []
     for action in actions:
         if has_permit(session, action["permit"]):
+            print("Tiene permiso ",action["permit"], "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
             allowed_actions.append(action)
             
     session["navigation_actions"] = allowed_actions

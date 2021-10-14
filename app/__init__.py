@@ -58,6 +58,7 @@ def create_app(environment="development"):
     app.add_url_rule("/config", "config_index", configObject.index)
     #app.add_url_rule("/config/edit", "config_index", configObject.index)
 
+    print("dasdjafjfnafajsnfja")
     # Ruta para el Home (usando decorator)
     @app.route("/")
     def home():

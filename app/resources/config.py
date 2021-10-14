@@ -27,7 +27,7 @@ def index():
     return render_template("config/index.html", config=config, private_palette = private_palette, public_palette = public_palette, filters={"first_name": "Nombre", "last_name":"Apellido"})
 
 def get():
-    """Devuelve la configuracion del sistema. Si se requiere la paleta de colores usar resourses/palette. Si no existe una configuracion crea una nueva."""
+    """Devuelve la configuracion del sistema. Si no existe una configuracion crea una nueva."""
     assert_permit(session, "config_get")
 
     configExists = Config.get()
@@ -79,7 +79,7 @@ def newPrivatePallete( config, colorList ):
         flash("La paleta nueva debe de contener al menos 3 colores.")
 
 def newPublicPallete( config, colorList ):
-    """Actualiza la paleta privada de colores en configuracion. Recibe una lista de objetos 'Color', si la lista es de menos de 3 elementos no se actualiza.."""
+    """Actualiza la paleta privada de colores en configuracion. Recibe una lista de objetos 'Color', si la lista es de menos de 3 elementos no se actualiza."""
     assert_permit(session, "config_newPublicPallete")
     if (len(colorList) >= 3):
         Config.newPublicPalette( config, colorList )

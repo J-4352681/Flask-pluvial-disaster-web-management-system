@@ -29,7 +29,7 @@ def get():
     if ( not configExists ): 
         configExists = Config.create()
 
-    return render_template("user/index.html")
+    return configExists
 
 def modifyElementsPerPage( cant ):
     """Actualiza la cantidad de elementos que se muestran por pagina del listado."""

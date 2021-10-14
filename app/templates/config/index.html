@@ -1,0 +1,70 @@
+{% extends "generic/base.html" %}
+
+{% block title %}Usuarios{% endblock %}
+
+{% block navbar %}
+    {% include "generic/navbar.html" %} 
+{% endblock %}
+
+{% block navmenu %}
+<!-- {% with apartados=apartados %} -->
+{% include "generic/navmenu.html" %}
+<!-- {% endwith %} -->
+{% endblock %}
+
+{% block content %}
+  {% with titulo_apartado="Configuracion", subtitulo_apartado="Listado y edición de opciones del sistema" %}
+    {% include "generic/generic_content.html" %}
+  {% endwith %}
+  
+  <div class="row mx-3">
+    <table class="col table table-hover h-100">
+      <thead class="row">
+        <tr class="row">
+          <th class="col">Opciones de configuracion</th>
+          <th class="col">Valor</th>
+          <th class="col">Editar todo</th>
+        </tr>
+      </thead>
+      <tbody class="row">
+        <tr class="row">
+          <th class="col">Elementos por pagina</th>
+          <td class="col">{{ config.elements_per_page }}</td>
+          <th class="col"></th>
+        </tr>
+      </tbody>
+    <tbody class="row">
+      <tr class="row">
+        <th class="col">Criterio de ordenamiento de usuarios</th>
+        <td class="col">{{ config.sort_users }}</td>
+        <th class="col"></th>
+      </tr>
+    </tbody>
+    <tbody class="row">
+      <tr class="row">
+        <th class="col">Criterio de ordenamiento de puntos de encuentro</th>
+        <td class="col">{{ config.sort_meeting_points }}</td>
+        <th class="col"></th>
+      </tr>
+    </tbody>
+      <tbody class="row">
+        <tr class="row">
+          <th class="col">Paleta de colores app privada</th>
+          <td class="col">{{ private_palette }}</td>
+          <th class="col"></th>
+        </tr>
+      </tbody>
+      <tbody class="row">
+        <tr class="row">
+          <th class="col">Paleta de colores app publica</th>
+          <td class="col">{{ public_palette }}</td>
+          <th class="col"></th>
+        </tr>
+      </tbody>
+
+    </table>
+
+  </div>
+  
+
+{% endblock %}

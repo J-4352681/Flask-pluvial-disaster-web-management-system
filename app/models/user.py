@@ -151,8 +151,10 @@ class User(db.Model):
 
     def is_admin(self):
         return "admin" in self.roles
-    
-    def has_permit(self, permit_name):
-        """Devuelve true si tiene el permiso enviado como parametro. De otra manera devolvera false."""
-        if permit_name in session["user_permits"]: return True
-        return False
+
+    def get_permits(self):
+        permits = set([
+            permit.name for permits in map(lambda rol: rol.permits, self.roles) 
+            for permit in permits
+            ])
+        return permits

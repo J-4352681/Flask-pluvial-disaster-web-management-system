@@ -1,4 +1,4 @@
-from flask import redirect, render_template, request, url_for, abort, session, flash
+from flask import redirect, render_template, request, url_for, abort, session, message_flashed, flash
 from app.models.user import User
 
 
@@ -16,7 +16,7 @@ def authenticate():
         return redirect(url_for("auth_login"))
 
     session["user"] = user
-    session["user_permits"] = set([permit.name for permits in map(lambda rol: rol.permits, user.roles) for permit in permits])
+    session["user_permits"] = user.get_permits()
     flash("La sesión se inició correctamente.")
 
     return redirect(url_for("home"))
@@ -24,6 +24,8 @@ def authenticate():
 
 def logout():
     del session["user"]
+    del session["user_permits"]
+    del session["navigation_actions"]
     session.clear()
     flash("La sesión se cerró correctamente.")
 

@@ -62,12 +62,14 @@ def assign_role(user, role):
     """Le otorgara un nuevo rol a un usuario existente, determinado por su user."""
     assert_permit(session, "user_assign_rol")
     User.assign_role(user, role)
+    session["user_permits"] = user.get_permits()
     return redirect(url_for("user_index"))
 
 def unassign_role(user, role):
     """Le quita un rol a un usuario existente."""
     assert_permit(session, "user_unassign_rol")
     User.unassign_role(user, role)
+    session["user_permits"] = user.get_permits()
     return redirect(url_for("user_index"))
 
 def modify(user):

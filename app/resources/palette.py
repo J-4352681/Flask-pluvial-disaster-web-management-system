@@ -6,14 +6,6 @@ from app.resources.config import get
 import app.db
 
 # Protected resources
-def index():
-    if not authenticated(session):
-        abort(401)
-
-    users = User.all()
-    
-    return render_template("user/index.html", users=users)
-
 def getPrivatePalette():
     """Devuelve una lista de nombres de colores reconocidos por HTML. Si no existe una lista de colores para la aplicacion privadada especificada en la configuracion se deuvelve una por defecto."""
     configuration = get()

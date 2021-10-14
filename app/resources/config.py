@@ -19,7 +19,7 @@ def index():
     else:
         options = apply_filter(Config, query)
     
-    return render_template("user/index.html")
+    return render_template("config/index.html")
 
 def get():
     """Devuelve la configuracion del sistema. Si no existe una configuracion crea una nueva."""
@@ -37,7 +37,7 @@ def modifyElementsPerPage( cant ):
 
     Config.modifyElementsPerPage( Config.get(), cant )
 
-    return render_template("user/index.html")
+    return redirect(url_for("config_index"))
 
 def modifySortCriterionUser( criteria ):
     """Actualiza el criterio por defecto de ordenamiento de los usuarios."""
@@ -45,7 +45,7 @@ def modifySortCriterionUser( criteria ):
 
     Config.modifySortCriterionUser( Config.get(), criteria )
 
-    return render_template("user/index.html")
+    return redirect(url_for("config_index"))
 
 def modifySortCriterionMeetingPoints( criteria ):
     """Actualiza el criterio por defecto de ordenamiento de los puntos de encuentro."""
@@ -53,7 +53,7 @@ def modifySortCriterionMeetingPoints( criteria ):
 
     Config.modifySortCriterionMeetingPoints( Config.get(), criteria )
 
-    return render_template("user/index.html")
+    return redirect(url_for("config_index"))
 
 def newPrivatePallete( colorList ):
     """Actualiza la paleta privada de colores en configuracion. Recibe una lista de objetos 'Color'."""
@@ -62,7 +62,7 @@ def newPrivatePallete( colorList ):
     configExists = Config.get()
     Config.newPrivatePalette( configExists, colorList)
 
-    return render_template("user/index.html")
+    return redirect(url_for("config_index"))
 
 def newPublicPallete( colorList ):
     """Actualiza la paleta privada de colores en configuracion. Recibe una lista de objetos 'Color'."""
@@ -71,7 +71,7 @@ def newPublicPallete( colorList ):
     configExists = Config.get()
     Config.newPublicPalette( configExists, colorList)
 
-    return render_template("user/index.html")
+    return redirect(url_for("config_index"))
     
 def modify(config, cant):
     """Modifica los datos de la configuracion. POR AHORA NO FUNCIONA. USAR INDIVIDUALES."""

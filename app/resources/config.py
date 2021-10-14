@@ -30,6 +30,24 @@ def get():
         configExists = Config.create()
 
     return render_template("user/index.html")
+
+def newPrivatePallete( colorList ):
+    """Actualiza la paleta privada de colores en configuracion. Recibe una lista de objetos 'Color'."""
+    assert_permit(session, "config_newPrivatePallete")
+
+    configExists = Config.get()
+    Config.newPrivatePalette( configExists, colorList)
+
+    return render_template("user/index.html")
+
+def newPublicPallete( colorList ):
+    """Actualiza la paleta privada de colores en configuracion. Recibe una lista de objetos 'Color'."""
+    assert_permit(session, "config_newPublicPallete")
+
+    configExists = Config.get()
+    Config.newPublicPalette( configExists, colorList)
+
+    return render_template("user/index.html")
     
 def modify(config, cant):
     """Modifica los datos de la configuracion."""

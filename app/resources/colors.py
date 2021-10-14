@@ -9,7 +9,7 @@ from app.helpers.filter import apply_filter
 # Protected resources
 def index():
     """Muestra todos los colores. NO ES NECESARIO POR AGORA"""
-    # assert_permit(session, "config_index")
+    assert_permit(session, "colors_index")
 
     query = {k: v for k, v in request.args.items() if v != ''}
 
@@ -22,14 +22,16 @@ def index():
 
 def all():
     """Devuelve todos los colores que hay cargados en el sistema."""
-    # assert_permit(session, "config_get")
+    assert_permit(session, "colors_all")
 
     return Color.all()
 
 def new(name):
     """crea un nuevo color en el sistema si su nombre (value) no se repite con uno existente"""
+    assert_permit(session, "colors_new")
     if ( not Color.find_by_value(name) ):
         Color.create(name)
 
 def get(name):
+    assert_permit(session, "colors_get")
     return Color.find_by_value(name)

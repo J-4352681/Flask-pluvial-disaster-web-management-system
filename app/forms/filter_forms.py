@@ -8,4 +8,5 @@ class UserFilter(FlaskForm): # Los atributos llevan el nombre de los métodos de
     find_by_email = StringField("Email")
     find_by_username = StringField("Nickname")
     find_by_roles = StringField("Roles")
+    find_by_permits = StringField("Permits")
     submit = SubmitField("Aceptar")

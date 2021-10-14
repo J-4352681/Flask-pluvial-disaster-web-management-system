@@ -7,7 +7,11 @@ from app.models import color
 
 """Este modulo incluye todo la informacion relacionada al modelado de la configuracion de la app en base de datos."""
 
-association_palet_has_colors = Table('palet_has_color', db.Model.metadata,
+association_private_palett_has_color = Table('private_palett_has_color', db.Model.metadata,
+    Column('config_id', ForeignKey('config.id')),
+    Column('color_id', ForeignKey('colors.id'))
+)
+association_public_palett_has_color = Table('public_palett_has_color', db.Model.metadata,
     Column('config_id', ForeignKey('config.id')),
     Column('color_id', ForeignKey('colors.id'))
 )
@@ -18,8 +22,8 @@ class Config(db.Model):
     elements_per_page = Column(Integer, nullable=false)
     sort_users= Column(String(30), nullable=false) # Criterio de ordenamiento por defecto de los usuarios
     sort_meeting_points= Column(String(30), nullable=false) # criterio de ordenamiento por defecto de los meeting points
-    palette_private = relationship("Color", secondary=association_palet_has_colors)
-    palette_public = relationship("Color", secondary=association_palet_has_colors)
+    palette_private = relationship("Color", secondary=association_private_palett_has_color)
+    palette_public = relationship("Color", secondary=association_public_palett_has_color)
 
     @classmethod
     def get(cls):
@@ -28,16 +32,12 @@ class Config(db.Model):
 
     @classmethod
     def create(cls):
-        """Crea una nueva configuracion si no existe una ya en el sistema"""
+        """Crea una nueva configuracion por defecto si no existe una ya en el sistema"""
         configExists = Config.get()
         if ( not configExists ):
             new_conf = Config(elements_per_page=10, sort_users='username', sort_meeting_points='name')
             db.session.add(new_conf)
             db.session.commit()
-    
-    @classmethod
-    def modify(cls):
-        """Modifica la configuracion del sistema. NO FUNCIONA. No se si lo vamos a usar directamente"""
 
     @classmethod
     def modifyElementsPerPage(cls, config, cant):

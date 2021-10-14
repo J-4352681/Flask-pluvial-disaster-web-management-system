@@ -2,28 +2,33 @@ from flask import redirect, render_template, request, url_for, session, abort, f
 from sqlalchemy.sql.expression import false, true
 
 from app.models.config import Config
+#from app.resources.colors import all as allColors
+from app.resources.colors import new as newColor
+from app.resources.colors import get as getColor
 from app.helpers.auth import assert_permit
-from app.helpers.user import username_or_email_already_exist
 from app.helpers.filter import apply_filter
 
-
+"""Contine la logica necesareia para modificar las opciones de la configuracion del sistema y pedir la configuracion. Si se necesita solo la paleta de colores usar Resourses/palette."""
 # Protected resources
 def index():
-    """Muestra las opciones de configuracion."""
-    assert_permit(session, "config_index")
+    """Muestra las opciones de configuracion y permite editarlas."""
+    # assert_permit(session, "config_index")
 
     query = {k: v for k, v in request.args.items() if v != ''}
 
     if query == {}:
-        options = Config.all()
+        config = get()
     else:
-        options = apply_filter(Config, query)
+        config = apply_filter(Config, query) #Esto no se usa
     
-    return render_template("user/index.html")
+    private_palette = getPrivatePalette()
+    public_palette = getPublicPalette()
+    
+    return render_template("config/index.html", config=config, private_palette = private_palette, public_palette = public_palette, filters={"first_name": "Nombre", "last_name":"Apellido"})
 
 def get():
-    """Devuelve la configuracion del sistema. Si no existe una configuracion crea una nueva."""
-    assert_permit(session, "config_get")
+    """Devuelve la configuracion del sistema. Si se requiere la paleta de colores usar resourses/palette. Si no existe una configuracion crea una nueva."""
+    # assert_permit(session, "config_get")
 
     configExists = Config.get()
     if ( not configExists ): 
@@ -31,48 +36,73 @@ def get():
 
     return configExists
 
-def modifyElementsPerPage( cant ):
+def getPrivatePalette():
+    """Devuelve una lista de nombres de colores reconocidos por HTML. Si no existe una lista de colores para la aplicacion privadada especificada en la configuracion se deuvelve una por defecto."""
+    configuration = get()
+    if ( configuration.palette_private): # una lista vacia es falso
+        return list(map(lambda color: color.value, configuration.palette_private))
+    else:
+        return ["Snow", "Gray", "Salmon"] # Colores por defecto, reconocidos por HTML
+
+def getPublicPalette():
+    """Devuelve una lista de nombres de colores reconocidos por HTML. Si no existe una lista de colores para la aplicacion publica especificada en la configuracion se deuvelve una por defecto."""
+    configuration = get()
+    if ( configuration.palette_public): # una lista vacia es falso
+        return list(map(lambda color: color.value, configuration.palette_public))
+    else:
+        return ["Snow", "Gray", "SkyBlue"] # Colores por defecto, reconocidos por HTML
+
+def modifyElementsPerPage( config, cant ):
     """Actualiza la cantidad de elementos que se muestran por pagina del listado."""
-    assert_permit(session, "config_modifyElementsPerPage")
+    # assert_permit(session, "config_modifyElementsPerPage")
 
-    Config.modifyElementsPerPage( Config.get(), cant )
+    Config.modifyElementsPerPage( config, cant )
 
-    return render_template("user/index.html")
-
-def modifySortCriterionUser( criteria ):
+def modifySortCriterionUser( config, criteria ):
     """Actualiza el criterio por defecto de ordenamiento de los usuarios."""
     assert_permit(session, "config_modifySortCriterionUser")
 
-    Config.modifySortCriterionUser( Config.get(), criteria )
+    Config.modifySortCriterionUser( config, criteria )
 
-    return render_template("user/index.html")
-
-def modifySortCriterionMeetingPoints( criteria ):
+def modifySortCriterionMeetingPoints( config, criteria ):
     """Actualiza el criterio por defecto de ordenamiento de los puntos de encuentro."""
     assert_permit(session, "config_modifySortCriterionMeetingPoints")
 
-    Config.modifySortCriterionMeetingPoints( Config.get(), criteria )
+    Config.modifySortCriterionMeetingPoints( config, criteria )
 
-    return render_template("user/index.html")
-
-def newPrivatePallete( colorList ):
+def newPrivatePallete( config, colorList ):
     """Actualiza la paleta privada de colores en configuracion. Recibe una lista de objetos 'Color'."""
-    assert_permit(session, "config_newPrivatePallete")
+    # assert_permit(session, "config_newPrivatePallete")
+    if (len(colorList) >= 3):
+        Config.newPrivatePalette( config, colorList )
+    else:
+        flash("La paleta nueva debe de contener al menos 3 colores.")
 
-    configExists = Config.get()
-    Config.newPrivatePalette( configExists, colorList)
+def newPublicPallete( config, colorList ):
+    """Actualiza la paleta privada de colores en configuracion. Recibe una lista de objetos 'Color', si la lista es de menos de 3 elementos no se actualiza.."""
+    #assert_permit(session, "config_newPublicPallete")
+    if (len(colorList) >= 3):
+        Config.newPublicPalette( config, colorList )
+    else:
+        flash("La paleta nueva debe de contener al menos 3 colores.")
 
-    return render_template("user/index.html")
+def editForm(config, cant, criteriaUser, criteriaMeetingPoint, privatePallete, publicPallete):
+    """Devuelve el formulario para editar las opciones."""
+    assert_permit(session, "config_editForm")
 
-def newPublicPallete( colorList ):
-    """Actualiza la paleta privada de colores en configuracion. Recibe una lista de objetos 'Color'."""
-    assert_permit(session, "config_newPublicPallete")
-
-    configExists = Config.get()
-    Config.newPublicPalette( configExists, colorList)
-
-    return render_template("user/index.html")
+    config = get()
+    private_palette = getPrivatePalette()
+    public_palette = getPublicPalette()
     
-def modify(config, cant):
-    """Modifica los datos de la configuracion. POR AHORA NO FUNCIONA. USAR INDIVIDUALES."""
-    
+    return render_template("config/index.html", config=config, private_palette = private_palette, public_palette = public_palette, filters={"first_name": "Nombre", "last_name":"Apellido"})
+
+
+def update(config, cant, criteriaUser, criteriaMeetingPoint, privatePallete, publicPallete):
+    """Modifica todos los datos de la configuracion."""
+    assert_permit(session, "config_update")
+
+    modifyElementsPerPage(config, cant)
+    modifySortCriterionUser(config, criteriaUser)
+    modifySortCriterionMeetingPoints(config, criteriaMeetingPoint)
+    newPrivatePallete(config, privatePallete)
+    newPublicPallete(config, publicPallete)

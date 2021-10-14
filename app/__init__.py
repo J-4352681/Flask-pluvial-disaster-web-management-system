@@ -3,7 +3,7 @@ from flask import Flask, render_template, g, Blueprint, session, redirect, url_f
 from flask_session import Session
 from config import config
 from app import db
-from app.resources import user, auth, palette, points
+from app.resources import user, auth, palette, points, config as configObject
 from app.helpers import handler
 from app.helpers import auth as helper_auth
 import logging
@@ -54,6 +54,10 @@ def create_app(environment="development"):
     # Puntos de encuentro
     app.add_url_rule("/puntos_encuentro", "puntos_index", points.index)
 
+    # Configuracion
+    app.add_url_rule("/config", "config_index", configObject.index)
+    #app.add_url_rule("/config/edit", "config_index", configObject.index)
+
     # Ruta para el Home (usando decorator)
     @app.route("/")
     def home():
@@ -79,7 +83,7 @@ def create_app(environment="development"):
         },
         {
             "nombre": "Configuración",
-            "url": ""
+            "url": url_for("config_index")
         }
     ])
 

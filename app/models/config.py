@@ -22,12 +22,54 @@ class Config(db.Model):
     palette_public = relationship("Color", secondary=association_palet_has_colors)
 
     @classmethod
-    def all(cls):
+    def get(cls):
         """Devuelve los datos de configuracion"""
         return cls.query.first()
 
-    def __init__(self, name=None, elements_per_page=None, sort_users=None, sort_meeting_points=None):
-        self.name = name
+    @classmethod
+    def create(cls):
+        """Crea una nueva configuracion si no existe una ya en el sistema"""
+        configExists = Config.get()
+        if ( not configExists ):
+            new_conf = Config(elements_per_page=10, sort_users='username', sort_meeting_points='name')
+            db.session.add(new_conf)
+            db.session.commit()
+    
+    @classmethod
+    def modify(cls):
+        """Modifica la configuracion del sistema. NO FUNCIONA. No se si lo vamos a usar directamente"""
+
+    @classmethod
+    def modifyElementsPerPage(cls, config, cant):
+        """actualiza la cantidad de elementos por pagina."""
+        config.elements_per_page = cant
+        db.session.commit()
+
+    @classmethod
+    def modifySortCriterionUser(cls, config, criteria):
+        """actualiza el criterio por defecto de ordenamiento de los usuarios"""
+        config.sort_users = criteria
+        db.session.commit()
+
+    @classmethod
+    def modifySortCriterionMeetingPoints(cls, config, criteria):
+        """actualiza el criterio por defecto de ordenamiento de los puntos de encuentro"""
+        config.sort_meeting_points = criteria
+        db.session.commit()
+
+    @classmethod
+    def newPrivatePalette(cls, config, newPalette):
+        """reemplaza la paleta de colores privada por otra"""
+        config.palette_private = newPalette
+        db.session.commit()
+    
+    @classmethod
+    def newPublicPalette(cls, config, newPalette):
+        """reemplaza la paleta de colores publica por otra"""
+        config.palette_public = newPalette
+        db.session.commit()
+
+    def __init__(self, elements_per_page=None, sort_users=None, sort_meeting_points=None):
         self.elements_per_page = elements_per_page
         self.sort_users = sort_users
         self.sort_meeting_points = sort_meeting_points

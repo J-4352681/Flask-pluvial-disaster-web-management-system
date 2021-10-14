@@ -6,7 +6,7 @@ class Color(db.Model):
     """Clase que representa los colores usados en las paletas de la aplicacion"""
     __tablename__ = "colors"
     id = Column(Integer, primary_key=True)
-    value = Column(String(30), nullable=false) #Los permisos han de tener el nombre apropiado al modulo y la funcion que dan permiso a usar, escritos como: ModuleName_Function
+    value = Column(String(30), nullable=false) # El nombre con el que HTML lo reconozca
 
     @classmethod
     def all(cls):

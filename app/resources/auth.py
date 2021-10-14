@@ -1,4 +1,5 @@
 from flask import redirect, render_template, request, url_for, abort, session, flash
+from app.db import connection
 from app.models.user import User
 
 

@@ -20,5 +20,8 @@ class Filter():
     
     def get_query(self):
         if self.form_query_fields:
-            return self.model.query.filter(*[getattr(self.model, k)==v for k, v in self.form_query_fields.items()])
+            elements = []
+            for k, v in self.form_query_fields.items():
+                elements += getattr(self.model, k)(v)
+            return elements
         return self.model.all()

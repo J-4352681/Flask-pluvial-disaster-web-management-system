@@ -3,20 +3,13 @@ from sqlalchemy.sql.expression import false, true
 
 from app.models.color import Color
 from app.helpers.auth import assert_permit
-from app.helpers.filter import apply_filter
+# from app.helpers.filter import apply_filter
 
 
 # Protected resources
 def index():
     """Muestra todos los colores. NO ES NECESARIO POR AGORA"""
     assert_permit(session, "colors_index")
-
-    query = {k: v for k, v in request.args.items() if v != ''}
-
-    if query == {}:
-        config = all()
-    else:
-        config = apply_filter(Color, query)
     
     return render_template("user/index.html")
 

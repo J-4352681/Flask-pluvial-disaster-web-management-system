@@ -4,7 +4,7 @@ from sqlalchemy.sql.expression import false, true
 from app.models.user import User
 from app.helpers.auth import assert_permit
 from app.helpers.user import username_or_email_already_exist
-from app.helpers.filter import apply_filter
+from app.helpers.filter import Filter
 from app.db import db
 
 from app.forms.user_forms import UserModificationForm
@@ -16,15 +16,9 @@ def index():
     """Muestra la lista de usuarios."""
     assert_permit(session, "user_index")
 
-    form = UserFilter(request.args)
-    form_query_fields = {k: v for k, v in request.args.items() if v != "" and k not in ["csrf_token", "submit"]}
-
-    if form_query_fields:
-        users = User.query.filter(*[getattr(User, k)==v for k, v in form_query_fields.items()])
-    else:
-        users = User.all()
+    filt = Filter(UserFilter, User, request.args)
         
-    return render_template("user/index.html", form=form, users=users)
+    return render_template("user/index.html", form=filt.form, users=filt.get_query())
 
 
 def new():

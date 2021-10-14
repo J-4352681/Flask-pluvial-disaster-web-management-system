@@ -6,22 +6,12 @@ from app.models.config import Config
 from app.resources.colors import new as newColor
 from app.resources.colors import get as getColor
 from app.helpers.auth import assert_permit
-from app.helpers.filter import apply_filter
+# from app.helpers.filter import apply_filter
 
-"""Contine la logica necesareia para modificar las opciones de la configuracion del sistema y pedir la configuracion. Si se necesita solo la paleta de colores usar Resourses/palette."""
 # Protected resources
 def index():
     """Muestra las opciones de configuracion y permite editarlas."""
-    print("dasdjafjfnafajsnfja")
-    flash("dasdasdasdasdasdasda")
     assert_permit(session, "config_index")
-
-    query = {k: v for k, v in request.args.items() if v != ''}
-
-    if query == {}:
-        config = get()
-    else:
-        config = apply_filter(Config, query) #Esto no se usa
     
     private_palette = getPrivatePalette()
     public_palette = getPublicPalette()

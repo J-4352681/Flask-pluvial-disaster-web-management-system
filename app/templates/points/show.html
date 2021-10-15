@@ -51,35 +51,12 @@
         </tr>
         <tr class="row"></tr>
           <td class="col"><a href="{{ url_for('points_modify', point_id=point.id)}}">Editar</a></td>
-          <td class="col"><a href="{{ url_for('points_delete', point_id=point.id)}}">Eliminar</a></td>
+          <td class="col"><a onclick="return confirm('¿Esta seguro que quiere eliminar este elemento?')" href="{{ url_for('points_delete', point_id=point.id)}}" >Eliminar nuevo</a></td>
         </tr>
-        
       </tbody>
 
     </table>
 
-  </div>
-  <div class="row mx-3">
-    <button style="background-color: white;height:30px;width:100px;color: red;    " onclick="deletePrompt()">Eliminar</button>
-    <script>
-      var urldeseado = "{{ url_for('points_delete', point_id=point.id) }}"
-      function deletePrompt() {
-        if (confirm('¿Esta seguro que desea eliminar el punto de encuentro?')) {
-          // ELIMINAR
-          httpPOST(urldeseado)
-        } else {
-          // Do nothing!
-          console.log('No paso nada.');
-        }
-      }
-
-      function httpPOST(theUrl) {
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open( "POST", theUrl, false ); // false for synchronous request
-        xmlHttp.send( null );
-        return xmlHttp.responseText;
-      }
-    </script>
   </div>
   
 

@@ -56,6 +56,10 @@ class User(db.Model):
     @classmethod
     def find_by_id(cls, id):
         return cls.query.get(id)
+    
+    @classmethod
+    def get_user_roles_by_id(cls, id):
+        return cls.find_by_id(id).roles
 
     @classmethod
     def find_by_email_and_password(cls, email=None, password=None):

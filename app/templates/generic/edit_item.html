@@ -29,12 +29,21 @@
     {% for field in form %}
     {% if field.name not in ["submit", "csrf_token", "id"] %}
       {{ field.label(class="col-12 my-2 p-0") }}
-      {{ field(class="col-6 m-2 p-2 card") }}
+      {% if field.choices %}
+        <select class="select" name="{{ field.name }}" multiple>
+        {% for k, v in field.choices.items() %}
+          <option value="{{ k }}" {% if k in field.default %} selected{% endif %}>{{ v }}</option>
+          {{ v }}
+        {% endfor %}
+        </select>
+      {% else %}
+        {{ field(class="col-6 m-2 p-2 card") }}
+      {% endif %}
     {% endif %}
     {% endfor %}
 
     {{ form.submit(class="col-auto m-auto btn btn-primary") }}
   </form>
-  
 
+  <script src="{{ url_for('static', filename='checkbox.js') }}"></script>
 {% endblock %}

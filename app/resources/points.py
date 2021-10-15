@@ -58,7 +58,7 @@ def modify(point_id):
     if request.method == "POST" and form.validate():
         Meeting_Point.update()
         return redirect(url_for('points_show', point_id=point_id))
-    return render_template("points/edit_item.html", form=form, point=point)
+    return render_template("generic/edit_item.html", form=form, point=point, item={"type": "Punto de encuentro", "name": point.name})
     
 def delete(point_id):
     """Permite eliminar puntos de encuentro."""

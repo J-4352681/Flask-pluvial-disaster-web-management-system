@@ -69,9 +69,9 @@ def modify(user_id):
     assert_permit(session, "user_modify")
     user = User.find_by_id(user_id)
     form = UserModificationForm(obj=user)
-    form.populate_obj(user)
 
     if form.validate_on_submit():
+        form.populate_obj(user)
         User.update()
         return redirect(url_for('user_index'))
     return render_template("generic/edit_item.html", form=form, user=user, item={"type": "Usuario", "name": user.first_name})

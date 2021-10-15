@@ -81,11 +81,29 @@ def newPublicPallete( config, colorList ):
     else:
         flash("La paleta nueva debe de contener al menos 3 colores.")
 
+def flash_errors(form):
+    """Flashes form errors"""
+    for field, errors in form.errors.items():
+        for error in errors:
+            flash(u"Error in the %s field - %s" % (
+                getattr(form, field).label.text,
+                error
+            ), 'error')
+
 def modify():
     """Modifica todos los datos de la configuracion."""
     assert_permit(session, "config_modify")
     config = get()
-    form = Config_forms(obj=config)
+
+    #Initialice form
+    form = Config_forms(obj=config, 
+        private_color1 = config.palette_private[0].id,
+        private_color2 = config.palette_private[1].id,
+        private_color3 = config.palette_private[2].id,
+        public_color1 = config.palette_public[0].id,
+        public_color2 = config.palette_public[1].id,
+        public_color3 = config.palette_public[2].id
+    )
     
     #Obtener colores
     colores = [(g.id, g.value) for g in allColors()]
@@ -96,15 +114,18 @@ def modify():
     form.public_color2.choices = colores
     form.public_color3.choices = colores
 
-
+    #form.palette_private.choices = colores #Select fields no esta devolviendo los valores que selecciono
+    flash_errors(form) #No flashea los errores que deberia
     if request.method == "POST" and form.validate():
         modifyElementsPerPage(config, form.elements_per_page.data)
         modifySortCriterionUser(config, form.sort_users.data)
         modifySortCriterionMeetingPoints(config, form.sort_meeting_points.data)
         coloresPrivados = [getColor(dict(colores).get(form.private_color1.data)), getColor(dict(colores).get(form.private_color2.data)), getColor(dict(colores).get(form.private_color3.data))]
+        #coloresPrivados = list(map(lambda x: getColor(dict(colores).get(x)), form.palette_private.data))
         newPrivatePallete(config, coloresPrivados)
         coloresPublicos = [getColor(dict(colores).get(form.public_color1.data)), getColor(dict(colores).get(form.public_color2.data)), getColor(dict(colores).get(form.public_color3.data))]
         newPublicPallete(config, coloresPublicos)
         
         return redirect(url_for('config_index'))
+
     return render_template("config/edit.html", form=form, config=config)

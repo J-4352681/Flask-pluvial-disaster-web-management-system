@@ -13,35 +13,22 @@
 {% endblock %}
 
 {% block content %}
-  {% with titulo_apartado="Puntos de encuentro", subtitulo_apartado="Creacion de puntos de encuentro" %}
+  {% with titulo_apartado="Creacion de puntos de encuentro", subtitulo_apartado="Nuevo punto de encuentro" %}
     {% include "generic/generic_content.html" %}
   {% endwith %}
+  
+  <form class="row mx-1" action="{{ url_for('points_new') }}" method="POST">
+    {{ form.hidden_tag() }}
 
-  <form action="{{ url_for('points_create') }}" method="POST">
-    <p>
-      <label>Nombre<label></br>
-      <input name="name" placeholder="Nombre de punto de encuentro"/>
-    </p>
-    <p>
-      <label>Direccion<label></br>
-      <input name="direction" placeholder="Direccion"/>
-    </p>
-    <p>
-      <label>Coordenadas<label></br>
-      <input name="coordinates" placeholder="Coordenadas"/>
-    </p>
-    <p>
-      <label>Telefono<label></br>
-      <input name="telephone" placeholder="Telefono"/>
-    </p>
-    <p>
-      <label>E-mail<label></br>
-      <input name="email" placeholder="example@gmail.com"/>
-    </p>
-    <p>
-      <input type="submit" value="Crear">
-      <button type="reset">Limpiar</button>
-    </p>
+    {% for field in form %}
+    {% if field.name not in ["submit", "csrf_token"] %}
+      {{ field.label(class="col-12 my-2 p-0") }}
+      {{ field(class="col-6 m-2 p-2 card") }}
+    {% endif %}
+    {% endfor %}
+
+    {{ form.submit(class="col-auto m-auto btn btn-primary") }}
   </form>
-  <a href="{{ url_for('points_index') }}" class="link">Volver</a>
+  
+
 {% endblock %}

@@ -74,6 +74,6 @@ def modify(user_id):
     if form.validate_on_submit():
         User.update()
         return redirect(url_for('user_index'))
-    return render_template("generic/edit_item.html", form=form, user=user)
+    return render_template("generic/edit_item.html", form=form, user=user, item={"type": "Usuario", "name": user.first_name})
     
     

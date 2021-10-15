@@ -13,10 +13,10 @@
 {% endblock %}
 
 {% block content %}
-  {% with titulo_apartado="Edición del usuario "+user.username, subtitulo_apartado="Edición de usuario" %}
+  {% with titulo_apartado="Edición del usuario "+item.type, subtitulo_apartado="Edición de "+item.name %}
     {% include "generic/generic_content.html" %}
   {% endwith %}
-  
+
   <form class="row mx-1" action="{{ url_for('user_modify', user_id=user.id) }}" method="POST">
     {{ form.hidden_tag() }}
 

@@ -3,7 +3,7 @@ from wtforms import StringField, SubmitField, SelectMultipleField, PasswordField
 from wtforms.validators import DataRequired, ValidationError
 from wtforms.widgets import HiddenInput
 from app.models.user import User
-from .forms import Unique
+from .validators import Unique
 
 class UserModificationForm(FlaskForm):
     id = IntegerField(widget=HiddenInput())

@@ -3,7 +3,7 @@ from sqlalchemy.sql.expression import false, true
 from app.models.user import User
 from app.helpers.auth import authenticated
 from app.resources.config import get
-import app.db
+# import app.db
 
 # Protected resources
 def getPrivatePalette():

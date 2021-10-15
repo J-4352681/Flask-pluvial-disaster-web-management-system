@@ -1,0 +1,52 @@
+{% extends "generic/base.html" %}
+
+{% block title %}Puntos de encuentro{% endblock %}
+
+{% block navbar %}
+    {% include "generic/navbar.html" %} 
+{% endblock %}
+
+{% block navmenu %}
+<!-- {% with apartados=apartados %} -->
+{% include "generic/navmenu.html" %}
+<!-- {% endwith %} -->
+{% endblock %}
+
+{% block content %}
+  {% with titulo_apartado="Puntos de encuentro", subtitulo_apartado="Listado y edición de puntos de encuentro" %}
+    {% include "generic/generic_content.html" %}
+  {% endwith %}
+  
+  <div class="row mx-3">
+    <table class="col table table-hover h-100">
+      <thead class="row">
+        <tr class="row">
+          <th class="col">Nombre</th>
+          <th class="col">Direccion</th>
+          <th class="col">Coordenadas</th>
+          <th class="col">Publico</th>
+          <th class="col">Telefono</th>
+          <th class="col">E-mail</th>
+          <td class="col"><a href="{{ url_for('points_new')}}">Nuevo</a></td>
+        </tr>
+      </thead>
+      <tbody class="row">
+        {% for point in points %}
+          <tr class="row">
+            <td class="col">{{ point.name }}</td>
+            <td class="col">{{ point.direction }}</td>
+            <td class="col">{{ point.coordinates }}</td>
+            <td class="col">{{ point.state }}</td>
+            <td class="col">{{ point.telephone }}</td>
+            <td class="col">{{ point.email }}</td>
+            <td class="col"><a href="{{ url_for('points_show', point_id=point.id)}}">Detalle...</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+
+    </table>
+
+  </div>
+  
+
+{% endblock %}

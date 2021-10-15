@@ -13,6 +13,7 @@ def index():
     """Muestra las opciones de configuracion y permite editarlas."""
     assert_permit(session, "config_index")
     
+    config=get()
     private_palette = getPrivatePalette()
     public_palette = getPublicPalette()
     

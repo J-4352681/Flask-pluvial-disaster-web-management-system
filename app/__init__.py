@@ -52,7 +52,12 @@ def create_app(environment="development"):
     app.add_url_rule("/usuarios/rol", "user_unassing_role", user.unassign_role, methods=["DELETE"])
 
     # Rutas de Puntos de encuentro
-    app.add_url_rule("/puntos_encuentro", "puntos_index", points.index)
+    app.add_url_rule("/puntos_encuentro", "points_index", points.index)
+    app.add_url_rule("/puntos_encuentro/show/<int:point_id>", "points_show", points.show, methods=["GET"])
+    app.add_url_rule("/puntos_encuentro/modify/<int:point_id>", "points_modify", points.modify, methods=["GET", "POST"])
+    app.add_url_rule("/puntos_encuentro/nuevo", "points_new", points.new) 
+    app.add_url_rule("/puntos_encuentro", "points_create", points.create, methods=["POST"])
+    app.add_url_rule("/puntos_encuentro/delete/<int:point_id>", "points_delete", points.delete, methods=["GET", "POST"])
 
     # Rutas de Config
     app.add_url_rule("/config", "config_index", configObject.index)

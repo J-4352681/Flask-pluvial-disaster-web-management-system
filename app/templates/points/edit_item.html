@@ -1,6 +1,6 @@
 {% extends "generic/base.html" %}
 
-{% block title %}Configuracion del sistema{% endblock %}
+{% block title %}Puntos de encuentro{% endblock %}
 
 {% block navbar %}
     {% include "generic/navbar.html" %} 
@@ -13,11 +13,11 @@
 {% endblock %}
 
 {% block content %}
-  {% with titulo_apartado="Opciones de la configuracion ", subtitulo_apartado="Configuracion" %}
+  {% with titulo_apartado="Edicion de puntos de encuentro "+point.name, subtitulo_apartado="Edicion de puntos de encuentro" %}
     {% include "generic/generic_content.html" %}
   {% endwith %}
   
-  <form class="row mx-1" action="{{ url_for('config_modify') }}" method="POST">
+  <form class="row mx-1" action="{{ url_for('points_modify', point_id=point.id) }}" method="POST">
     {{ form.hidden_tag() }}
 
     {% for field in form %}

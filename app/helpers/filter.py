@@ -19,6 +19,7 @@ class Filter():
         return self._form_query_fields
     
     def get_query(self):
+        """Realiza la consulta y obtiene los elementos a listar"""
         if self.form_query_fields:
             elements = []
             for k, v in self.form_query_fields.items():

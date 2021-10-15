@@ -38,8 +38,9 @@ class User(db.Model):
         db.session.commit()
 
     @classmethod
-    def modify(cls, user=None):
-        """Modifica los datos de un usuario enviado como parametro."""
+    def update(cls):
+        """Actualiza los datos de un usuario enviado como parametro."""
+        db.session.commit()
 
     @classmethod
     def delete(cls, user=None):
@@ -51,6 +52,10 @@ class User(db.Model):
     def all(cls):
         """Devuelve todos los usuarios"""
         return cls.query.all()
+
+    @classmethod
+    def find_by_id(cls, id):
+        return cls.query.get(id)
 
     @classmethod
     def find_by_email_and_password(cls, email=None, password=None):
@@ -77,19 +82,39 @@ class User(db.Model):
         return users
 
     @classmethod
-    def find_by_username(cls, username=None):
+    def find_by_username(cls, username=None, excep=[]):
         """Devuelve el usuario cuyo nombre de usuario sea igual al mandado como parametro"""
         users = cls.query.filter(
-            cls.username.like('%'+username+'%')
-        )
+            cls.username.like('%'+username+'%'),
+            cls.id.not_in(excep)
+        ).all()
+        return users
+
+    @classmethod
+    def find_by_username_exact(cls, username=None, excep=[]):
+        """Devuelve el usuario cuyo nombre de usuario sea igual al mandado como parametro"""
+        users = cls.query.filter(
+            cls.username.like(username),
+            cls.id.not_in(excep)
+        ).all()
         return users
     
     @classmethod
-    def find_by_email(cls, email=None):
+    def find_by_email(cls, email=None, excep=[]):
         """Devuelve el primer usuario cuyo email es igual al que se mando como parametro"""
         users = cls.query.filter(
-            cls.email.like('%'+email+'%')
-        )
+            cls.email.like('%'+email+'%'),
+            cls.id.not_in(excep)
+        ).all()
+        return users
+
+    @classmethod
+    def find_by_email_exact(cls, email=None, excep=[]):
+        """Devuelve el primer usuario cuyo email es igual al que se mando como parametro"""
+        users = cls.query.filter(
+            cls.email.like(email),
+            cls.id.not_in(excep)
+        ).all()
         return users
     
     @classmethod

@@ -20,8 +20,14 @@
   <form class="row mx-1" action="{{ url_for('user_modify', user_id=user.id) }}" method="POST">
     {{ form.hidden_tag() }}
 
+    {% for field, errors in form.errors.items() %}
+      <div class="alert alert-error bg-danger text-white">
+        {{ form[field].label }}: {{ ', '.join(errors) }}
+      </div>
+    {% endfor %}
+
     {% for field in form %}
-    {% if field.name not in ["submit", "csrf_token"] %}
+    {% if field.name not in ["submit", "csrf_token", "id"] %}
       {{ field.label(class="col-12 my-2 p-0") }}
       {{ field(class="col-6 m-2 p-2 card") }}
     {% endif %}

@@ -5,7 +5,6 @@
 
 
   <form class="row mx-2" action="{{ url_for('user_index') }}" method="GET">
-
     {% for field in form %}
     {% if field.name not in ["submit", "csrf_token"] %}
       {{ field.label(class="col-12 my-1 m-0 p-0") }}

@@ -2,11 +2,13 @@ from flask import redirect, render_template, request, url_for, session, abort, f
 from sqlalchemy.sql.expression import false, true
 
 from app.models.config import Config
-#from app.resources.colors import all as allColors
+from app.resources.colors import getById as getColorById, all as allColors
 from app.resources.colors import new as newColor
 from app.resources.colors import get as getColor
 from app.helpers.auth import assert_permit
 # from app.helpers.filter import apply_filter
+
+from app.forms.config_forms import Config_forms
 
 # Protected resources
 def index():
@@ -79,23 +81,30 @@ def newPublicPallete( config, colorList ):
     else:
         flash("La paleta nueva debe de contener al menos 3 colores.")
 
-def editForm(): # Todavia no funciona, crear layout edit
-    """Devuelve el formulario para editar las opciones."""
-    # assert_permit(session, "config_editForm")
-
-    config = get()
-    private_palette = getPrivatePalette()
-    public_palette = getPublicPalette()
-    
-    return render_template("config/index.html", config=config, private_palette = private_palette, public_palette = public_palette, filters={"first_name": "Nombre", "last_name":"Apellido"})
-
-
-def update(config, cant, criteriaUser, criteriaMeetingPoint, privatePallete, publicPallete):
+def modify():
     """Modifica todos los datos de la configuracion."""
-    assert_permit(session, "config_update")
+    assert_permit(session, "config_modify")
+    config = get()
+    form = Config_forms(obj=config)
+    
+    #Obtener colores
+    colores = [(g.id, g.value) for g in allColors()]
+    form.private_color1.choices = colores
+    form.private_color2.choices = colores
+    form.private_color3.choices = colores
+    form.public_color1.choices = colores
+    form.public_color2.choices = colores
+    form.public_color3.choices = colores
 
-    modifyElementsPerPage(config, cant)
-    modifySortCriterionUser(config, criteriaUser)
-    modifySortCriterionMeetingPoints(config, criteriaMeetingPoint)
-    newPrivatePallete(config, privatePallete)
-    newPublicPallete(config, publicPallete)
+
+    if request.method == "POST" and form.validate():
+        modifyElementsPerPage(config, form.elements_per_page.data)
+        modifySortCriterionUser(config, form.sort_users.data)
+        modifySortCriterionMeetingPoints(config, form.sort_meeting_points.data)
+        coloresPrivados = [getColor(dict(colores).get(form.private_color1.data)), getColor(dict(colores).get(form.private_color2.data)), getColor(dict(colores).get(form.private_color3.data))]
+        newPrivatePallete(config, coloresPrivados)
+        coloresPublicos = [getColor(dict(colores).get(form.public_color1.data)), getColor(dict(colores).get(form.public_color2.data)), getColor(dict(colores).get(form.public_color3.data))]
+        newPublicPallete(config, coloresPublicos)
+        
+        return redirect(url_for('config_index'))
+    return render_template("config/edit.html", form=form, config=config)

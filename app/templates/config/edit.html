@@ -1,0 +1,34 @@
+{% extends "generic/base.html" %}
+
+{% block title %}Configuracion del sistema{% endblock %}
+
+{% block navbar %}
+    {% include "generic/navbar.html" %} 
+{% endblock %}
+
+{% block navmenu %}
+<!-- {% with apartados=apartados %} -->
+{% include "generic/navmenu.html" %}
+<!-- {% endwith %} -->
+{% endblock %}
+
+{% block content %}
+  {% with titulo_apartado="Opciones de la configuracion ", subtitulo_apartado="Configuracion" %}
+    {% include "generic/generic_content.html" %}
+  {% endwith %}
+  
+  <form class="row mx-1" action="{{ url_for('config_modify') }}" method="POST">
+    {{ form.hidden_tag() }}
+
+    {% for field in form %}
+    {% if field.name not in ["submit", "csrf_token"] %}
+      {{ field.label(class="col-12 my-2 p-0") }}
+      {{ field(class="col-6 m-2 p-2 card") }}
+    {% endif %}
+    {% endfor %}
+
+    {{ form.submit(class="col-auto m-auto btn btn-primary") }}
+  </form>
+  
+
+{% endblock %}

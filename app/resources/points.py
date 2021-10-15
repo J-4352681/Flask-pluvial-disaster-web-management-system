@@ -62,7 +62,7 @@ def modify(point_id):
     
 def delete(point_id):
     """Permite eliminar puntos de encuentro."""
-    assert_permit(session, "points_show") # CAMBIAR A DELETE
+    assert_permit(session, "points_delete") 
 
     Meeting_Point.delete(point_id)
     

@@ -68,6 +68,11 @@ class Config(db.Model):
         """reemplaza la paleta de colores publica por otra"""
         config.palette_public = newPalette
         db.session.commit()
+    
+    @classmethod
+    def update(cls):
+        """Actualiza los datos de la configuracion."""
+        db.session.commit()
 
     def __init__(self, elements_per_page=None, sort_users=None, sort_meeting_points=None):
         self.elements_per_page = elements_per_page

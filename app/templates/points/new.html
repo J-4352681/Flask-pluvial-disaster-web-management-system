@@ -1,0 +1,47 @@
+{% extends "generic/base.html" %}
+
+{% block title %}Puntos de encuentro{% endblock %}
+
+{% block navbar %}
+    {% include "generic/navbar.html" %} 
+{% endblock %}
+
+{% block navmenu %}
+<!-- {% with apartados=apartados %} -->
+{% include "generic/navmenu.html" %}
+<!-- {% endwith %} -->
+{% endblock %}
+
+{% block content %}
+  {% with titulo_apartado="Puntos de encuentro", subtitulo_apartado="Creacion de puntos de encuentro" %}
+    {% include "generic/generic_content.html" %}
+  {% endwith %}
+
+  <form action="{{ url_for('points_create') }}" method="POST">
+    <p>
+      <label>Nombre<label></br>
+      <input name="name" placeholder="Nombre de punto de encuentro"/>
+    </p>
+    <p>
+      <label>Direccion<label></br>
+      <input name="direction" placeholder="Direccion"/>
+    </p>
+    <p>
+      <label>Coordenadas<label></br>
+      <input name="coordinates" placeholder="Coordenadas"/>
+    </p>
+    <p>
+      <label>Telefono<label></br>
+      <input name="telephone" placeholder="Telefono"/>
+    </p>
+    <p>
+      <label>E-mail<label></br>
+      <input name="email" placeholder="example@gmail.com"/>
+    </p>
+    <p>
+      <input type="submit" value="Crear">
+      <button type="reset">Limpiar</button>
+    </p>
+  </form>
+  <a href="{{ url_for('points_index') }}" class="link">Volver</a>
+{% endblock %}

@@ -159,10 +159,17 @@ class User(db.Model):
 
     @classmethod
     def assign_role(cls, user=None, role=None):
-        """Asigna un rol a un usuario existente."""
+        """Asigna un rol a un usuario."""
         if role not in user.roles:
             user.roles.append(role)
             db.session.commit()
+
+    @classmethod
+    def assign_roles(cls, user=None, roles=[]):
+        """Asigna un rol a un usuario."""
+        roles_to_assign = filter(lambda r: r in user.roles, roles)
+        map(lambda r: user.roles.append(r), roles)
+        db.session.commit()
     
     @classmethod
     def unassign_role(cls, user=None, role=None):
@@ -187,3 +194,13 @@ class User(db.Model):
             for permit in permits
             ])
         return permits
+
+    def assign_roles(self, roles=[]):
+        """Asigna un rol al usuario."""
+        roles_to_assign = filter(lambda r: r not in self.roles, roles)
+        print(list(roles_to_assign))
+        self.roles.extend(list(roles_to_assign))
+        print(self.roles)
+
+
+

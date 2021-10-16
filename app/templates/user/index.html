@@ -14,8 +14,12 @@
   {% with titulo_apartado="Usuarios", subtitulo_apartado="Listado y edición de usuarios del sistema" %}
     {% include "generic/generic_content.html" %}
   {% endwith %}
-  
+
   <div class="row mx-3">
+    <div class="row m-0 p-0">
+      <a class="m-0 col-auto btn btn-primary" href="{{ url_for('user_create') }}">Crear usuario</a>
+    </div>
+
     <table class="col table table-hover h-100">
       <thead class="row">
         <tr class="row">

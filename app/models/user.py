@@ -138,10 +138,10 @@ class User(db.Model):
     @classmethod
     def find_all_active_or_blocked(cls, activo=None): # Ta dudoso este metodo jaja
         """Devuelve todos los usuarios activos si el parametro activo=true o todos los usuarios bloqueados si el parametro activo=false"""
-        res = cls.query.filter(
-            cls.active == activo
+        users = cls.query.filter(
+            cls.active.like(activo)
         ).all() 
-        return res #Devuelve todos los usuarios activos o bloqueados, cambie el nombre a res porque "users" es el nombre de la tabla y queria evitar confusion
+        return users #Devuelve todos los usuarios activos o bloqueados, cambie el nombre a res porque "users" es el nombre de la tabla y queria evitar confusion
 
     @classmethod
     def block(cls, user=None):

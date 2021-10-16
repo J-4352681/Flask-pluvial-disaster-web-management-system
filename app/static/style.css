@@ -43,3 +43,7 @@ a.link {
   margin-top: 50px;
   letter-spacing: 1px;
 }
+
+.blocked {
+    color: lightcoral;
+}

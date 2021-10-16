@@ -23,18 +23,31 @@
           <th class="col">Nombre</th>
           <th class="col">Apellido</th>
           <th class="col">Contraseña</th>
-          <th class="col">Editar</th>
+          <th class="col">Acciones</th>
         </tr>
       </thead>
       <tbody class="row">
         {% for user in users %}
-          <tr class="row">
-            <td class="col">{{ user.email }}</td>
-            <td class="col">{{ user.first_name }}</td>
-            <td class="col">{{ user.last_name }}</td>
-            <td class="col">{{ user.password }}</td>
-            <td class="col"><a href="{{ url_for('user_modify', user_id=user.id)}}">Editar {{user.first_name}}</a></td>
-          </tr>
+            {% if user.active == 1 %}
+                <tr class="row">
+            {% else %}
+                <tr class="row blocked">
+            {% endif %}
+                <td class="col">{{ user.email }}</td>
+                <td class="col">{{ user.first_name }}</td>
+                <td class="col">{{ user.last_name }}</td>
+                <td class="col">{{ user.password }}</td>
+                <td class="col">
+                    <a href="{{ url_for('user_modify', user_id=user.id)}}" title="Editar"><ion-icon name="pencil-outline"></ion-icon></a>
+                    <a href="{{ url_for('user_modify', user_id=user.id)}}" title="Administrar roles"><ion-icon name="people-circle-outline"></ion-icon></a>
+                    {% if user.active == 1 %}
+                        <a onclick="return confirm('¿Esta seguro que quiere bloquear a este usuario?')" href="{{ url_for('user_block', user_id=user.id)}}" title="Bloquear"><ion-icon name="close-outline"></ion-icon></a>
+                    {% else %}
+                        <a href="{{ url_for('user_unblock', user_id=user.id)}}" title="Desbloquear"><ion-icon name="checkmark-outline"></ion-icon></a>
+                    {% endif %}
+                    <a onclick="return confirm('¿Esta seguro que quiere eliminar a este usuario?')" href="{{ url_for('user_delete', user_id=user.id)}}" title="Borrar usuario"><ion-icon name="trash-outline"></ion-icon></a>
+                </td>
+            </tr>
         {% endfor %}
       </tbody>
     </table>

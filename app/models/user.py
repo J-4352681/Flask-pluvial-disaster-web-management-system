@@ -179,7 +179,7 @@ class User(db.Model):
         self.password = password #Los roles se pueden agregar a parte y el resto de atributos se agregan por defecto
 
     def is_admin(self):
-        return "admin" in self.roles
+        return "admin" in map(lambda x: x.name, self.roles)
 
     def get_permits(self):
         permits = set([

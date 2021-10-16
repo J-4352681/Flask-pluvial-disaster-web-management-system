@@ -46,8 +46,9 @@ def create_app(environment="development"):
     app.add_url_rule("/usuarios/nuevo", "user_new", user.new) 
     app.add_url_rule("/usuarios", "user_create", user.create, methods=["POST"])
     app.add_url_rule("/usuarios/modify/<int:user_id>", "user_modify", user.modify, methods=["GET", "POST"])
-    app.add_url_rule("/usuarios", "user_block", user.block, methods=["DELETE"])
-    app.add_url_rule("/usuarios/alta", "user_unblock", user.unblock, methods=["PUT"])
+    app.add_url_rule("/usuarios/borrar/<int:user_id>", "user_delete", user.delete, methods=["GET", "POST"])
+    app.add_url_rule("/usuarios/baja/<int:user_id>", "user_block", user.block, methods=["GET", "POST"])
+    app.add_url_rule("/usuarios/alta/<int:user_id>", "user_unblock", user.unblock, methods=["GET", "POST"])
     app.add_url_rule("/usuarios/rol", "user_assing_role", user.assign_role, methods=["POST"])
     app.add_url_rule("/usuarios/rol", "user_unassing_role", user.unassign_role, methods=["DELETE"])
 

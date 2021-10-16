@@ -38,14 +38,19 @@ def all():
 def new():
     """Devuelve el template para crear un nuevo punto de encuentro."""
     assert_permit(session, "points_new")
+    form = MeetingPointModificationForm()
 
-    return render_template("points/new.html")
+    if request.method == "POST" and form.validate():
+        create(form.name.data, form.direction.data, form.coordinates.data, form.telephone.data, form.email.data)
+        return redirect(url_for('points_index'))
 
-def create():
-    """Crea un punto de encuentro con los datos envuadosrequest."""
+    return render_template("points/new.html", form=form) #point=point
+
+def create(name, direction, coordinates, telephone, email):
+    """Crea un punto de encuentro con los datos envuados por request."""
     assert_permit(session, "points_create")
 
-    Meeting_Point.create(**request.form)
+    Meeting_Point.create(name, direction, coordinates, telephone, email)# **request.form)
     return redirect(url_for("points_index"))
 
 def modify(point_id):

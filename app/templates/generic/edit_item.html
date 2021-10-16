@@ -6,12 +6,6 @@
     {% include "generic/navbar.html" %} 
 {% endblock %}
 
-{% block navmenu %}
-<!-- {% with apartados=apartados %} -->
-{% include "generic/navmenu.html" %}
-<!-- {% endwith %} -->
-{% endblock %}
-
 {% block content %}
   {% with titulo_apartado="Edición del usuario "+item.type, subtitulo_apartado="Edición de "+item.name %}
     {% include "generic/generic_content.html" %}

@@ -55,7 +55,7 @@ def create_app(environment="development"):
     app.add_url_rule("/puntos_encuentro", "points_index", points.index)
     app.add_url_rule("/puntos_encuentro/show/<int:point_id>", "points_show", points.show, methods=["GET"])
     app.add_url_rule("/puntos_encuentro/modify/<int:point_id>", "points_modify", points.modify, methods=["GET", "POST"])
-    app.add_url_rule("/puntos_encuentro/nuevo", "points_new", points.new) 
+    app.add_url_rule("/puntos_encuentro/nuevo", "points_new", points.new, methods=["GET", "POST"]) 
     app.add_url_rule("/puntos_encuentro", "points_create", points.create, methods=["POST"])
     app.add_url_rule("/puntos_encuentro/delete/<int:point_id>", "points_delete", points.delete, methods=["GET", "POST"])
 

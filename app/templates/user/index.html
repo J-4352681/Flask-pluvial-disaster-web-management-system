@@ -6,15 +6,15 @@
     {% include "generic/navbar.html" %} 
 {% endblock %}
 
-{% block navmenu %}
-    {% include "generic/navmenu.html" %}
-{% endblock %}
-
 {% block content %}
   {% with titulo_apartado="Usuarios", subtitulo_apartado="Listado y edición de usuarios del sistema" %}
     {% include "generic/generic_content.html" %}
   {% endwith %}
-
+  <div class="row mx-3">
+      <div class="col-3">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#user-filter">Filtrar</button>
+    </div>
+  </div>
   <div class="row mx-3">
     <div class="row m-0 p-0">
       <a class="m-0 col-auto btn btn-primary" href="{{ url_for('user_create') }}">Crear usuario</a>

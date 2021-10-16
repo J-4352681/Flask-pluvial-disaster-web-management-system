@@ -1,9 +1,10 @@
-<div class="row p-2">
+<div class="navbar-collapse row p-2">
   <h4 class="col mt-4">Menú</h4>
-</div>
 
 {% for apartado in get_navigation_actions(session) %}
   <div class="row px-2">
     <a class="col border-bottom rounded p-3 text-decoration-none text-secondary" href="{{ apartado.url }}">{{ apartado.nombre }}</a>
   </div>
-  {% endfor %}
+{% endfor %}
+
+</div>

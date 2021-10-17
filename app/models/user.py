@@ -147,14 +147,14 @@ class User(db.Model):
     def block(cls, user=None):
         """Bloquea un usuario enviado como parametro. Si ya estaban bloqueados no hace nada. Usar "unblock" para desbloquear."""
         if user.active:
-            user.active = false
+            user.active = 0
             db.session.commit()
 
     @classmethod
     def unblock(cls, user=None):
         """Desbloquea un usuario enviado como parametro. Si ya estaban activos no hace nada. Usar "block" para bloquear."""
         if not user.active:
-            user.active = true
+            user.active = 1
             db.session.commit()
 
     @classmethod

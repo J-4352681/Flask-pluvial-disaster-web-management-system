@@ -67,7 +67,6 @@ def modify(point_id):
     assert_permit(session, "points_modify")
     point = Meeting_Point.find_by_id(point_id)
     form = MeetingPointModificationForm(obj=point)
-    form.populate_obj(point)
 
     if form.validate_on_submit():
         form.populate_obj(point)

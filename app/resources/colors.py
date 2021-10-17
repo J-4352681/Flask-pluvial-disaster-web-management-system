@@ -8,10 +8,10 @@ from app.helpers.auth import assert_permit
 
 # Protected resources
 def index():
-    """Muestra todos los colores. NO ES NECESARIO POR AGORA"""
-    assert_permit(session, "colors_index")
+    """Muestra todos los colores. NO ES NECESARIO POR AHORA. NO ESTA IMPLEMENTADO"""
+    #assert_permit(session, "colors_index")
     
-    return render_template("user/index.html")
+    #return render_template("user/index.html")
 
 def all():
     """Devuelve todos los colores que hay cargados en el sistema."""
@@ -27,7 +27,7 @@ def allValues():
 
 def new(name):
     """crea un nuevo color en el sistema si su nombre (value) no se repite con uno existente"""
-    assert_permit(session, "colors_new")
+    #assert_permit(session, "colors_new")
     if ( not Color.find_by_value(name) ):
         Color.create(name)
 

@@ -54,42 +54,42 @@ def getPrivatePrimaryColor():
     if ( configuration.palette_public): # una lista vacia es falso
         return configuration.palette_private.color1.value
     else:
-        return ["Snow"] # Colores por defecto, reconocidos por HTML
+        return "Snow" # Colores por defecto, reconocidos por HTML
 
 def getPrivateSecondaryColor():
     configuration = get()
     if ( configuration.palette_public): # una lista vacia es falso
         return configuration.palette_private.color2.value
     else:
-        return ["Gray"] # Colores por defecto, reconocidos por HTML
+        return "Gray" # Colores por defecto, reconocidos por HTML
 
 def getPrivateAccentColor():
     configuration = get()
     if ( configuration.palette_public): # una lista vacia es falso
         return configuration.palette_private.color3.value
     else:
-        return ["Salmon"] # Colores por defecto, reconocidos por HTML
+        return "Salmon" # Colores por defecto, reconocidos por HTML
 
 def getPublicPrimaryColor():
     configuration = get()
     if ( configuration.palette_public): # una lista vacia es falso
         return configuration.palette_public.color1.value
     else:
-        return ["Snow"] # Colores por defecto, reconocidos por HTML
+        return "Snow" # Colores por defecto, reconocidos por HTML
 
 def getPublicSecondaryColor():
     configuration = get()
     if ( configuration.palette_public): # una lista vacia es falso
         return configuration.palette_public.color2.value
     else:
-        return ["Gray"] # Colores por defecto, reconocidos por HTML
+        return "Gray" # Colores por defecto, reconocidos por HTML
 
 def getPublicAccentColor():
     configuration = get()
     if ( configuration.palette_public): # una lista vacia es falso
         return configuration.palette_public.color3.value
     else:
-        return ["SkyBlue"] # Colores por defecto, reconocidos por HTML
+        return "SkyBlue" # Colores por defecto, reconocidos por HTML
 
 
 #MODIFY

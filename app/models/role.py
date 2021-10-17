@@ -15,7 +15,7 @@ class Role(db.Model):
     """Clase que representa los roles de la base datos"""
     __tablename__ = "roles"
     id = Column(Integer, primary_key=True)
-    name = Column(String(30), nullable=false)
+    name = Column(String(30), nullable=false, unique=True)
     permits = relationship("Permit", secondary=association_table_role_has_permit)
 
     @classmethod
@@ -26,18 +26,24 @@ class Role(db.Model):
     @classmethod
     def get_admin(cls):
         """Devuelve el rol con el trabajo del administrador. Si hay algun cambio a la reprecentacion del rol admin en la base datos solo se cambiara este metodo."""
-        rol = cls.query.filter(
-            cls.name == "admin" 
-        ).first()
-        return rol
+        return cls.get_by_name("admin")
 
     @classmethod
     def get_operator(cls):
         """Devuelve el rol con el trabajo del operador/a. Si hay algun cambio a la reprecentacion del rol operador/a en la base datos solo se cambiara este metodo."""
-        rol = cls.query.filter(
-            cls.name == "operator" 
-        ).first()
-        return rol
+        return cls.get_by_name("operator")
+
+    @classmethod
+    def get_by_name(cls, role_name):
+        """Retorna el rol con nombre role_name"""
+        return cls.query.get(
+            cls.name == role_name
+        )
+    
+    @classmethod
+    def get_by_ids(cls, roles_id=[]):
+        """Retorna todos los roles correspondientes a los id pasados por parametro"""
+        return cls.query.filter(cls.id.in_(roles_id)).all()
 
     def __init__(self, name=None):
         self.name = name

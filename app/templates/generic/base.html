@@ -5,16 +5,10 @@
 {% endblock %}
 
 {% block full_content %}
-  <div class="container-fluid">
+  <div class="container">
   
     <div class="row">
-      <div class="col-2 border-end bg-light text-secondary h-100vh mt-navbar">
-        {% block navmenu %}{% endblock %}
-      </div>
-        
-      <div class="col mt-navbar">
         {% block content %}{% endblock %}
-      </div>
     </div>
   </div>
 {% endblock %}

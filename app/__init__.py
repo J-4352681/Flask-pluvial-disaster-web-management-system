@@ -6,7 +6,7 @@ from flask_session import Session
 
 from config import config
 from app import db
-from app.resources import user, auth, palette ,points, config as configObject
+from app.resources import user, auth, points, config as configObject
 from app.helpers import handler
 from app.helpers import auth as helper_auth
 
@@ -43,22 +43,27 @@ def create_app(environment="development"):
 
     # Rutas de Usuarios
     app.add_url_rule("/usuarios", "user_index", user.index)
-    app.add_url_rule("/usuarios/nuevo", "user_new", user.new) 
+    app.add_url_rule("/usuarios/nuevo", "user_new", user.new, methods=["GET", "POST"]) 
     app.add_url_rule("/usuarios", "user_create", user.create, methods=["POST"])
-    app.add_url_rule("/usuarios", "user_modify", user.modify, methods=["PUT"])
-    app.add_url_rule("/usuarios", "user_block", user.block, methods=["DELETE"])
-    app.add_url_rule("/usuarios/alta", "user_unblock", user.unblock, methods=["PUT"])
+    app.add_url_rule("/usuarios/modify/<int:user_id>", "user_modify", user.modify, methods=["GET", "POST"])
+    app.add_url_rule("/usuarios/borrar/<int:user_id>", "user_delete", user.delete, methods=["GET", "POST"])
+    app.add_url_rule("/usuarios/baja/<int:user_id>", "user_block", user.block, methods=["GET", "POST"])
+    app.add_url_rule("/usuarios/alta/<int:user_id>", "user_unblock", user.unblock, methods=["GET", "POST"])
     app.add_url_rule("/usuarios/rol", "user_assing_role", user.assign_role, methods=["POST"])
     app.add_url_rule("/usuarios/rol", "user_unassing_role", user.unassign_role, methods=["DELETE"])
 
     # Rutas de Puntos de encuentro
-    app.add_url_rule("/puntos_encuentro", "puntos_index", points.index)
+    app.add_url_rule("/puntos_encuentro", "points_index", points.index)
+    app.add_url_rule("/puntos_encuentro/show/<int:point_id>", "points_show", points.show, methods=["GET"])
+    app.add_url_rule("/puntos_encuentro/modify/<int:point_id>", "points_modify", points.modify, methods=["GET", "POST"])
+    app.add_url_rule("/puntos_encuentro/nuevo", "points_new", points.new, methods=["GET", "POST"]) 
+    app.add_url_rule("/puntos_encuentro", "points_create", points.create, methods=["GET", "POST"])
+    app.add_url_rule("/puntos_encuentro/delete/<int:point_id>", "points_delete", points.delete, methods=["GET", "POST"])
 
     # Rutas de Config
     app.add_url_rule("/config", "config_index", configObject.index)
-    #app.add_url_rule("/config/edit", "config_index", configObject.index)
+    app.add_url_rule("/config/modify", "config_modify", configObject.modify, methods=["GET", "POST"])
 
-    print("dasdjafjfnafajsnfja")
     # Ruta para el Home (usando decorator)
     @app.route("/")
     def home():

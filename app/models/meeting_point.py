@@ -10,32 +10,79 @@ class Meeting_Point(db.Model):
     name = Column(String(30), nullable=false)
     direction = Column(String(100), nullable=false)
     coordinates = Column(String(100), nullable=false)
-    state = Column(Boolean, default=true, nullable=false) # publicado o despublicado
+    state = Column(Boolean, default=False, nullable=false) # publicado o despublicado
     telephone = Column(String(30), nullable=false)
     email = Column(String(100), nullable=false)
 
     @classmethod
-    def create(cls, params):
+    def create(cls, name, direction, coordinates, telephone, email, state): #params
         """Crea un nuevo punto de encuentro."""
-        new_user = Meeting_Point(params)
-        db.session.add(new_user)
+        new_mp = Meeting_Point(name, direction, coordinates, telephone, email, state)
+        db.session.add(new_mp)
         db.session.commit()
 
     @classmethod
-    def delete(cls, name_param=None):
-        """Elimina un punto de encuentro cuyo nombre coincide con el nombre mandado como parametro."""
-        user_selected = Meeting_Point.query.filter_by(name=name_param).first()
-        db.session.delete(user_selected)
+    def delete(cls, id_param=None):
+        """Elimina un punto de encuentro cuyo nombre coincide con el id mandado como parametro."""
+        point_selected = Meeting_Point.query.filter_by(id=id_param).first()
+        db.session.delete(point_selected)
         db.session.commit()
 
     @classmethod
     def all(cls):
         """Devuelve todos los puntos de encuentro"""
         return cls.query.all()
+    
+    @classmethod
+    def allPublic(cls):
+        """Devuelve todos los puntos de encuentro publicos"""
+        res = cls.query.filter(
+            cls.state == True
+        ).all() 
+        return res
+    
+    @classmethod
+    def allNotPublic(cls):
+        """Devuelve todos los puntos de encuentro publicos"""
+        res = cls.query.filter(
+            cls.state == false
+        ).all() 
+        return res
+    
+    @classmethod
+    def find_by_name(cls, name=None, excep=[]):
+        """Devuelve el punto de encuentro cuyo nombre sea igual al mandado como parametro"""
+        users = cls.query.filter(
+            cls.name.like('%'+name+'%'),
+            cls.id.not_in(excep)
+        ).all()
+        return users
 
-    def __init__(self, name=None, direction=None, coordinates=None, telephone=None, email=None):
+    @classmethod
+    def find_by_state(cls, publico=None, excep=[]):
+        """Devuelve todos los puntos de encuentro publicos si el parametro publico=true o todos los no publicados si publico=false"""
+        users = cls.query.filter(
+            cls.state == publico,
+            cls.id.not_in(excep)
+        ).all()
+        return users
+
+    @classmethod
+    def find_by_id(cls, id=None):
+        """Devuelve el primer punto de id cuyo id es iguales al que se mando como parametros"""
+        user = cls.query.filter(
+            cls.id == id
+        ).first()
+        return user
+    
+    @classmethod
+    def update(cls):
+        db.session.commit()
+
+    def __init__(self, name=None, direction=None, coordinates=None, telephone=None, email=None, state=False):
         self.name = name
         self.direction = direction
         self.coordinates = coordinates
         self.telephone = telephone
         self.email = email
+        self.state = state

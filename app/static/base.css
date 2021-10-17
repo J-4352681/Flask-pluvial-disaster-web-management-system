@@ -16,3 +16,11 @@ a.text-secondary:hover {
     width: 200px;
     height: auto;
 }
+
+.blocked {
+    background-color: lightcoral;
+}
+
+.mx-auto {
+    text-align: center;
+}

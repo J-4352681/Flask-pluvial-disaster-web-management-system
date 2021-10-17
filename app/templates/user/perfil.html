@@ -5,12 +5,6 @@
     {% include "generic/navbar.html" %} 
 {% endblock %}
 
-{% block navmenu %}
-<!-- {% with apartados=apartados %} -->
-{% include "generic/navmenu.html" %}
-<!-- {% endwith %} -->
-{% endblock %}
-
 {% block content %}
   {% with titulo_apartado="Perfil de usuario", subtitulo_apartado="Edición del perfil de usuario" %}
     {% include "generic/generic_content.html" %}

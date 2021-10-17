@@ -6,6 +6,7 @@ from app.db import db
 from flask import session
 
 from datetime import datetime
+from app.models.config import Config
 # from app.models import role
 from app.models.role import Role
 from app.models.permit import Permit
@@ -31,30 +32,22 @@ class User(db.Model):
     created_at = Column(DateTime(), default=datetime.now()) # No es necesario pero puede ser util
 
     @classmethod
-    def appply_filter(cls, kwargs):
-        """Realiza un filtro teniendo en cuenta
-        first_name="", last_name="", username="", email="", password="", active="", roles_names=[], created_at="", permissions_names=[]"""
-
-        inner_queries = ["roles_names", "permissions_names"]
-        users = cls.query.filter(*[getattr(cls, k)==v for k, v in kwargs.items() if k not in inner_queries])
-
-        if "roles_names" in kwargs.keys():
-            users.query.filter(cls.roles.any(name="roles_names"))
-
-        if "permissions_names" in kwargs.keys():
-            users.query.filter(cls.roles.any(name="roles_names"))
-
-
-    @classmethod
-    def create(cls, params):
+    def create(cls, **params):
         """Crea un nuevo usuario con los parametros mandados."""
-        new_user = User(params)
+        new_user = User(**params)
         db.session.add(new_user)
         db.session.commit()
 
     @classmethod
-    def modify(cls, user=None):
-        """Modifica los datos de un usuario enviado como parametro."""
+    def create_from_user(cls, new_user):
+        """Crea un nuevo usuario con los parametros mandados."""
+        db.session.add(new_user)
+        db.session.commit()
+
+    @classmethod
+    def update(cls):
+        """Actualiza los datos de un usuario enviado como parametro."""
+        db.session.commit()
 
     @classmethod
     def delete(cls, user=None):
@@ -66,6 +59,14 @@ class User(db.Model):
     def all(cls):
         """Devuelve todos los usuarios"""
         return cls.query.all()
+
+    @classmethod
+    def find_by_id(cls, id):
+        return cls.query.get(id)
+    
+    @classmethod
+    def get_user_roles_by_id(cls, id):
+        return cls.find_by_id(id).roles
 
     @classmethod
     def find_by_email_and_password(cls, email=None, password=None):
@@ -92,19 +93,39 @@ class User(db.Model):
         return users
 
     @classmethod
-    def find_by_username(cls, username=None):
+    def find_by_username(cls, username=None, excep=[]):
         """Devuelve el usuario cuyo nombre de usuario sea igual al mandado como parametro"""
         users = cls.query.filter(
-            cls.username.like('%'+username+'%')
-        )
+            cls.username.like('%'+username+'%'),
+            cls.id.not_in(excep)
+        ).all()
+        return users
+
+    @classmethod
+    def find_by_username_exact(cls, username=None, excep=[]):
+        """Devuelve el usuario cuyo nombre de usuario sea igual al mandado como parametro"""
+        users = cls.query.filter(
+            cls.username.like(username),
+            cls.id.not_in(excep)
+        ).all()
         return users
     
     @classmethod
-    def find_by_email(cls, email=None):
+    def find_by_email(cls, email=None, excep=[]):
         """Devuelve el primer usuario cuyo email es igual al que se mando como parametro"""
         users = cls.query.filter(
-            cls.email.like('%'+email+'%')
-        )
+            cls.email.like('%'+email+'%'),
+            cls.id.not_in(excep)
+        ).all()
+        return users
+
+    @classmethod
+    def find_by_email_exact(cls, email=None, excep=[]):
+        """Devuelve el primer usuario cuyo email es igual al que se mando como parametro"""
+        users = cls.query.filter(
+            cls.email.like(email),
+            cls.id.not_in(excep)
+        ).all()
         return users
     
     @classmethod
@@ -124,31 +145,38 @@ class User(db.Model):
     @classmethod
     def find_all_active_or_blocked(cls, activo=None): # Ta dudoso este metodo jaja
         """Devuelve todos los usuarios activos si el parametro activo=true o todos los usuarios bloqueados si el parametro activo=false"""
-        res = cls.query.filter(
-            cls.active == activo
+        users = cls.query.filter(
+            cls.active.like(activo)
         ).all() 
-        return res #Devuelve todos los usuarios activos o bloqueados, cambie el nombre a res porque "users" es el nombre de la tabla y queria evitar confusion
+        return users #Devuelve todos los usuarios activos o bloqueados, cambie el nombre a res porque "users" es el nombre de la tabla y queria evitar confusion
 
     @classmethod
     def block(cls, user=None):
         """Bloquea un usuario enviado como parametro. Si ya estaban bloqueados no hace nada. Usar "unblock" para desbloquear."""
         if user.active:
-            user.active = false
+            user.active = 0
             db.session.commit()
 
     @classmethod
     def unblock(cls, user=None):
         """Desbloquea un usuario enviado como parametro. Si ya estaban activos no hace nada. Usar "block" para bloquear."""
         if not user.active:
-            user.active = true
+            user.active = 1
             db.session.commit()
 
     @classmethod
     def assign_role(cls, user=None, role=None):
-        """Asigna un rol a un usuario existente."""
+        """Asigna un rol a un usuario."""
         if role not in user.roles:
             user.roles.append(role)
             db.session.commit()
+
+    @classmethod
+    def assign_roles(cls, user=None, roles=[]):
+        """Asigna un rol a un usuario."""
+        roles_to_assign = filter(lambda r: r in user.roles, roles)
+        map(lambda r: user.roles.append(r), roles)
+        db.session.commit()
     
     @classmethod
     def unassign_role(cls, user=None, role=None):
@@ -157,19 +185,30 @@ class User(db.Model):
             user.roles.remove(role)
             db.session.commit()
 
-    def __init__(self, first_name=None, last_name=None, username=None, email=None, password=None):
+    def __init__(self, first_name=None, last_name=None, username=None, email=None, password=None, active=False, roles=[]):
         self.first_name = first_name
         self.last_name = last_name
         self.username = username
         self.email = email
         self.password = password #Los roles se pueden agregar a parte y el resto de atributos se agregan por defecto
+        self.active = active
+        self.roles = roles
 
     def is_admin(self):
-        return "admin" in self.roles
+        return "admin" in map(lambda x: x.name, self.roles)
 
     def get_permits(self):
+        """Retorna los permisos del usuario"""
         permits = set([
             permit.name for permits in map(lambda rol: rol.permits, self.roles) 
             for permit in permits
             ])
         return permits
+
+    def assign_roles(self, roles=[]):
+        """Asigna un rol al usuario."""
+        roles_to_assign = filter(lambda r: r not in self.roles, roles)
+        self.roles.extend(list(roles_to_assign))
+
+
+

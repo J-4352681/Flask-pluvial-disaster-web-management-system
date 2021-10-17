@@ -36,8 +36,8 @@ def generate_navigation_actions(session):
         },
         {
             "nombre": "Puntos de encuentro",
-            "url": url_for("puntos_index"),
-            "permit": "puntos_index"
+            "url": url_for("points_index"),
+            "permit": "points_index"
         },
         {
             "nombre": "Usuarios",
@@ -47,6 +47,7 @@ def generate_navigation_actions(session):
     ]
     allowed_actions = []
     for action in actions:
+        # allowed_actions.append(action)
         if has_permit(session, action["permit"]):
             print("Tiene permiso ",action["permit"], "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
             allowed_actions.append(action)

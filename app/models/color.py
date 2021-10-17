@@ -21,6 +21,15 @@ class Color(db.Model):
         db.session.commit()
     
     @classmethod
+    def find_by_id(cls, id):
+        """Encuentra un color por id con su valor apropiado. Su valor es su nombre reconocido por HTML."""
+        color = cls.query.filter(
+            cls.id == id
+        ).first()
+        return color
+
+
+    @classmethod
     def find_by_value(cls, value):
         """Encuentra un nombre con su valor apropiado. Su valor es su nombre reconocido por HTML."""
         color = cls.query.filter(

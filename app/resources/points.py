@@ -64,7 +64,7 @@ def modify(point_id):
     form = MeetingPointModificationForm(obj=point)
     form.populate_obj(point)
 
-    if form.validate_on_submit:
+    if form.validate_on_submit():
         Meeting_Point.update()
         return redirect(url_for('points_show', point_id=point_id))
     return render_template("points/edit.html", form=form, point=point, item={"type": "Punto de encuentro", "name": point.name})

@@ -50,6 +50,23 @@ class Meeting_Point(db.Model):
         return res
     
     @classmethod
+    def find_by_name(cls, name=None, excep=[]):
+        """Devuelve el punto de encuentro cuyo nombre sea igual al mandado como parametro"""
+        users = cls.query.filter(
+            cls.name.like('%'+name+'%'),
+            cls.id.not_in(excep)
+        ).all()
+        return users
+
+    @classmethod
+    def find_by_state(cls, publico=None):
+        """Devuelve todos los puntos de encuentro publicos si el parametro publico=true o todos los no publicados si publico=false"""
+        users = cls.query.filter(
+            cls.state.like(publico)
+        ).all() 
+        return users
+
+    @classmethod
     def find_by_id(cls, id=None):
         """Devuelve el primer punto de id cuyo id es iguales al que se mando como parametros"""
         user = cls.query.filter(

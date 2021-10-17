@@ -1,24 +1,12 @@
-<div class="modal fade" id="points-filter" tabindex="-1" role="dialog" aria-labelledby="points-filter-label" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="col">Filtros</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </button>
-            </div>
-            <div class="modal-body">
-                <form class="row mx-2" action="{{ url_for('points_index') }}" method="GET">
+{% extends "generic/filter.html" %}
+{% block id %}
+    "points-filter"
+{% endblock %}
 
-                    {% for field in form %}
-                    {% if field.name not in ["submit", "csrf_token"] %}
-                      {{ field.label(class="col-12 my-1 m-0 p-0") }}
-                      {{ field(class="col-12 card my-1 p-1") }}
-                    {% endif %}
-                    {% endfor %}
-                
-                    {{ form.submit(class="col-auto m-auto btn btn-primary") }}
-                  </form>
-            </div>
-        </div>
-    </div>
-</div>
+{% block aria %}
+    "points-filter-label" 
+{% endblock %}
+
+{% block endpoint %}
+    "{{ url_for('points_index') }}"
+{% endblock %}

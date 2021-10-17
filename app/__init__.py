@@ -43,8 +43,8 @@ def create_app(environment="development"):
 
     # Rutas de Usuarios
     app.add_url_rule("/usuarios", "user_index", user.index)
-    app.add_url_rule("/usuarios/nuevo", "user_new", user.new) 
-    app.add_url_rule("/usuarios", "user_create", user.create, methods=["POST"])
+    app.add_url_rule("/usuarios/nuevo", "user_new", user.new, methods=["GET", "POST"]) 
+    app.add_url_rule("/usuarios", "user_create", user.create, methods=["GET", "POST"])
     app.add_url_rule("/usuarios/modify/<int:user_id>", "user_modify", user.modify, methods=["GET", "POST"])
     app.add_url_rule("/usuarios/borrar/<int:user_id>", "user_delete", user.delete, methods=["GET", "POST"])
     app.add_url_rule("/usuarios/baja/<int:user_id>", "user_block", user.block, methods=["GET", "POST"])
@@ -57,7 +57,7 @@ def create_app(environment="development"):
     app.add_url_rule("/puntos_encuentro/show/<int:point_id>", "points_show", points.show, methods=["GET"])
     app.add_url_rule("/puntos_encuentro/modify/<int:point_id>", "points_modify", points.modify, methods=["GET", "POST"])
     app.add_url_rule("/puntos_encuentro/nuevo", "points_new", points.new, methods=["GET", "POST"]) 
-    app.add_url_rule("/puntos_encuentro", "points_create", points.create, methods=["GET","POST"])
+    app.add_url_rule("/puntos_encuentro", "points_create", points.create, methods=["GET", "POST"])
     app.add_url_rule("/puntos_encuentro/delete/<int:point_id>", "points_delete", points.delete, methods=["GET", "POST"])
 
     # Rutas de Config

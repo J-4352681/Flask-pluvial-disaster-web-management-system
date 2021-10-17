@@ -1,42 +1,13 @@
-{% extends "generic/base.html" %}
+{% extends "generic/new_item.html" %}
 
-{% block title %}Puntos de encuentro{% endblock %}
+{% block title %}Usuarios{% endblock %}
 
-{% block navbar %}
-    {% include "generic/navbar.html" %} 
-{% endblock %}
-
-{% block content %}
-  {% with titulo_apartado="Creacion de usuarios", subtitulo_apartado="Nuevo usuario", pagina_retorno="user_index" %}
+{% block generic_content %}
+  {% with titulo_apartado="Creacion de "+item_type, subtitulo_apartado="Nuevo "+item_type, pagina_retorno="user_index" %}
     {% include "generic/generic_content_return.html" %}
   {% endwith %}
-  
-  <form action="{{ url_for('user_create') }}" method="POST">
-    <p>
-      <label>Nombre de usuario<label></br>
-      <input name="username" placeholder="Nombre de usuario"/>
-    </p>
-    <p>
-      <label>Email<label></br>
-      <input name="email" placeholder="Correo"/>
-    </p>
-    <p>
-      <label>Clave<label></br>
-      <input type="password" name="password" placeholder="Clave"/>
-    </p>
-    <p>
-      <label>Nombre<label></br>
-      <input name="first_name" placeholder="Nombre"/>
-    </p>
-    <p>
-      <label>Apellido<label></br>
-      <input name="last_name" placeholder="Apellido"/>
-    </p>
-    <p>
-      <input type="submit" value="Crear">
-      <button type="reset">Limpiar</button>
-    </p>
-  </form>
-  
+{% endblock %}
 
+{% block endpoint %}
+    "{{ url_for('user_new') }}"
 {% endblock %}

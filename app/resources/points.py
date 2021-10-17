@@ -46,7 +46,7 @@ def new():
         create(form.name.data, form.direction.data, form.coordinates.data, form.telephone.data, form.email.data)
         return redirect(url_for('points_index'))
 
-    return render_template("points/new.html", form=form) #point=point
+    return render_template("points/new.html", form=form, item_type="Punto de encuentro") #point=point
 
 def create(name, direction, coordinates, telephone, email):
     """Crea un punto de encuentro con los datos envuados por request."""

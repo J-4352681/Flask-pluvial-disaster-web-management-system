@@ -13,4 +13,6 @@ class UserFilter(FlaskForm): # Los atributos llevan el nombre de los métodos de
     submit = SubmitField("Aceptar")
 
 class PointFilter(FlaskForm):
+    find_by_name = StringField("Nombre")
+    find_by_state = SelectField("Público", choices=[(1, 'Si'), (0, 'No')])
     submit = SubmitField("Aceptar")

@@ -5,9 +5,9 @@ from app.models.user import User
 from app.helpers.auth import assert_permit
 from app.helpers.user import username_or_email_already_exist
 from app.helpers.filter import Filter
-from app.db import db
+from app.models.role import Role
 
-from app.forms.user_forms import UserModificationForm
+from app.forms.user_forms import UserCreationForm, UserModificationForm
 from app.forms.filter_forms import UserFilter
 
 
@@ -24,16 +24,21 @@ def index():
 def new():
     """Devuelve el template para crear un nuevo usuario."""
     assert_permit(session, "user_new")
+    form = UserCreationForm()
+    form.roles.choices = [(role, role.name) for role in Role.all()]
 
-    return render_template("user/new.html")
+    if request.method == "POST" and form.validate():
+        create(form.first_name.data, form.last_name.data, form.email.data, form.username.data, form.password.data, form.roles.data)
+        return redirect(url_for('user_index'))
 
-def create():
+    return render_template("user/new.html", form=form, item_type="Usuario")
+
+def create(first_name, last_name, email, username, password, roles):
     """Verifica que los datos unicos no esten repetidos antes de crear un nuevo usuario con los datos pasados por request."""
     assert_permit(session, "user_create")
 
-    if not username_or_email_already_exist(request.form.username, request.form.email):
-        User.create(**request.form)
-        return redirect(url_for("user_index"))
+    User.create(first_name, last_name, email, username, password, roles)
+    return redirect(url_for("user_index"))
 
 def block(user_id):
     """Cambiara el estado de un usuario de "activo" a "bloqueado". Los usuarios administradores no pueden ser bloqueados."""

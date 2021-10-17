@@ -24,5 +24,5 @@ class Filter():
             elements = []
             for k, v in self.form_query_fields.items():
                 elements += getattr(self.model, k)(v)
-            return elements
+            return set(elements)
         return self.model.all()

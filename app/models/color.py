@@ -24,7 +24,7 @@ class Color(db.Model):
     def find_by_id(cls, id):
         """Encuentra un color por id con su valor apropiado. Su valor es su nombre reconocido por HTML."""
         color = cls.query.filter(
-            cls.value == id
+            cls.id == id
         ).first()
         return color
 

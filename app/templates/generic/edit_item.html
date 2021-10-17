@@ -7,11 +7,9 @@
 {% endblock %}
 
 {% block content %}
-  {% with titulo_apartado="Edición del usuario "+item.type, subtitulo_apartado="Edición de "+item.name %}
-    {% include "generic/generic_content.html" %}
-  {% endwith %}
+    {% block generic_content %}{% endblock %}
 
-  <form class="row mx-1" action="{{ url_for('user_modify', user_id=user.id) }}" method="POST">
+  <form class="row mx-1" action={% block endpoint %}{% endblock %} method="POST">
     {{ form.hidden_tag() }}
 
     {% for field, errors in form.errors.items() %}

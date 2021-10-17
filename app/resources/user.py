@@ -89,6 +89,6 @@ def modify(user_id):
         print(vars(user))
         User.update()
         return redirect(url_for('user_index'))
-    return render_template("generic/edit_item.html", form=form, user=user, item={"type": "Usuario", "name": user.first_name})
+    return render_template("user/edit.html", form=form, user=user, item={"type": "Usuario", "name": user.first_name})
     
     

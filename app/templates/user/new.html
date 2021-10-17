@@ -1,10 +1,16 @@
-{% extends "layout.html" %}
-{% block title %}Usuarios{% endblock %}
-{% block head %}
-  {{ super() }}
+{% extends "generic/base.html" %}
+
+{% block title %}Puntos de encuentro{% endblock %}
+
+{% block navbar %}
+    {% include "generic/navbar.html" %} 
 {% endblock %}
+
 {% block content %}
-  <h1>Crear un usuario</h1>
+  {% with titulo_apartado="Creacion de usuarios", subtitulo_apartado="Nuevo usuario", pagina_retorno="user_index" %}
+    {% include "generic/generic_content_return.html" %}
+  {% endwith %}
+  
   <form action="{{ url_for('user_create') }}" method="POST">
     <p>
       <label>Nombre de usuario<label></br>
@@ -31,5 +37,6 @@
       <button type="reset">Limpiar</button>
     </p>
   </form>
-  <a href="{{ url_for('user_index') }}" class="link">Volver</a>
+  
+
 {% endblock %}

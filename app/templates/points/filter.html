@@ -1,18 +1,24 @@
-<section id="filter" class="border rounded p-3 m-2 col-3">
-  <div class="row m-2">
-      <h4 class="col">Filtros</h4>
-  </div>
+<div class="modal fade" id="points-filter" tabindex="-1" role="dialog" aria-labelledby="points-filter-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="col">Filtros</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="row mx-2" action="{{ url_for('points_index') }}" method="GET">
 
-
-  <form class="row mx-2" action="{{ url_for('points_index') }}" method="GET">
-
-    {% for field in form %}
-    {% if field.name not in ["submit", "csrf_token"] %}
-      {{ field.label(class="col-12 my-1 m-0 p-0") }}
-      {{ field(class="col-12 card my-1 p-1") }}
-    {% endif %}
-    {% endfor %}
-
-    {{ form.submit(class="col-auto m-auto btn btn-primary") }}
-  </form>
-</section>
+                    {% for field in form %}
+                    {% if field.name not in ["submit", "csrf_token"] %}
+                      {{ field.label(class="col-12 my-1 m-0 p-0") }}
+                      {{ field(class="col-12 card my-1 p-1") }}
+                    {% endif %}
+                    {% endfor %}
+                
+                    {{ form.submit(class="col-auto m-auto btn btn-primary") }}
+                  </form>
+            </div>
+        </div>
+    </div>
+</div>

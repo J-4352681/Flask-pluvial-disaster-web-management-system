@@ -11,48 +11,60 @@
     {% include "generic/generic_content.html" %}
   {% endwith %}
   <div class="row mx-3">
-    <div class="row m-0 p-0">
-      <button type="button" class="col-3 btn btn-primary" href="{{ url_for('user_create') }}">+ Crear usuario</a>
-      <button type="button" class="col-3 btn btn-secondary" data-bs-toggle="modal" data-bs-target="#user-filter">Filtrar</button>
-    </div>
-
-    <table class="col table table-hover h-100">
-      <thead class="row">
-        <tr class="row">
-          <th class="col">Email</th>
-          <th class="col">Nombre</th>
-          <th class="col">Apellido</th>
-          <th class="col">Contraseña</th>
-          <th class="col">Acciones</th>
-        </tr>
-      </thead>
-      <tbody class="row">
-        {% for user in users %}
-            {% if user.active == 1 %}
-                <tr class="row">
-            {% else %}
-                <tr class="row blocked">
-            {% endif %}
-                <td class="col">{{ user.email }}</td>
-                <td class="col">{{ user.first_name }}</td>
-                <td class="col">{{ user.last_name }}</td>
-                <td class="col">{{ user.password }}</td>
-                <td class="col">
-                    <a href="{{ url_for('user_modify', user_id=user.id)}}" title="Editar"><ion-icon name="pencil-outline"></ion-icon></a>
-                    {% if user.active == 1 %}
-                        <a onclick="return confirm('¿Esta seguro que quiere bloquear a este usuario?')" href="{{ url_for('user_block', user_id=user.id)}}" title="Bloquear"><ion-icon name="close-outline"></ion-icon></a>
-                    {% else %}
-                        <a href="{{ url_for('user_unblock', user_id=user.id)}}" title="Desbloquear"><ion-icon name="checkmark-outline"></ion-icon></a>
-                    {% endif %}
-                    <a onclick="return confirm('¿Esta seguro que quiere eliminar a este usuario?')" href="{{ url_for('user_delete', user_id=user.id)}}" title="Borrar usuario"><ion-icon name="trash-outline"></ion-icon></a>
-                </td>
-            </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+      <div class="col">
+          <div class="row">
+              <div class="col-6">
+                  <div class="row">
+                      <div class="col">
+                        <a class="btn btn-primary" href="{{url_for("user_new")}}">+ Crear usuario</a>
+                      </div>
+                      <div class="col">
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#user-filter">Filtrar</button>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-6"></div>
+          </div>
+          <div class="row">
+            <table class="col table table-hover h-100">
+                <thead class="row">
+                  <tr class="row">
+                    <th class="col">Email</th>
+                    <th class="col">Nombre</th>
+                    <th class="col">Apellido</th>
+                    <th class="col">Contraseña</th>
+                    <th class="col">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody class="row">
+                  {% for user in users %}
+                      {% if user.active == 1 %}
+                          <tr class="row">
+                      {% else %}
+                          <tr class="row blocked">
+                      {% endif %}
+                          <td class="col">{{ user.email }}</td>
+                          <td class="col">{{ user.first_name }}</td>
+                          <td class="col">{{ user.last_name }}</td>
+                          <td class="col">{{ user.password }}</td>
+                          <td class="col">
+                              <a href="{{ url_for('user_modify', user_id=user.id)}}" title="Editar"><ion-icon name="pencil-outline"></ion-icon></a>
+                              {% if user.active == 1 %}
+                                  <a onclick="return confirm('¿Esta seguro que quiere bloquear a este usuario?')" href="{{ url_for('user_block', user_id=user.id)}}" title="Bloquear"><ion-icon name="close-outline"></ion-icon></a>
+                              {% else %}
+                                  <a href="{{ url_for('user_unblock', user_id=user.id)}}" title="Desbloquear"><ion-icon name="checkmark-outline"></ion-icon></a>
+                              {% endif %}
+                              <a onclick="return confirm('¿Esta seguro que quiere eliminar a este usuario?')" href="{{ url_for('user_delete', user_id=user.id)}}" title="Borrar usuario"><ion-icon name="trash-outline"></ion-icon></a>
+                          </td>
+                      </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+          </div>
+      </div>
 
     {% with fields=filters %}
-    {% include "user/filter.html" %}
+        {% include "user/filter.html" %}
     {% endwith %}
   </div>
   

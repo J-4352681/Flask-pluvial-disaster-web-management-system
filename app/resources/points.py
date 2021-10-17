@@ -1,10 +1,11 @@
 from flask import redirect, render_template, request, url_for, session, abort
 from sqlalchemy.sql.expression import false, true
+
 from app.models.meeting_point import Meeting_Point
 from app.helpers.auth import assert_permit
-# import app.db
-
 from app.forms.meeting_point_forms import MeetingPointModificationForm
+from app.helpers.filter import Filter
+from app.forms.filter_forms import PointFilter
 
 # Protected resources
 def index():
@@ -12,8 +13,9 @@ def index():
     assert_permit(session, "points_index")
 
     points = allPublic()
+    filt = Filter(PointFilter, Meeting_Point, request.args)
     
-    return render_template("points/index.html", points=points)
+    return render_template("points/index.html", points=filt.get_query(), form=filt.form)
 
 def show(point_id):
     """Muestra la lista de puntos de encuentro."""

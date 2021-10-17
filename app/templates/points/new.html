@@ -6,15 +6,9 @@
     {% include "generic/navbar.html" %} 
 {% endblock %}
 
-{% block navmenu %}
-<!-- {% with apartados=apartados %} -->
-{% include "generic/navmenu.html" %}
-<!-- {% endwith %} -->
-{% endblock %}
-
 {% block content %}
-  {% with titulo_apartado="Creacion de puntos de encuentro", subtitulo_apartado="Nuevo punto de encuentro" %}
-    {% include "generic/generic_content.html" %}
+  {% with titulo_apartado="Creacion de puntos de encuentro", subtitulo_apartado="Nuevo punto de encuentro", pagina_retorno="points_index" %}
+    {% include "generic/generic_content_return.html" %}
   {% endwith %}
   
   <form class="row mx-1" action="{{ url_for('points_new') }}" method="POST">

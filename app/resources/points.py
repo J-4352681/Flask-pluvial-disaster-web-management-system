@@ -40,9 +40,8 @@ def new():
     assert_permit(session, "points_new")
     form = MeetingPointModificationForm()
 
-    if request.method == "POST" and form.validate():
+    if form.validate_on_submit():
         create(form.name.data, form.direction.data, form.coordinates.data, form.telephone.data, form.email.data)
-        return redirect(url_for('points_index'))
 
     return render_template("points/new.html", form=form) #point=point
 
@@ -60,7 +59,7 @@ def modify(point_id):
     form = MeetingPointModificationForm(obj=point)
     form.populate_obj(point)
 
-    if request.method == "POST" and form.validate():
+    if form.validate_on_submit:
         Meeting_Point.update()
         return redirect(url_for('points_show', point_id=point_id))
     return render_template("generic/edit_item.html", form=form, point=point, item={"type": "Punto de encuentro", "name": point.name})

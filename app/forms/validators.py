@@ -8,6 +8,7 @@ class Unique(object):
         self._message = message
 
     def __call__(self, form, field):
-        check = self._query(field.data, [form.id.data] if form.id.data else [])
+        form_data = form.data
+        check = self._query(field.data, [form.id.data] if "id" in form_data.keys() and form_data["id"] else [])
         if check:
             raise ValidationError(self._message)

@@ -31,9 +31,15 @@ class User(db.Model):
     created_at = Column(DateTime(), default=datetime.now()) # No es necesario pero puede ser util
 
     @classmethod
-    def create(cls, params):
+    def create(cls, **params):
         """Crea un nuevo usuario con los parametros mandados."""
-        new_user = User(params)
+        new_user = User(**params)
+        db.session.add(new_user)
+        db.session.commit()
+
+    @classmethod
+    def create_from_user(cls, new_user):
+        """Crea un nuevo usuario con los parametros mandados."""
         db.session.add(new_user)
         db.session.commit()
 
@@ -178,17 +184,21 @@ class User(db.Model):
             user.roles.remove(role)
             db.session.commit()
 
-    def __init__(self, first_name=None, last_name=None, username=None, email=None, password=None):
+    def __init__(self, first_name=None, last_name=None, username=None, email=None, password=None, active=False, roles=[]):
         self.first_name = first_name
         self.last_name = last_name
         self.username = username
         self.email = email
         self.password = password #Los roles se pueden agregar a parte y el resto de atributos se agregan por defecto
+        self.active = active
+        self.roles = roles
 
     def is_admin(self):
-        return "admin" in self.roles
+        """Retorna si el usuario es admin"""
+        return "admin" in self.roles # Esto no genera problemas? Los roles no son un nombre sino objetos
 
     def get_permits(self):
+        """Retorna los permisos del usuario"""
         permits = set([
             permit.name for permits in map(lambda rol: rol.permits, self.roles) 
             for permit in permits
@@ -198,9 +208,7 @@ class User(db.Model):
     def assign_roles(self, roles=[]):
         """Asigna un rol al usuario."""
         roles_to_assign = filter(lambda r: r not in self.roles, roles)
-        print(list(roles_to_assign))
         self.roles.extend(list(roles_to_assign))
-        print(self.roles)
 
 
 

@@ -17,8 +17,8 @@ class Meeting_Point(db.Model):
     @classmethod
     def create(cls, name, direction, coordinates, telephone, email): #params
         """Crea un nuevo punto de encuentro."""
-        new_user = Meeting_Point(name, direction, coordinates, telephone, email)
-        db.session.add(new_user)
+        new_mp = Meeting_Point(name, direction, coordinates, telephone, email)
+        db.session.add(new_mp)
         db.session.commit()
 
     @classmethod

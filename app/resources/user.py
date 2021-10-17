@@ -2,13 +2,15 @@ from flask import redirect, render_template, request, url_for, session, abort, f
 from sqlalchemy.sql.expression import false, true
 
 from app.models.user import User
+from app.models.role import Role
 from app.helpers.auth import assert_permit
 from app.helpers.user import username_or_email_already_exist
 from app.helpers.filter import Filter
 from app.db import db
 
-from app.forms.user_forms import UserModificationForm
+from app.forms.user_forms import UserModificationForm, UserCreationForm
 from app.forms.filter_forms import UserFilter
+from app.resources.generic import ModificationTemplateParamsWrapper
 
 
 # Protected resources
@@ -24,16 +26,26 @@ def index():
 def new():
     """Devuelve el template para crear un nuevo usuario."""
     assert_permit(session, "user_new")
+    user = User()
+    form = UserCreationForm(obj=user)
 
-    return render_template("user/new.html")
+    if form.validate_on_submit():
+        create(form, user)
+        return redirect(url_for("user_index"))
+    else:
+        param_wrapper = ModificationTemplateParamsWrapper(
+            form, url_for("user_new"), "Usuario", "un nuevo usuario"
+        )
 
-def create():
+        return render_template("generic/edit_item.html", param_wrapper=param_wrapper)
+
+def create(form, user):
     """Verifica que los datos unicos no esten repetidos antes de crear un nuevo usuario con los datos pasados por request."""
     assert_permit(session, "user_create")
 
-    if not username_or_email_already_exist(request.form.username, request.form.email):
-        User.create(**request.form)
-        return redirect(url_for("user_index"))
+    # user_attrs["roles"] = Role.get_by_ids([int(i) for i in user_attrs["roles"]])
+    form.populate_obj(user)
+    User.create_from_user(user)
 
 def block(user):
     """Cambiara el estado de un usuario de "activo" a "bloqueado". Los usuarios administradores no pueden ser bloqueados."""
@@ -72,9 +84,13 @@ def modify(user_id):
 
     if form.validate_on_submit():
         form.populate_obj(user)
-        print(vars(user))
         User.update()
         return redirect(url_for('user_index'))
-    return render_template("generic/edit_item.html", form=form, user=user, item={"type": "Usuario", "name": user.first_name})
+    
+    param_wrapper = ModificationTemplateParamsWrapper(
+        form, url_for("user_modify", user_id=user.id), "Usuario", user.first_name, user.id
+    )
+    
+    return render_template("generic/edit_item.html", param_wrapper=param_wrapper)
     
     

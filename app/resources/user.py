@@ -10,7 +10,7 @@ from app.models.role import Role
 
 from app.forms.user_forms import UserCreationForm, UserModificationForm
 from app.forms.filter_forms import UserFilter
-from app.resources.generic import ModificationTemplateParamsWrapper
+from app.resources.generic import FormTemplateParamsWrapper
 
 from app.resources.config import getSortCriterionUsers
 
@@ -33,11 +33,11 @@ def new():
         create(form, user)
         return redirect(url_for("user_index"))
     else:
-        param_wrapper = ModificationTemplateParamsWrapper(
-            form, url_for("user_new"), "Usuario", "un nuevo usuario"
+        param_wrapper = FormTemplateParamsWrapper(
+            form, url_for("user_new"), "creación", url_for('user_index'), "Usuario", "un nuevo usuario"
         )
 
-        return render_template("generic/edit_item.html", param_wrapper=param_wrapper)
+        return render_template("generic/base_form.html", param_wrapper=param_wrapper)
 
 def create(form, user):
     """Verifica que los datos unicos no esten repetidos antes de crear un nuevo usuario con los datos pasados por request."""
@@ -102,10 +102,10 @@ def modify(user_id):
         User.update()
         return redirect(url_for('user_index'))
     
-    param_wrapper = ModificationTemplateParamsWrapper(
-        form, url_for("user_modify", user_id=user.id), "Usuario", user.first_name, user.id
+    param_wrapper = FormTemplateParamsWrapper(
+        form, url_for("user_modify", user_id=user.id), "edición", url_for('user_index') , "Usuario", user.first_name, user.id
     )
     
-    return render_template("generic/edit_item.html", param_wrapper=param_wrapper)
+    return render_template("generic/base_form.html", param_wrapper=param_wrapper)
     
     

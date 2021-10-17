@@ -7,8 +7,8 @@
 {% endblock %}
 
 {% block content %}
-  {% with titulo_apartado="Edición del usuario "+param_wrapper.item_type, subtitulo_apartado="Edición de "+param_wrapper.item_name %}
-    {% include "generic/generic_content.html" %}
+  {% with titulo_apartado="Formulario de " + param_wrapper.action + " de "+param_wrapper.item_type, subtitulo_apartado="Cargue los datos de "+param_wrapper.item_name, return_url=param_wrapper.return_url %}
+    {% include "generic/generic_content_return.html" %}
   {% endwith %}
 
   <form class="row mx-1 mb-5" action="{{ param_wrapper.action_url }}" method="POST">

@@ -1,10 +1,6 @@
-{% extends "generic/edit_item.html" %}
+{% extends "generic/base_form.html" %}
 
-{% block generic_content %}
-    {% with titulo_apartado="Edición de "+item.type, subtitulo_apartado="Edición de "+item.name, pagina_retorno="user_index" %}
-        {% include "generic/generic_content_return.html" %}
-    {% endwith %}
-{% endblock %}
+{% block title %}Usuarios{% endblock %}
 
 {% block endpoint %}
     "{{url_for('user_modify', user_id=user.id)}}""

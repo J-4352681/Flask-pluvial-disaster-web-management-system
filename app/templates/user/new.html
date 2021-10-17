@@ -1,12 +1,6 @@
-{% extends "generic/new_item.html" %}
+{% extends "generic/base_form.html" %}
 
 {% block title %}Usuarios{% endblock %}
-
-{% block generic_content %}
-  {% with titulo_apartado="Creacion de "+item_type, subtitulo_apartado="Nuevo "+item_type, pagina_retorno="user_index" %}
-    {% include "generic/generic_content_return.html" %}
-  {% endwith %}
-{% endblock %}
 
 {% block endpoint %}
     "{{ url_for('user_new') }}"

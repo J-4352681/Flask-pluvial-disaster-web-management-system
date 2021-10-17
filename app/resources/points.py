@@ -8,7 +8,7 @@ from app.helpers.filter import Filter
 from app.forms.filter_forms import PointFilter
 
 from app.resources.config import getSortCriterionMeetingPoints
-from .generic import ModificationTemplateParamsWrapper
+from .generic import FormTemplateParamsWrapper
 
 # Protected resources
 def index(page=None):
@@ -49,11 +49,11 @@ def new():
         create(form.name.data, form.direction.data, form.coordinates.data, form.telephone.data, form.email.data, form.state.data)
         return redirect(url_for('points_index'))
     else:
-        param_wrapper = ModificationTemplateParamsWrapper(
-            form, url_for('points_new'), "Punto de encuentro", "un nuevo punto de encuentro"
+        param_wrapper = FormTemplateParamsWrapper(
+            form, url_for('points_new'), "creacion", url_for('points_index'), "Punto de encuentro", "un nuevo punto de encuentro"
         )
 
-        return render_template("generic/edit_item.html", param_wrapper=param_wrapper)
+        return render_template("generic/base_form.html", param_wrapper=param_wrapper)
     # return render_template("points/new.html", form=form, item_type="Punto de encuentro") #point=point
 
 def create(name, direction, coordinates, telephone, email, state):
@@ -74,12 +74,11 @@ def modify(point_id):
         Meeting_Point.update()
         return redirect(url_for('points_index'))
     
-    param_wrapper = ModificationTemplateParamsWrapper(
-        form, url_for('points_modify', point_id=point.id), "Punto de encuentro", point.name, point.id
+    param_wrapper = FormTemplateParamsWrapper(
+        form, url_for('points_modify', point_id=point.id), "edición", url_for('points_index'), "Punto de encuentro", point.name, point.id
     )
 
     return render_template("points/edit.html", param_wrapper=param_wrapper)
-    # return render_template("points/edit.html", form=form, point=point, item={"type": "Punto de encuentro", "name": point.name})
     
 def delete(point_id):
     """Permite eliminar puntos de encuentro."""

@@ -20,3 +20,7 @@ a.text-secondary:hover {
 .blocked {
     background-color: lightcoral;
 }
+
+.mx-auto {
+    text-align: center;
+}

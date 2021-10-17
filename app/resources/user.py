@@ -12,13 +12,13 @@ from app.forms.filter_forms import UserFilter
 
 
 # Protected resources
-def index():
+def index(page=None):
     """Muestra la lista de usuarios."""
     assert_permit(session, "user_index")
 
     filt = Filter(UserFilter, User, request.args)
         
-    return render_template("user/index.html", form=filt.form, users=filt.get_query())
+    return render_template("user/index.html", form=filt.form, users=filt.get_query(page))
 
 
 def new():

@@ -8,14 +8,14 @@ from app.helpers.filter import Filter
 from app.forms.filter_forms import PointFilter
 
 # Protected resources
-def index():
+def index(page=None):
     """Muestra la lista de puntos de encuentro."""
     assert_permit(session, "points_index")
 
     points = allPublic()
     filt = Filter(PointFilter, Meeting_Point, request.args)
     
-    return render_template("points/index.html", points=filt.get_query(), form=filt.form)
+    return render_template("points/index.html", points=filt.get_query(page), form=filt.form)
 
 def show(point_id):
     """Muestra la lista de puntos de encuentro."""

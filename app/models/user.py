@@ -6,6 +6,7 @@ from app.db import db
 from flask import session
 
 from datetime import datetime
+from app.models.config import Config
 # from app.models import role
 from app.models.role import Role
 from app.models.permit import Permit

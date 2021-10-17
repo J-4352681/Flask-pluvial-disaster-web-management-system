@@ -37,7 +37,7 @@
                   </tr>
                 </thead>
                 <tbody class="row">
-                  {% for user in users %}
+                  {% for user in users.items %}
                       {% if user.active == 1 %}
                           <tr class="row">
                       {% else %}
@@ -60,6 +60,21 @@
                   {% endfor %}
                 </tbody>
               </table>
+              <div class="pagination row">
+                {% if users.has_prev %}
+                    <div class="col mx-auto">
+                        <a href="{{url_for('user_index', page=users.prev_num)}}">Anterior</a>
+                    </div>
+                {% endif %}
+                <div class="col mx-auto">
+                        <p>Viendo página {{users.page}} de {{(-(-users.total // users.per_page))}}</p>
+                </div>
+                {% if users.has_next %}
+                    <div class="col mx-auto">
+                        <a href="{{url_for('user_index', page=users.next_num)}}">Siguiente</a>
+                    </div>
+                {% endif %}
+            </div>
           </div>
       </div>
 

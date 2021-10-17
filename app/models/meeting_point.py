@@ -59,11 +59,12 @@ class Meeting_Point(db.Model):
         return users
 
     @classmethod
-    def find_by_state(cls, publico=None):
+    def find_by_state(cls, publico=None, excep=[]):
         """Devuelve todos los puntos de encuentro publicos si el parametro publico=true o todos los no publicados si publico=false"""
         users = cls.query.filter(
-            cls.state.like(publico)
-        ).all() 
+            cls.state == publico,
+            cls.id.not_in(excep)
+        ).all()
         return users
 
     @classmethod

@@ -10,6 +10,12 @@
   {% with titulo_apartado="Opciones de la configuracion ", subtitulo_apartado="Configuracion" %}
     {% include "generic/generic_content.html" %}
   {% endwith %}
+
+  {% for field, errors in form.errors.items() %}
+      <div class="alert alert-error bg-danger text-white">
+        {{ form[field].label }}: {{ ', '.join(errors) }}
+      </div>
+    {% endfor %}
   
   <form class="row mx-1" action="{{ url_for('config_modify') }}" method="POST">
     {{ form.hidden_tag() }}

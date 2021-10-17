@@ -10,6 +10,7 @@ from app.models.role import Role
 from app.forms.user_forms import UserCreationForm, UserModificationForm
 from app.forms.filter_forms import UserFilter
 
+from app.resources.config import getSortCriterionUsers
 
 # Protected resources
 def index(page=None):
@@ -19,7 +20,6 @@ def index(page=None):
     filt = Filter(UserFilter, User, request.args)
         
     return render_template("user/index.html", form=filt.form, users=filt.get_query(page))
-
 
 def new():
     """Devuelve el template para crear un nuevo usuario."""

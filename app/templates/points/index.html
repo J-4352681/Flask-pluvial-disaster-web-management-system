@@ -65,7 +65,11 @@
                         </div>
                     {% endif %}
                     <div class="col mx-auto">
+                    {% if points.items %}
                             <p>Viendo página {{points.page}} de  {{(-(-points.total // points.per_page))}}</p>
+                    {% else %}
+                            <p>La tabla está vacía</p>
+                    {% endif %}
                     </div>
                     {% if points.has_next %}
                         <div class="col mx-auto">

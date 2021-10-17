@@ -10,14 +10,14 @@ class Meeting_Point(db.Model):
     name = Column(String(30), nullable=false)
     direction = Column(String(100), nullable=false)
     coordinates = Column(String(100), nullable=false)
-    state = Column(Boolean, default=True, nullable=false) # publicado o despublicado
+    state = Column(Boolean, default=False, nullable=false) # publicado o despublicado
     telephone = Column(String(30), nullable=false)
     email = Column(String(100), nullable=false)
 
     @classmethod
-    def create(cls, name, direction, coordinates, telephone, email): #params
+    def create(cls, name, direction, coordinates, telephone, email, state): #params
         """Crea un nuevo punto de encuentro."""
-        new_user = Meeting_Point(name, direction, coordinates, telephone, email)
+        new_user = Meeting_Point(name, direction, coordinates, telephone, email, state)
         db.session.add(new_user)
         db.session.commit()
 
@@ -79,10 +79,10 @@ class Meeting_Point(db.Model):
     def update(cls):
         db.session.commit()
 
-    def __init__(self, name=None, direction=None, coordinates=None, telephone=None, email=None):
+    def __init__(self, name=None, direction=None, coordinates=None, telephone=None, email=None, state=False):
         self.name = name
         self.direction = direction
         self.coordinates = coordinates
         self.telephone = telephone
         self.email = email
-        # self.state = true
+        self.state = state

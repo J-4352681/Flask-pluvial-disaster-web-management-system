@@ -7,12 +7,14 @@ from app.forms.meeting_point_forms import MeetingPointModificationForm
 from app.helpers.filter import Filter
 from app.forms.filter_forms import PointFilter
 
+from app.resources.config import getSortCriterionMeetingPoints
+
 # Protected resources
 def index(page=None):
     """Muestra la lista de puntos de encuentro."""
     assert_permit(session, "points_index")
 
-    points = allPublic()
+    #points = allPublic()
     filt = Filter(PointFilter, Meeting_Point, request.args)
     
     return render_template("points/index.html", points=filt.get_query(page), form=filt.form)
@@ -43,16 +45,16 @@ def new():
     form = MeetingPointModificationForm()
 
     if request.method == "POST" and form.validate():
-        create(form.name.data, form.direction.data, form.coordinates.data, form.telephone.data, form.email.data)
+        create(form.name.data, form.direction.data, form.coordinates.data, form.telephone.data, form.email.data, form.state.data)
         return redirect(url_for('points_index'))
 
     return render_template("points/new.html", form=form, item_type="Punto de encuentro") #point=point
 
-def create(name, direction, coordinates, telephone, email):
+def create(name, direction, coordinates, telephone, email, state):
     """Crea un punto de encuentro con los datos envuados por request."""
     assert_permit(session, "points_create")
 
-    Meeting_Point.create(name, direction, coordinates, telephone, email)# **request.form)
+    Meeting_Point.create(name, direction, coordinates, telephone, email, state)# **request.form)
     return redirect(url_for("points_index"))
 
 def modify(point_id):

@@ -31,21 +31,68 @@ def get():
 
     return configExists
 
+#GET COLORS
+
 def getPrivatePalette():
-    """Devuelve una lista de nombres de colores reconocidos por HTML. Si no existe una lista de colores para la aplicacion privadada especificada en la configuracion se deuvelve una por defecto."""
+    """Devuelve una lista de nombres de colores reconocidos por HTML. [0] color primario, [1] secundario y [2] accento. Si no existe una lista de colores para la aplicacion privadada especificada en la configuracion se deuvelve una por defecto."""
     configuration = get()
     if ( configuration.palette_private): # una lista vacia es falso
-        return list(map(lambda color: color.value, configuration.palette_private))
+        return [configuration.palette_private.color1.value, configuration.palette_private.color2.value, configuration.palette_private.color3.value]
     else:
         return ["Snow", "Gray", "Salmon"] # Colores por defecto, reconocidos por HTML
 
 def getPublicPalette():
-    """Devuelve una lista de nombres de colores reconocidos por HTML. Si no existe una lista de colores para la aplicacion publica especificada en la configuracion se deuvelve una por defecto."""
+    """Devuelve una lista de nombres de colores reconocidos por HTML. [0] color primario, [1] secundario y [2] accento. Si no existe una lista de colores para la aplicacion publica especificada en la configuracion se deuvelve una por defecto."""
     configuration = get()
     if ( configuration.palette_public): # una lista vacia es falso
-        return list(map(lambda color: color.value, configuration.palette_public))
+        return [configuration.palette_public.color1.value, configuration.palette_public.color2.value, configuration.palette_public.color3.value]
     else:
         return ["Snow", "Gray", "SkyBlue"] # Colores por defecto, reconocidos por HTML
+
+def getPrivatePrimaryColor():
+    configuration = get()
+    if ( configuration.palette_public): # una lista vacia es falso
+        return configuration.palette_private.color1.value
+    else:
+        return ["Snow"] # Colores por defecto, reconocidos por HTML
+
+def getPrivateSecondaryColor():
+    configuration = get()
+    if ( configuration.palette_public): # una lista vacia es falso
+        return configuration.palette_private.color2.value
+    else:
+        return ["Gray"] # Colores por defecto, reconocidos por HTML
+
+def getPrivateAccentColor():
+    configuration = get()
+    if ( configuration.palette_public): # una lista vacia es falso
+        return configuration.palette_private.color3.value
+    else:
+        return ["Salmon"] # Colores por defecto, reconocidos por HTML
+
+def getPublicPrimaryColor():
+    configuration = get()
+    if ( configuration.palette_public): # una lista vacia es falso
+        return configuration.palette_public.color1.value
+    else:
+        return ["Snow"] # Colores por defecto, reconocidos por HTML
+
+def getPublicSecondaryColor():
+    configuration = get()
+    if ( configuration.palette_public): # una lista vacia es falso
+        return configuration.palette_public.color2.value
+    else:
+        return ["Gray"] # Colores por defecto, reconocidos por HTML
+
+def getPublicAccentColor():
+    configuration = get()
+    if ( configuration.palette_public): # una lista vacia es falso
+        return configuration.palette_public.color3.value
+    else:
+        return ["SkyBlue"] # Colores por defecto, reconocidos por HTML
+
+
+#MODIFY
 
 def modifyElementsPerPage( config, cant ):
     """Actualiza la cantidad de elementos que se muestran por pagina del listado."""
@@ -96,14 +143,17 @@ def modify():
     config = get()
 
     #Initialice form
-    form = Config_forms(obj=config, 
-        private_color1 = config.palette_private[0].id,
-        private_color2 = config.palette_private[1].id,
-        private_color3 = config.palette_private[2].id,
-        public_color1 = config.palette_public[0].id,
-        public_color2 = config.palette_public[1].id,
-        public_color3 = config.palette_public[2].id
-    )
+    if (config.palette_private):
+        form = Config_forms(obj=config, 
+            private_color1 = config.palette_private.color1.id,
+            private_color2 = config.palette_private.color2.id,
+            private_color3 = config.palette_private.color3.id,
+            public_color1 = config.palette_public.color1.id,
+            public_color2 = config.palette_public.color2.id,
+            public_color3 = config.palette_public.color3.id
+        )
+    else:
+        form = Config_forms(obj=config)
     
     #Obtener colores
     colores = [(g.id, g.value) for g in allColors()]

@@ -7,15 +7,23 @@ from app.forms.meeting_point_forms import MeetingPointModificationForm
 from app.helpers.filter import Filter
 from app.forms.filter_forms import PointFilter
 
+from app.resources.config import getSortCriterionMeetingPoints
+
 # Protected resources
 def index():
     """Muestra la lista de puntos de encuentro."""
     assert_permit(session, "points_index")
 
-    points = allPublic()
+    #points = allPublic()
     filt = Filter(PointFilter, Meeting_Point, request.args)
+    points = filt.get_query()
+    points.sort(key=sortCriteria)
     
-    return render_template("points/index.html", points=filt.get_query(), form=filt.form)
+    return render_template("points/index.html", points=points, form=filt.form)
+
+def sortCriteria(e):
+    """Define la funcion con la que se ordenan los puntos de encuentro. Recordar que las mayusculas se ordenan antes de las minusculas."""
+    return getattr(e, getSortCriterionMeetingPoints()) #Cuidado con mayusculas y minusculas
 
 def show(point_id):
     """Muestra la lista de puntos de encuentro."""

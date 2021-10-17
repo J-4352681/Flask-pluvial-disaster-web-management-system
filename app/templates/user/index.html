@@ -29,10 +29,10 @@
             <table class="col table table-hover h-100">
                 <thead class="row">
                   <tr class="row">
+                    <th class="col">Username</th>
                     <th class="col">Email</th>
                     <th class="col">Nombre</th>
                     <th class="col">Apellido</th>
-                    <th class="col">Contraseña</th>
                     <th class="col">Acciones</th>
                   </tr>
                 </thead>
@@ -43,10 +43,10 @@
                       {% else %}
                           <tr class="row blocked">
                       {% endif %}
+                          <td class="col">{{ user.username }}</td>
                           <td class="col">{{ user.email }}</td>
                           <td class="col">{{ user.first_name }}</td>
                           <td class="col">{{ user.last_name }}</td>
-                          <td class="col">{{ user.password }}</td>
                           <td class="col">
                               <a href="{{ url_for('user_modify', user_id=user.id)}}" title="Editar"><ion-icon name="pencil-outline"></ion-icon></a>
                               {% if user.active == 1 %}

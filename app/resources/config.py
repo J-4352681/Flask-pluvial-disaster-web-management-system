@@ -31,7 +31,28 @@ def get():
 
     return configExists
 
-#GET COLORS
+#GET PARA USO PUBLICO
+
+def getElementsPerPage():
+    """Devuelve la cantidad de elementos que se podran tener en una pagina de un listado en la app."""
+
+    configExists = get()
+
+    return configExists.elements_per_page
+
+def getSortCriterionUsers():
+    """Devuelve el criterio de ordenacion por defecto para los listados de usuarios."""
+
+    configExists = get()
+
+    return configExists.sort_users
+
+def getSortCriterionMeetingPoints():
+    """Devuelve el criterio de ordenacion por defecto para los listados de puntos de encuentro."""
+
+    configExists = get()
+
+    return configExists.sort_meeting_points
 
 def getPrivatePalette():
     """Devuelve una lista de nombres de colores reconocidos por HTML. [0] color primario, [1] secundario y [2] accento. Si no existe una lista de colores para la aplicacion privadada especificada en la configuracion se deuvelve una por defecto."""
@@ -128,15 +149,6 @@ def newPublicPallete( config, colorList ):
     else:
         flash("La paleta nueva debe de contener al menos 3 colores.")
 
-def flash_errors(form):
-    """Flashes form errors"""
-    for field, errors in form.errors.items():
-        for error in errors:
-            flash(u"Error in the %s field - %s" % (
-                getattr(form, field).label.text,
-                error
-            ), 'error')
-
 def modify():
     """Modifica todos los datos de la configuracion."""
     assert_permit(session, "config_modify")
@@ -165,7 +177,6 @@ def modify():
     form.public_color3.choices = colores
 
     #form.palette_private.choices = colores #Select fields no esta devolviendo los valores que selecciono
-    flash_errors(form) #No flashea los errores que deberia
     if request.method == "POST" and form.validate():
         modifyElementsPerPage(config, form.elements_per_page.data)
         modifySortCriterionUser(config, form.sort_users.data)

@@ -10,6 +10,7 @@ from app.models.role import Role
 from app.forms.user_forms import UserCreationForm, UserModificationForm
 from app.forms.filter_forms import UserFilter
 
+from app.resources.config import getSortCriterionUsers
 
 # Protected resources
 def index():
@@ -17,9 +18,14 @@ def index():
     assert_permit(session, "user_index")
 
     filt = Filter(UserFilter, User, request.args)
+    users = filt.get_query()
+    users.sort(key=sortCriteria)
         
-    return render_template("user/index.html", form=filt.form, users=filt.get_query())
+    return render_template("user/index.html", form=filt.form, users=users)
 
+def sortCriteria(e):
+    """Define la funcion con la que se ordenan los usuarios. Recordar que las mayusculas se ordenan antes de las minusculas."""
+    return getattr(e, getSortCriterionUsers()) #Cuidado con mayusculas y minusculas
 
 def new():
     """Devuelve el template para crear un nuevo usuario."""

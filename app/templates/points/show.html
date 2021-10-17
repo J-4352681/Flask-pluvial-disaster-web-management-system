@@ -5,16 +5,10 @@
 {% block navbar %}
     {% include "generic/navbar.html" %} 
 {% endblock %}
-
-{% block navmenu %}
-<!-- {% with apartados=apartados %} -->
-{% include "generic/navmenu.html" %}
-<!-- {% endwith %} -->
-{% endblock %}
-
 {% block content %}
-  {% with titulo_apartado="Puntos de encuentro", subtitulo_apartado="Inspeccionar Punto "+point.name %}
-    {% include "generic/generic_content.html" %}
+
+  {% with titulo_apartado="Puntos de encuentro", subtitulo_apartado="Inspeccionar Punto "+point.name, pagina_retorno="points_index" %}
+    {% include "generic/generic_content_return.html" %}
   {% endwith %}
   
   <div class="row mx-3">
@@ -50,8 +44,8 @@
           <td class="col">{{ point.email }}</td>
         </tr>
         <tr class="row"></tr>
-          <td class="col"><a href="{{ url_for('points_modify', point_id=point.id)}}">Editar</a></td>
-          <td class="col"><a onclick="return confirm('¿Esta seguro que quiere eliminar este elemento?')" href="{{ url_for('points_delete', point_id=point.id)}}" >Eliminar nuevo</a></td>
+          <td class="col"><a href="{{ url_for('points_modify', point_id=point.id)}}"><ion-icon name="pencil-outline"></ion-icon>Editar</a></td>
+          <td class="col"><a onclick="return confirm('¿Esta seguro que quiere eliminar este elemento?')" href="{{ url_for('points_delete', point_id=point.id)}}" ><ion-icon name="trash-outline"></ion-icon>Eliminar</a></td>
         </tr>
       </tbody>
 

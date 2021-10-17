@@ -31,21 +31,89 @@ def get():
 
     return configExists
 
+#GET PARA USO PUBLICO
+
+def getElementsPerPage():
+    """Devuelve la cantidad de elementos que se podran tener en una pagina de un listado en la app."""
+
+    configExists = get()
+
+    return configExists.elements_per_page
+
+def getSortCriterionUsers():
+    """Devuelve el criterio de ordenacion por defecto para los listados de usuarios."""
+
+    configExists = get()
+
+    return configExists.sort_users
+
+def getSortCriterionMeetingPoints():
+    """Devuelve el criterio de ordenacion por defecto para los listados de puntos de encuentro."""
+
+    configExists = get()
+
+    return configExists.sort_meeting_points
+
 def getPrivatePalette():
-    """Devuelve una lista de nombres de colores reconocidos por HTML. Si no existe una lista de colores para la aplicacion privadada especificada en la configuracion se deuvelve una por defecto."""
+    """Devuelve una lista de nombres de colores reconocidos por HTML. [0] color primario, [1] secundario y [2] accento. Si no existe una lista de colores para la aplicacion privadada especificada en la configuracion se deuvelve una por defecto."""
     configuration = get()
     if ( configuration.palette_private): # una lista vacia es falso
-        return list(map(lambda color: color.value, configuration.palette_private))
+        return [configuration.palette_private.color1.value, configuration.palette_private.color2.value, configuration.palette_private.color3.value]
     else:
         return ["Snow", "Gray", "Salmon"] # Colores por defecto, reconocidos por HTML
 
 def getPublicPalette():
-    """Devuelve una lista de nombres de colores reconocidos por HTML. Si no existe una lista de colores para la aplicacion publica especificada en la configuracion se deuvelve una por defecto."""
+    """Devuelve una lista de nombres de colores reconocidos por HTML. [0] color primario, [1] secundario y [2] accento. Si no existe una lista de colores para la aplicacion publica especificada en la configuracion se deuvelve una por defecto."""
     configuration = get()
     if ( configuration.palette_public): # una lista vacia es falso
-        return list(map(lambda color: color.value, configuration.palette_public))
+        return [configuration.palette_public.color1.value, configuration.palette_public.color2.value, configuration.palette_public.color3.value]
     else:
         return ["Snow", "Gray", "SkyBlue"] # Colores por defecto, reconocidos por HTML
+
+def getPrivatePrimaryColor():
+    configuration = get()
+    if ( configuration.palette_public): # una lista vacia es falso
+        return configuration.palette_private.color1.value
+    else:
+        return "Snow" # Colores por defecto, reconocidos por HTML
+
+def getPrivateSecondaryColor():
+    configuration = get()
+    if ( configuration.palette_public): # una lista vacia es falso
+        return configuration.palette_private.color2.value
+    else:
+        return "Gray" # Colores por defecto, reconocidos por HTML
+
+def getPrivateAccentColor():
+    configuration = get()
+    if ( configuration.palette_public): # una lista vacia es falso
+        return configuration.palette_private.color3.value
+    else:
+        return "Salmon" # Colores por defecto, reconocidos por HTML
+
+def getPublicPrimaryColor():
+    configuration = get()
+    if ( configuration.palette_public): # una lista vacia es falso
+        return configuration.palette_public.color1.value
+    else:
+        return "Snow" # Colores por defecto, reconocidos por HTML
+
+def getPublicSecondaryColor():
+    configuration = get()
+    if ( configuration.palette_public): # una lista vacia es falso
+        return configuration.palette_public.color2.value
+    else:
+        return "Gray" # Colores por defecto, reconocidos por HTML
+
+def getPublicAccentColor():
+    configuration = get()
+    if ( configuration.palette_public): # una lista vacia es falso
+        return configuration.palette_public.color3.value
+    else:
+        return "SkyBlue" # Colores por defecto, reconocidos por HTML
+
+
+#MODIFY
 
 def modifyElementsPerPage( config, cant ):
     """Actualiza la cantidad de elementos que se muestran por pagina del listado."""
@@ -81,29 +149,23 @@ def newPublicPallete( config, colorList ):
     else:
         flash("La paleta nueva debe de contener al menos 3 colores.")
 
-def flash_errors(form):
-    """Flashes form errors"""
-    for field, errors in form.errors.items():
-        for error in errors:
-            flash(u"Error in the %s field - %s" % (
-                getattr(form, field).label.text,
-                error
-            ), 'error')
-
 def modify():
     """Modifica todos los datos de la configuracion."""
     assert_permit(session, "config_modify")
     config = get()
 
     #Initialice form
-    form = Config_forms(obj=config, 
-        private_color1 = config.palette_private[0].id,
-        private_color2 = config.palette_private[1].id,
-        private_color3 = config.palette_private[2].id,
-        public_color1 = config.palette_public[0].id,
-        public_color2 = config.palette_public[1].id,
-        public_color3 = config.palette_public[2].id
-    )
+    if (config.palette_private):
+        form = Config_forms(obj=config, 
+            private_color1 = config.palette_private.color1.id,
+            private_color2 = config.palette_private.color2.id,
+            private_color3 = config.palette_private.color3.id,
+            public_color1 = config.palette_public.color1.id,
+            public_color2 = config.palette_public.color2.id,
+            public_color3 = config.palette_public.color3.id
+        )
+    else:
+        form = Config_forms(obj=config)
     
     #Obtener colores
     colores = [(g.id, g.value) for g in allColors()]
@@ -115,7 +177,6 @@ def modify():
     form.public_color3.choices = colores
 
     #form.palette_private.choices = colores #Select fields no esta devolviendo los valores que selecciono
-    flash_errors(form) #No flashea los errores que deberia
     if request.method == "POST" and form.validate():
         modifyElementsPerPage(config, form.elements_per_page.data)
         modifySortCriterionUser(config, form.sort_users.data)

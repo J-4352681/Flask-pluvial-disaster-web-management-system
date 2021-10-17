@@ -1,19 +1,23 @@
 from flask import redirect, render_template, request, url_for, session, abort
 from sqlalchemy.sql.expression import false, true
+
 from app.models.meeting_point import Meeting_Point
 from app.helpers.auth import assert_permit
-# import app.db
-
 from app.forms.meeting_point_forms import MeetingPointModificationForm
+from app.helpers.filter import Filter
+from app.forms.filter_forms import PointFilter
+
+from app.resources.config import getSortCriterionMeetingPoints
 
 # Protected resources
-def index():
+def index(page=None):
     """Muestra la lista de puntos de encuentro."""
     assert_permit(session, "points_index")
 
-    points = allPublic()
+    #points = allPublic()
+    filt = Filter(PointFilter, Meeting_Point, request.args)
     
-    return render_template("points/index.html", points=points)
+    return render_template("points/index.html", points=filt.get_query(page), form=filt.form)
 
 def show(point_id):
     """Muestra la lista de puntos de encuentro."""
@@ -41,15 +45,16 @@ def new():
     form = MeetingPointModificationForm()
 
     if form.validate_on_submit():
-        create(form.name.data, form.direction.data, form.coordinates.data, form.telephone.data, form.email.data)
+        create(form.name.data, form.direction.data, form.coordinates.data, form.telephone.data, form.email.data, form.state.data)
+        return redirect(url_for('points_index'))
 
-    return render_template("points/new.html", form=form) #point=point
+    return render_template("points/new.html", form=form, item_type="Punto de encuentro") #point=point
 
-def create(name, direction, coordinates, telephone, email):
+def create(name, direction, coordinates, telephone, email, state):
     """Crea un punto de encuentro con los datos envuados por request."""
     assert_permit(session, "points_create")
 
-    Meeting_Point.create(name, direction, coordinates, telephone, email)# **request.form)
+    Meeting_Point.create(name, direction, coordinates, telephone, email, state)# **request.form)
     return redirect(url_for("points_index"))
 
 def modify(point_id):
@@ -62,7 +67,7 @@ def modify(point_id):
     if form.validate_on_submit:
         Meeting_Point.update()
         return redirect(url_for('points_show', point_id=point_id))
-    return render_template("generic/edit_item.html", form=form, point=point, item={"type": "Punto de encuentro", "name": point.name})
+    return render_template("points/edit.html", form=form, point=point, item={"type": "Punto de encuentro", "name": point.name})
     
 def delete(point_id):
     """Permite eliminar puntos de encuentro."""

@@ -1,18 +1,12 @@
-<section id="filter" class="border rounded p-3 m-2 col-3">
-  <div class="row m-2">
-      <h4 class="col">Filtros</h4>
-  </div>
+{% extends "generic/filter.html" %}
+{% block id %}
+    "points-filter"
+{% endblock %}
 
+{% block aria %}
+    "points-filter-label" 
+{% endblock %}
 
-  <form class="row mx-2" action="{{ url_for('points_index') }}" method="GET">
-
-    {% for field in form %}
-    {% if field.name not in ["submit", "csrf_token"] %}
-      {{ field.label(class="col-12 my-1 m-0 p-0") }}
-      {{ field(class="col-12 card my-1 p-1") }}
-    {% endif %}
-    {% endfor %}
-
-    {{ form.submit(class="col-auto m-auto btn btn-primary") }}
-  </form>
-</section>
+{% block endpoint %}
+    "{{ url_for('points_index') }}"
+{% endblock %}

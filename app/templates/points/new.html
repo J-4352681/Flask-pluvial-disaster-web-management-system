@@ -1,34 +1,13 @@
-{% extends "generic/base.html" %}
+{% extends "generic/new_item.html" %}
 
 {% block title %}Puntos de encuentro{% endblock %}
 
-{% block navbar %}
-    {% include "generic/navbar.html" %} 
-{% endblock %}
-
-{% block navmenu %}
-<!-- {% with apartados=apartados %} -->
-{% include "generic/navmenu.html" %}
-<!-- {% endwith %} -->
-{% endblock %}
-
-{% block content %}
-  {% with titulo_apartado="Creacion de puntos de encuentro", subtitulo_apartado="Nuevo punto de encuentro" %}
-    {% include "generic/generic_content.html" %}
+{% block generic_content %}
+  {% with titulo_apartado="Creacion de "+item_type, subtitulo_apartado="Nuevo "+item_type, pagina_retorno="points_index" %}
+    {% include "generic/generic_content_return.html" %}
   {% endwith %}
-  
-  <form class="row mx-1" action="{{ url_for('points_new') }}" method="POST">
-    {{ form.hidden_tag() }}
+{% endblock %}
 
-    {% for field in form %}
-    {% if field.name not in ["submit", "csrf_token"] %}
-      {{ field.label(class="col-12 my-2 p-0") }}
-      {{ field(class="col-6 m-2 p-2 card") }}
-    {% endif %}
-    {% endfor %}
-
-    {{ form.submit(class="col-auto m-auto btn btn-primary") }}
-  </form>
-  
-
+{% block endpoint %}
+    "{{ url_for('points_new') }}"
 {% endblock %}

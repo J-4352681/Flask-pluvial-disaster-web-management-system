@@ -17,7 +17,6 @@ def authenticate():
 
     session["user"] = user
     session["user_permits"] = user.get_permits()
-    flash("La sesión se inició correctamente.")
 
     return redirect(url_for("home"))
 
@@ -27,7 +26,6 @@ def logout():
     del session["user_permits"]
     del session["navigation_actions"]
     session.clear()
-    flash("La sesión se cerró correctamente.")
 
     return redirect(url_for("auth_login"))
 

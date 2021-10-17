@@ -6,6 +6,7 @@ from app.db import db
 from flask import session
 
 from datetime import datetime
+from app.models.config import Config
 # from app.models import role
 from app.models.role import Role
 from app.models.permit import Permit
@@ -144,23 +145,23 @@ class User(db.Model):
     @classmethod
     def find_all_active_or_blocked(cls, activo=None): # Ta dudoso este metodo jaja
         """Devuelve todos los usuarios activos si el parametro activo=true o todos los usuarios bloqueados si el parametro activo=false"""
-        res = cls.query.filter(
-            cls.active == activo
+        users = cls.query.filter(
+            cls.active.like(activo)
         ).all() 
-        return res #Devuelve todos los usuarios activos o bloqueados, cambie el nombre a res porque "users" es el nombre de la tabla y queria evitar confusion
+        return users #Devuelve todos los usuarios activos o bloqueados, cambie el nombre a res porque "users" es el nombre de la tabla y queria evitar confusion
 
     @classmethod
     def block(cls, user=None):
         """Bloquea un usuario enviado como parametro. Si ya estaban bloqueados no hace nada. Usar "unblock" para desbloquear."""
         if user.active:
-            user.active = false
+            user.active = 0
             db.session.commit()
 
     @classmethod
     def unblock(cls, user=None):
         """Desbloquea un usuario enviado como parametro. Si ya estaban activos no hace nada. Usar "block" para bloquear."""
         if not user.active:
-            user.active = true
+            user.active = 1
             db.session.commit()
 
     @classmethod
@@ -194,8 +195,7 @@ class User(db.Model):
         self.roles = roles
 
     def is_admin(self):
-        """Retorna si el usuario es admin"""
-        return "admin" in self.roles # Esto no genera problemas? Los roles no son un nombre sino objetos
+        return "admin" in map(lambda x: x.name, self.roles)
 
     def get_permits(self):
         """Retorna los permisos del usuario"""

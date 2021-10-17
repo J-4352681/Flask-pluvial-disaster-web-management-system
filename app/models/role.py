@@ -26,12 +26,12 @@ class Role(db.Model):
     @classmethod
     def get_admin(cls):
         """Devuelve el rol con el trabajo del administrador. Si hay algun cambio a la reprecentacion del rol admin en la base datos solo se cambiara este metodo."""
-        return get_by_name("admin")
+        return cls.get_by_name("admin")
 
     @classmethod
     def get_operator(cls):
         """Devuelve el rol con el trabajo del operador/a. Si hay algun cambio a la reprecentacion del rol operador/a en la base datos solo se cambiara este metodo."""
-        return get_by_name("operator")
+        return cls.get_by_name("operator")
 
     @classmethod
     def get_by_name(cls, role_name):

@@ -11,9 +11,9 @@
     {% include "generic/generic_content.html" %}
   {% endwith %}
 
-  <form class="row mx-1" action="{{ param_wrapper.action_url }}" method="POST">
+  <form class="row mx-1 mb-5" action="{{ param_wrapper.action_url }}" method="POST">
     {{ param_wrapper.form.hidden_tag() }}
-    <div class="col">
+    <div class="col-6">
       {% for field, errors in param_wrapper.form.errors.items() %}
         <div class="row alert alert-error bg-danger text-white">
           {{ param_wrapper.form[field].label(class="col") }}: {{ ', '.join(errors) }}
@@ -23,11 +23,11 @@
       {% for field in param_wrapper.form %}
       {% if field.name not in ["submit", "csrf_token", "id"] %}
 
-        <section class="border-bottom row col-6 pb-3">
+        <section class="row pb-2">
           {% if field.data is boolean %}
-            <div class="row">
-              {{ field.label(class="col my-2 p-0") }}
-              {{ field(class="col m-2 p-2 card h-50") }}
+            <div class="row border rounded m-0 p-2">
+              {{ field.label(class="col p-0") }}
+              {{ field(class="col p-2 card") }}
             </div>
             
           {% else %}
@@ -55,7 +55,7 @@
       {% endfor %}
           
       <div class="row my-2">
-        {{ param_wrapper.form.submit(class="col-auto m-auto btn btn-primary") }}
+        {{ param_wrapper.form.submit(class="col-auto m-0 btn btn-primary") }}
       </div>
     </div>
     

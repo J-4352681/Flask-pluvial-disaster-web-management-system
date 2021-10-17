@@ -1,27 +1,24 @@
 {% extends "generic/base.html" %}
 
-{% block title %}Configuracion del sistema{% endblock %}
-
 {% block navbar %}
     {% include "generic/navbar.html" %} 
 {% endblock %}
 
 {% block content %}
-  {% with titulo_apartado="Opciones de la configuracion ", subtitulo_apartado="Configuracion" %}
-    {% include "generic/generic_content.html" %}
-  {% endwith %}
+    {% block generic_content %}{% endblock %}
+  
+  <form class="row mx-1" action={% block endpoint %}{% endblock %}} method="POST">
+    {{ form.hidden_tag() }}
 
-  {% for field, errors in form.errors.items() %}
+    {% for field, errors in form.errors.items() %}
       <div class="alert alert-error bg-danger text-white">
         {{ form[field].label }}: {{ ', '.join(errors) }}
       </div>
     {% endfor %}
-  
-  <form class="row mx-1" action="{{ url_for('config_modify') }}" method="POST">
-    {{ form.hidden_tag() }}
+
 
     {% for field in form %}
-    {% if field.name not in ["submit", "csrf_token"] %}
+    {% if field.name not in ["submit", "csrf_token", "id"] %}
       {{ field.label(class="col-12 my-2 p-0") }}
       {{ field(class="col-6 m-2 p-2 card") }}
     {% endif %}

@@ -57,7 +57,7 @@ def getSortCriterionMeetingPoints():
 def getPrivatePalette():
     """Devuelve una lista de nombres de colores reconocidos por HTML. [0] color primario, [1] secundario y [2] accento. Si no existe una lista de colores para la aplicacion privadada especificada en la configuracion se deuvelve una por defecto."""
     configuration = get()
-    if ( configuration.palette_private): # una lista vacia es falso
+    if ( configuration.palette_private.color1 and configuration.palette_private.color2 and configuration.palette_private.color3): # una lista vacia es falso
         return [configuration.palette_private.color1.value, configuration.palette_private.color2.value, configuration.palette_private.color3.value]
     else:
         return ["Snow", "Gray", "Salmon"] # Colores por defecto, reconocidos por HTML
@@ -65,7 +65,7 @@ def getPrivatePalette():
 def getPublicPalette():
     """Devuelve una lista de nombres de colores reconocidos por HTML. [0] color primario, [1] secundario y [2] accento. Si no existe una lista de colores para la aplicacion publica especificada en la configuracion se deuvelve una por defecto."""
     configuration = get()
-    if ( configuration.palette_public): # una lista vacia es falso
+    if ( configuration.palette_public.color1 and configuration.palette_public.color2 and configuration.palette_public.color3): # una lista vacia es falso
         return [configuration.palette_public.color1.value, configuration.palette_public.color2.value, configuration.palette_public.color3.value]
     else:
         return ["Snow", "Gray", "SkyBlue"] # Colores por defecto, reconocidos por HTML

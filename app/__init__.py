@@ -39,7 +39,6 @@ def create_app(environment="development"):
     app.add_url_rule(
         "/autenticacion", "auth_authenticate", auth.authenticate, methods=["POST"]
     )
-    app.add_url_rule("/perfil", "auth_profile", auth.perfil)
 
     # Rutas de Usuarios
     app.add_url_rule("/usuarios", "user_index", user.index)
@@ -51,6 +50,8 @@ def create_app(environment="development"):
     app.add_url_rule("/usuarios/alta/<int:user_id>", "user_unblock", user.unblock, methods=["GET", "POST"])
     app.add_url_rule("/usuarios/rol", "user_assing_role", user.assign_role, methods=["POST"])
     app.add_url_rule("/usuarios/rol", "user_unassing_role", user.unassign_role, methods=["DELETE"])
+    app.add_url_rule("/perfil", "profile_index", user.profile)
+    app.add_url_rule("/perfil/edit/<int:user_id>", "profile_modify", user.profile_modify, methods=["GET", "POST"])
 
     # Rutas de Puntos de encuentro
     app.add_url_rule("/puntos_encuentro", "points_index", points.index)

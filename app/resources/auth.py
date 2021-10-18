@@ -28,6 +28,3 @@ def logout():
     session.clear()
 
     return redirect(url_for("auth_login"))
-
-def perfil():
-    return render_template("user/perfil.html")

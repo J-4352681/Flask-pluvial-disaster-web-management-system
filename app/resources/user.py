@@ -116,13 +116,13 @@ def modify(user_id):
     return render_template("generic/base_form.html", param_wrapper=param_wrapper)
     
 def profile():
-    assert_permit(session, "profile_index")
+    #assert_permit(session, "profile_index")
     user = session.get("user")
     return render_template("user/perfil.html", user=user)
 
 def profile_modify(user_id):
     """Modifica los datos de un usuario."""
-    assert_permit(session, "profile_modify")
+    #assert_permit(session, "profile_modify")
     user = User.find_by_id(user_id)
     form = UserProfileModificationForm(obj=user)
 

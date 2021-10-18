@@ -17,6 +17,7 @@
         <tr class="row">
           <th class="col">Opciones de configuracion</th>
           <th class="col">Valor</th>
+          <th class="col"></th>
           <td class="col"><a class="btn btn-primary" href="{{ url_for('config_modify')}}"><ion-icon name="pencil-outline"></ion-icon> Editar</a></td>
         </tr>
       </thead>
@@ -25,6 +26,7 @@
           <th class="col">Elementos por pagina</th>
           <td class="col">{{ config.elements_per_page }}</td>
           <th class="col"></th>
+          <th class="col"></th>
         </tr>
       </tbody>
     <tbody class="row">
@@ -32,12 +34,14 @@
         <th class="col">Criterio de ordenamiento de usuarios</th>
         <td class="col">{{ config.sort_users }}</td>
         <th class="col"></th>
+        <th class="col"></th>
       </tr>
     </tbody>
     <tbody class="row">
       <tr class="row">
         <th class="col">Criterio de ordenamiento de puntos de encuentro</th>
         <td class="col">{{ config.sort_meeting_points }}</td>
+        <th class="col"></th>
         <th class="col"></th>
       </tr>
     </tbody>
@@ -59,6 +63,7 @@
       </tbody>
 
     </table>
+
 
   </div>
   

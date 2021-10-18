@@ -50,7 +50,7 @@ def new():
         return redirect(url_for('points_index'))
     else:
         param_wrapper = FormTemplateParamsWrapper(
-            form, url_for('points_new'), "creacion", url_for('points_index'), "Punto de encuentro", "un nuevo punto de encuentro"
+            form, url_for('points_new'), "creacion", url_for('points_index'), "Punto_de_encuentro", "un nuevo punto de encuentro"
         )
 
         return render_template("generic/base_form.html", param_wrapper=param_wrapper)
@@ -74,7 +74,7 @@ def modify(point_id):
         return redirect(url_for('points_index'))
     
     param_wrapper = FormTemplateParamsWrapper(
-        form, url_for('points_modify', point_id=point.id), "edición", url_for('points_index'), "Punto de encuentro", point.name, point.id
+        form, url_for('points_modify', point_id=point.id), "edición", url_for('points_index'), "Punto_de_encuentro", point.name, point.id
     )
 
     return render_template("generic/base_form.html", param_wrapper=param_wrapper)

@@ -7,51 +7,52 @@
 {% endblock %}
 {% block content %}
 
-  {% with titulo_apartado="Puntos de encuentro", subtitulo_apartado="Inspeccionar Punto "+point.name, pagina_retorno="points_index" %}
-    {% include "generic/generic_content_return.html" %}
-  {% endwith %}
+    <section>
+        {% with titulo_apartado="Puntos de encuentro", subtitulo_apartado="Inspeccionar Punto "+point.name, return_url=url_for("points_index") %}
+            {% include "generic/generic_content_return.html" %}
+        {% endwith %}
   
-  <div class="row mx-3">
-    <table class="col table table-hover h-100">
-      <thead class="row">
-        <tr class="row">
-          <th class="col">Atributo</th>
-        </tr>
-      </thead>
-      <tbody class="row">
-        <tr class="row"></tr>
-          <th class="col">Nombre</th>
-          <td class="col">{{ point.name }}</td>
-        </tr>
-        <tr class="row"></tr>
-          <th class="col">Direccion</th>
-          <td class="col">{{ point.direction }}</td>
-        </tr>
-        <tr class="row"></tr>
-          <th class="col">Coordenadas</th>
-          <td class="col">{{ point.coordinates }}</td>
-        </tr>
-        <tr class="row"></tr>
-          <th class="col">Publico</th>
-          <td class="col">{{ point.state }}</td>
-        </tr>
-        <tr class="row"></tr>
-          <th class="col">Telefono</th>
-          <td class="col">{{ point.telephone }}</td>
-        </tr>
-        <tr class="row"></tr>
-          <th class="col">E-mail</th>
-          <td class="col">{{ point.email }}</td>
-        </tr>
-        <tr class="row"></tr>
-          <td class="col"><a href="{{ url_for('points_modify', point_id=point.id)}}"><ion-icon name="pencil-outline"></ion-icon>Editar</a></td>
-          <td class="col"><a onclick="return confirm('¿Esta seguro que quiere eliminar este elemento?')" href="{{ url_for('points_delete', point_id=point.id)}}" ><ion-icon name="trash-outline"></ion-icon>Eliminar</a></td>
-        </tr>
-      </tbody>
-
-    </table>
-
-  </div>
+        <div class="row mx-3">
+            <table class="col table table-hover h-100">
+                <thead class="row">
+                    <tr class="row">
+                    <th class="col">Atributo</th>
+                    </tr>
+                </thead>
+                <tbody class="row">
+                    <tr class="row"></tr>
+                    <th class="col">Nombre</th>
+                    <td class="col">{{ point.name }}</td>
+                    </tr>
+                    <tr class="row"></tr>
+                    <th class="col">Direccion</th>
+                    <td class="col">{{ point.direction }}</td>
+                    </tr>
+                    <tr class="row"></tr>
+                    <th class="col">Coordenadas</th>
+                    <td class="col">{{ point.coordinates }}</td>
+                    </tr>
+                    <tr class="row"></tr>
+                    <th class="col">Publico</th>
+                    <td class="col">{{ point.state }}</td>
+                    </tr>
+                    <tr class="row"></tr>
+                    <th class="col">Telefono</th>
+                    <td class="col">{{ point.telephone }}</td>
+                    </tr>
+                    <tr class="row"></tr>
+                    <th class="col">E-mail</th>
+                    <td class="col">{{ point.email }}</td>
+                    </tr>
+                    <tr class="row"></tr>
+                    <td class="col"><a href="{{ url_for('points_modify', point_id=point.id)}}"><ion-icon name="pencil-outline"></ion-icon>Editar</a></td>
+                    <td class="col"><a onclick="return confirm('¿Esta seguro que quiere eliminar este elemento?')" href="{{ url_for('points_delete', point_id=point.id)}}" ><ion-icon name="trash-outline"></ion-icon>Eliminar</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+  
   
 
 {% endblock %}

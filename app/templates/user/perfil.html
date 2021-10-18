@@ -6,45 +6,47 @@
 {% endblock %}
 
 {% block content %}
-  {% with titulo_apartado="Perfil de usuario", subtitulo_apartado="Edición del perfil de usuario" %}
-    {% include "generic/generic_content.html" %}
-  {% endwith %}
 
-  <div class="row mx-3">
-    <table class="col table table-hover h-100">
-      <thead class="row">
-        <tr class="row">
-          <th class="col">Atributo</th>
-        </tr>
-      </thead>
-      <tbody class="row">
-        <tr class="row"></tr>
-          <th class="col">Nombre</th>
-          <td class="col">{{ user.first_name }}</td>
-        </tr>
-        <tr class="row"></tr>
-          <th class="col">Apellido</th>
-          <td class="col">{{ user.last_name }}</td>
-        </tr>
-        <tr class="row"></tr>
-          <th class="col">Username</th>
-          <td class="col">{{ user.username }}</td>
-        </tr>
-        <tr class="row"></tr>
-          <th class="col">E-Mail</th>
-          <td class="col">{{ user.email }}</td>
-        </tr>
-        <tr class="row"></tr>
-            <td class="col">
-                {% with id=user.id %}
-                <a href="{{ url_for('profile_modify', user_id=user.id) }}"><ion-icon name="pencil-outline"></ion-icon>Editar</a>
-                {% endwith %}
-            </td>
-        </tr>
-      </tbody>
+    <section>
+        {% with titulo_apartado="Perfil de usuario", subtitulo_apartado="Edición del perfil de usuario" %}
+            {% include "generic/generic_content.html" %}
+        {% endwith %}
 
-    </table>
-
-  </div>
+        <div class="row mx-3">
+            <table class="col table table-hover h-100">
+                <thead class="row">
+                    <tr class="row">
+                    <th class="col">Atributo</th>
+                    </tr>
+                </thead>
+                <tbody class="row">
+                    <tr class="row"></tr>
+                    <th class="col">Nombre</th>
+                    <td class="col">{{ user.first_name }}</td>
+                    </tr>
+                    <tr class="row"></tr>
+                    <th class="col">Apellido</th>
+                    <td class="col">{{ user.last_name }}</td>
+                    </tr>
+                    <tr class="row"></tr>
+                    <th class="col">Username</th>
+                    <td class="col">{{ user.username }}</td>
+                    </tr>
+                    <tr class="row"></tr>
+                    <th class="col">E-Mail</th>
+                    <td class="col">{{ user.email }}</td>
+                    </tr>
+                    <tr class="row"></tr>
+                        <td class="col">
+                            {% with id=user.id %}
+                            <a href="{{ url_for('profile_modify', user_id=user.id) }}"><ion-icon name="pencil-outline"></ion-icon>Editar</a>
+                            {% endwith %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+  
 
 {% endblock %}

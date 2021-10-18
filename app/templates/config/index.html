@@ -7,60 +7,59 @@
 {% endblock %}
 
 {% block content %}
-  {% with titulo_apartado="Configuracion", subtitulo_apartado="Listado y edición de opciones del sistema" %}
-    {% include "generic/generic_content.html" %}
-  {% endwith %}
-  
-  <div class="row mx-3">
-    <table class="col table table-hover h-100">
-      <thead class="row">
-        <tr class="row">
-          <th class="col">Opciones de configuracion</th>
-          <th class="col">Valor</th>
-          <td class="col"><a class="btn btn-primary" href="{{ url_for('config_modify')}}"><ion-icon name="pencil-outline"></ion-icon> Editar</a></td>
-        </tr>
-      </thead>
-      <tbody class="row">
-        <tr class="row">
-          <th class="col">Elementos por pagina</th>
-          <td class="col">{{ config.elements_per_page }}</td>
-          <th class="col"></th>
-        </tr>
-      </tbody>
-    <tbody class="row">
-      <tr class="row">
-        <th class="col">Criterio de ordenamiento de usuarios</th>
-        <td class="col">{{ config.sort_users }}</td>
-        <th class="col"></th>
-      </tr>
-    </tbody>
-    <tbody class="row">
-      <tr class="row">
-        <th class="col">Criterio de ordenamiento de puntos de encuentro</th>
-        <td class="col">{{ config.sort_meeting_points }}</td>
-        <th class="col"></th>
-      </tr>
-    </tbody>
-      <tbody class="row">
-        <tr class="row">
-          <th class="col">Paleta de colores app privada</th>
-          <td class="col">{{ private_palette[0] }}</td>
-          <td class="col">{{ private_palette[1] }}</td>
-          <td class="col">{{ private_palette[2] }}</td>
-        </tr>
-      </tbody>
-      <tbody class="row">
-        <tr class="row">
-          <th class="col">Paleta de colores app publica</th>
-          <td class="col">{{ public_palette[0] }}</td>
-          <td class="col">{{ public_palette[1] }}</td>
-          <td class="col">{{ public_palette[2] }}</td>
-        </tr>
-      </tbody>
 
-    </table>
-
-  </div>
-  
+    <section>  
+        {% with titulo_apartado="Configuracion", subtitulo_apartado="Listado y edición de opciones del sistema" %}
+            {% include "generic/generic_content.html" %}
+        {% endwith %}
+    <div class="row mx-3">
+        <table class="col table table-hover h-100">
+          <thead class="row">
+            <tr class="row">
+              <th class="col">Opciones de configuracion</th>
+              <th class="col">Valor</th>
+              <td class="col"><a class="btn btn-primary" href="{{ url_for('config_modify')}}"><ion-icon name="pencil-outline"></ion-icon> Editar</a></td>
+            </tr>
+          </thead>
+          <tbody class="row">
+            <tr class="row">
+              <th class="col">Elementos por pagina</th>
+              <td class="col">{{ config.elements_per_page }}</td>
+              <th class="col"></th>
+            </tr>
+          </tbody>
+        <tbody class="row">
+          <tr class="row">
+            <th class="col">Criterio de ordenamiento de usuarios</th>
+            <td class="col">{{ config.sort_users }}</td>
+            <th class="col"></th>
+          </tr>
+        </tbody>
+        <tbody class="row">
+          <tr class="row">
+            <th class="col">Criterio de ordenamiento de puntos de encuentro</th>
+            <td class="col">{{ config.sort_meeting_points }}</td>
+            <th class="col"></th>
+          </tr>
+        </tbody>
+          <tbody class="row">
+            <tr class="row">
+              <th class="col">Paleta de colores app privada</th>
+              <td class="col">{{ private_palette[0] }}</td>
+              <td class="col">{{ private_palette[1] }}</td>
+              <td class="col">{{ private_palette[2] }}</td>
+            </tr>
+          </tbody>
+          <tbody class="row">
+            <tr class="row">
+              <th class="col">Paleta de colores app publica</th>
+              <td class="col">{{ public_palette[0] }}</td>
+              <td class="col">{{ public_palette[1] }}</td>
+              <td class="col">{{ public_palette[2] }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  </section>
 
 {% endblock %}

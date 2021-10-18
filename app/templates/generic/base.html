@@ -10,5 +10,26 @@
         {% block content %}{% endblock %}
     </div>
   </div>
+  <style>
+    body {
+      background: {{ private_theme()[0] }}
+    }
+  
+    button {
+      background: {{ private_theme()[2] }}
+    }
+
+    .btn {
+      background: {{ private_theme()[2] }}
+    }
+
+    #navbar {
+      background: {{ private_theme()[1] }}
+    }
+
+    input[type="submit"] {
+      background:{{ private_theme()[2] }};
+    }
+  </style>
 {% endblock %}
 

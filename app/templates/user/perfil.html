@@ -17,31 +17,33 @@
                 <thead class="row">
                     <tr class="row">
                     <th class="col">Atributo</th>
+                    <th class="col"></th>
                     </tr>
                 </thead>
                 <tbody class="row">
-                    <tr class="row"></tr>
+                    <tr class="row">
                     <th class="col">Nombre</th>
                     <td class="col">{{ user.first_name }}</td>
                     </tr>
-                    <tr class="row"></tr>
+                    <tr class="row">
                     <th class="col">Apellido</th>
                     <td class="col">{{ user.last_name }}</td>
                     </tr>
-                    <tr class="row"></tr>
+                    <tr class="row">
                     <th class="col">Username</th>
                     <td class="col">{{ user.username }}</td>
                     </tr>
-                    <tr class="row"></tr>
+                    <tr class="row">
                     <th class="col">E-Mail</th>
                     <td class="col">{{ user.email }}</td>
                     </tr>
-                    <tr class="row"></tr>
+                    <tr class="row">
                         <td class="col">
                             {% with id=user.id %}
                             <a href="{{ url_for('profile_modify', user_id=user.id) }}"><ion-icon name="pencil-outline"></ion-icon>Editar</a>
                             {% endwith %}
                         </td>
+                        <th class="col"></th>
                     </tr>
                 </tbody>
             </table>

@@ -14,8 +14,6 @@ $(document).ready(function(){
         checkbox = $("<input type='checkbox' style='margin-right: 10px;'>").attr('checked', element.selected);
         label = $("<label></label>");
         new_mult_select.prepend(label.append(element.text).prepend(checkbox));
-
-        console.log(checkbox, element.value, $(this));
   
         checkbox.click(function(){ element.selected = !element.selected; });
       });

@@ -179,13 +179,14 @@ def modify():
     #form.palette_private.choices = colores #Select fields no esta devolviendo los valores que selecciono
     if request.method == "POST" and form.validate():
         modifyElementsPerPage(config, form.elements_per_page.data)
-        modifySortCriterionUser(config, form.sort_users.data)
-        modifySortCriterionMeetingPoints(config, form.sort_meeting_points.data)
-        coloresPrivados = [getColor(dict(colores).get(form.private_color1.data)), getColor(dict(colores).get(form.private_color2.data)), getColor(dict(colores).get(form.private_color3.data))]
-        #coloresPrivados = list(map(lambda x: getColor(dict(colores).get(x)), form.palette_private.data))
-        newPrivatePallete(config, coloresPrivados)
-        coloresPublicos = [getColor(dict(colores).get(form.public_color1.data)), getColor(dict(colores).get(form.public_color2.data)), getColor(dict(colores).get(form.public_color3.data))]
-        newPublicPallete(config, coloresPublicos)
+        if(form.sort_users.data): modifySortCriterionUser(config, form.sort_users.data)
+        if(form.sort_meeting_points.data):modifySortCriterionMeetingPoints(config, form.sort_meeting_points.data)
+        if(form.private_color1.data and form.private_color2.data and form.private_color3.data):
+            coloresPrivados = [getColor(dict(colores).get(form.private_color1.data)), getColor(dict(colores).get(form.private_color2.data)), getColor(dict(colores).get(form.private_color3.data))]
+            newPrivatePallete(config, coloresPrivados)
+        if(form.public_color1.data and form.public_color2.data and form.public_color3.data):
+            coloresPublicos = [getColor(dict(colores).get(form.public_color1.data)), getColor(dict(colores).get(form.public_color2.data)), getColor(dict(colores).get(form.public_color3.data))]
+            newPublicPallete(config, coloresPublicos)
         
         return redirect(url_for('config_index'))
 

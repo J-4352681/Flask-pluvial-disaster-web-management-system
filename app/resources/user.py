@@ -8,7 +8,7 @@ from app.helpers.user import username_or_email_already_exist
 from app.helpers.filter import Filter
 from app.models.role import Role
 
-from app.forms.user_forms import UserCreationForm, UserModificationForm
+from app.forms.user_forms import UserCreationForm, UserModificationForm, UserProfileModificationForm
 from app.forms.filter_forms import UserFilter
 from app.resources.generic import FormTemplateParamsWrapper
 
@@ -94,12 +94,19 @@ def unassign_role(user, role):
 def modify(user_id):
     """Modifica los datos de un usuario."""
     assert_permit(session, "user_modify")
+
     user = User.find_by_id(user_id)
     form = UserModificationForm(obj=user)
 
     if form.validate_on_submit():
         form.populate_obj(user)
         User.update()
+
+        if user_id == session.get("user").id:
+            new_user = User.find_by_id(user_id)
+            session["user"] = new_user
+            session["user_permits"] = new_user.get_permits()
+
         return redirect(url_for('user_index'))
     
     param_wrapper = FormTemplateParamsWrapper(
@@ -108,4 +115,25 @@ def modify(user_id):
     
     return render_template("generic/base_form.html", param_wrapper=param_wrapper)
     
+def profile():
+    assert_permit(session, "profile_index")
+    user = session.get("user")
+    return render_template("user/perfil.html", user=user)
+
+def profile_modify(user_id):
+    """Modifica los datos de un usuario."""
+    assert_permit(session, "profile_modify")
+    user = User.find_by_id(user_id)
+    form = UserProfileModificationForm(obj=user)
+
+    if form.validate_on_submit():
+        form.populate_obj(user)
+        User.update()
+        session["user"] = User.find_by_id(user_id)
+        return redirect(url_for('profile_index'))
     
+    param_wrapper = FormTemplateParamsWrapper(
+        form, url_for("profile_modify", user_id=user.id), "edición", url_for('profile_index') , "Usuario", user.first_name, user.id
+    )
+    
+    return render_template("generic/base_form.html", param_wrapper=param_wrapper)

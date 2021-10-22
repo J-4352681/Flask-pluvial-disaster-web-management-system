@@ -1,0 +1,56 @@
+<form class="row mx-1 mb-5" action="{{ args.action_url }}" method="{{ args.method }}">
+    {{ args.form.hidden_tag() }}
+    <div class="col-lg-2 col-sm-auto"></div>
+    <div class="col-lg-8 col-sm">
+        {% for field, errors in args.form.errors.items() %}
+            <div class="row alert alert-error bg-danger text-white">
+            {{ field.label(class="col") }}: {{ ', '.join(errors) }}
+            </div>
+        {% endfor %}
+    
+        {% for field in args.form %}
+        {% if field.name not in ["submit", "csrf_token", "id"] %}
+    
+            {% if field.data is boolean %}
+                <div class="row border-top border-bottom my-2 py-2">
+                    {{ field.label(class="col mx-3 p-0") }}
+                    {{ field(class="col m-0 p-0 card") }}
+                </div>
+                
+            {% else %}
+                <div class="row">
+                {{ field.label(class="col my-2 p-0") }}
+                </div>
+    
+                {% if field.choices %}
+                    {% if field.choices is mapping %}
+                        <select class="row" name="{{ field.name }}" multiple>
+                            {% for k, v in field.choices.items() %}
+                                <option class="col-auto mx-2" value="{{ k }}" {% if k in field.default %} selected{% endif %}>{{ v }}</option>
+                            {% endfor %}
+                        </select>
+                    {% else %}
+                        <div class="row">
+                            {{ field(class="col my-2 py-2") }}
+                        </div>
+                    {% endif %}
+                {% else %}
+                
+                    <div class="row">
+                        {{ field(class="col my-2 form-control") }}
+                    </div>
+                {% endif %}
+            {% endif %}
+            
+        {% endif %}
+        {% endfor %}
+        
+        <div class="row my-2">
+            {% with args={"text": "Aceptar"} %} {% include "generic/elements/buttons/submit_button1.html" %} {% endwith %}
+            
+        </div>
+    </div>
+    <div class="col-lg-2 col-sm-auto"></div>
+</form>
+
+<script src="{{ url_for('static', filename='checkbox.js') }}"></script>

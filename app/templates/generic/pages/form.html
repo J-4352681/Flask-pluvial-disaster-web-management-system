@@ -1,0 +1,9 @@
+{% extends "generic/pages/base.html" %}
+
+{% block content %}
+    {% with args=temp_interface %}
+        {% include "generic/elements/headers/header_back.html" %}
+
+        {% include "generic/elements/forms/form.html" %}
+    {% endwith %}
+{% endblock %}

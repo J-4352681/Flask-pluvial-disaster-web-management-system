@@ -3,14 +3,14 @@ from sqlalchemy.sql.expression import false, true
 
 from app.models.user import User
 from app.models.role import Role
+
 from app.helpers.auth import assert_permit
 from app.helpers.user import username_or_email_already_exist
 from app.helpers.filter import Filter
-from app.models.role import Role
+from app.helpers.template_pages import FormPage, DBModelIndexPage
 
 from app.forms.user_forms import UserCreationForm, UserModificationForm, UserProfileModificationForm
 from app.forms.filter_forms import UserFilter
-from app.resources.generic import FormTemplateParamsWrapper
 
 from app.resources.config import getSortCriterionUsers
 
@@ -20,8 +20,13 @@ def index(page=None):
     assert_permit(session, "user_index")
 
     filt = Filter(UserFilter, User, request.args)
-        
-    return render_template("user/index.html", form=filt.form, users=filt.get_query(page))
+    
+    temp_interface = DBModelIndexPage(
+        filt, page, title="Administración de usuarios",
+        subtitle="Administración, adición y eliminación de los usuarios del sitio"
+    )
+
+    return render_template("user/pages/index.html", temp_interface=temp_interface)
 
 def new():
     """Devuelve el template para crear un nuevo usuario."""
@@ -33,17 +38,18 @@ def new():
         create(form, user)
         return redirect(url_for("user_index"))
     else:
-        param_wrapper = FormTemplateParamsWrapper(
-            form, url_for("user_new"), "creación", url_for('user_index'), "Usuario", "un nuevo usuario"
+        temp_interface = FormPage(
+            form, url_for("user_new"),
+            title="Creación de usuario", subtitle="Creando un nuevo usuario",
+            return_url=url_for('user_index')
         )
 
-        return render_template("generic/base_form.html", param_wrapper=param_wrapper)
+        return render_template("generic/pages/form.html", temp_interface=temp_interface)
 
 def create(form, user):
     """Verifica que los datos unicos no esten repetidos antes de crear un nuevo usuario con los datos pasados por request."""
     assert_permit(session, "user_create")
 
-    # user_attrs["roles"] = Role.get_by_ids([int(i) for i in user_attrs["roles"]])
     form.populate_obj(user)
     User.create_from_user(user)
 
@@ -108,12 +114,14 @@ def modify(user_id):
             session["user_permits"] = new_user.get_permits()
 
         return redirect(url_for('user_index'))
-    
-    param_wrapper = FormTemplateParamsWrapper(
-        form, url_for("user_modify", user_id=user.id), "edición", url_for('user_index') , "Usuario", user.first_name, user.id
+
+    temp_interface = FormPage(
+        form, url_for("user_modify", user_id=user.id),
+        title="Edición de usuario", subtitle="Editando el usuario "+str(user.first_name),
+        return_url=url_for('user_index')
     )
     
-    return render_template("generic/base_form.html", param_wrapper=param_wrapper)
+    return render_template("generic/pages/form.html", temp_interface=temp_interface)
     
 def profile():
     #assert_permit(session, "profile_index")

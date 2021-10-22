@@ -1,0 +1,19 @@
+{% extends "generic/elements/list/list_row.html" %}
+
+{% block action_icons %}
+    {% with args=args.item %}
+        <td class="col">
+            {% with args={"url": url_for('points_modify', point_id=args.id), "icon_name": "pencil", "title": "Editar"} %}
+                {% include "generic/elements/action_icon.html" %}
+            {% endwith %}
+
+            {% with args={"url": url_for('points_delete', point_id=args.id), "icon_name": "trash", "title": "Borrar", "onclick": "return confirm('¿Esta seguro que quiere eliminar a este elemento?')"} %}
+                {% include "generic/elements/action_icon.html" %}
+            {% endwith %}
+
+            {% with args={"url": url_for('points_show', point_id=args.id), "icon_name": "eye", "title": "Detalle"} %}
+                {% include "generic/elements/action_icon.html" %}
+            {% endwith %}
+        </td>
+    {% endwith %}
+{% endblock %}

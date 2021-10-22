@@ -2,13 +2,15 @@ from flask import redirect, render_template, request, url_for, session, abort
 from sqlalchemy.sql.expression import false, true
 
 from app.models.meeting_point import Meeting_Point
+
 from app.helpers.auth import assert_permit
-from app.forms.meeting_point_forms import MeetingPointModificationForm
 from app.helpers.filter import Filter
+from app.helpers.template_pages import FormPage, ListDBModelPage
+
 from app.forms.filter_forms import PointFilter
+from app.forms.meeting_point_forms import MeetingPointModificationForm
 
 from app.resources.config import getSortCriterionMeetingPoints
-from .generic import FormTemplateParamsWrapper
 
 # Protected resources
 def index(page=None):
@@ -17,8 +19,15 @@ def index(page=None):
 
     #points = allPublic()
     filt = Filter(PointFilter, Meeting_Point, request.args)
+
+    temp_interface = ListDBModelPage(
+        filt, page, ["name", "direction", "coordinates", "state", "telephone", "email"],
+        ["Nombre", "Dirección", "Coordenadas", "Publico", "Teléfono", "Mail", "Acciones"],
+        title="Administración de puntos de encuentro",
+        subtitle="Administración, adición y eliminación de los puntos de encuentro del sitio"
+    )
     
-    return render_template("points/index.html", points=filt.get_query(page), form=filt.form)
+    return render_template("points/pages/index.html", temp_interface=temp_interface)
 
 def show(point_id):
     """Muestra la lista de puntos de encuentro."""
@@ -49,18 +58,19 @@ def new():
         create(form.name.data, form.direction.data, form.coordinates.data, form.telephone.data, form.email.data, form.state.data)
         return redirect(url_for('points_index'))
     else:
-        param_wrapper = FormTemplateParamsWrapper(
-            form, url_for('points_new'), "creacion", url_for('points_index'), "Punto_de_encuentro", "un nuevo punto de encuentro"
+        temp_interface = FormPage(
+            form, url_for("points_new"),
+            title="Creación de punto de encuentro", subtitle="Creando un nuevo punto de encuentro",
+            return_url=url_for('points_index')
         )
 
-        return render_template("generic/base_form.html", param_wrapper=param_wrapper)
-    # return render_template("points/new.html", form=form, item_type="Punto de encuentro") #point=point
+        return render_template("generic/pages/form.html", temp_interface=temp_interface)
 
 def create(name, direction, coordinates, telephone, email, state):
     """Crea un punto de encuentro con los datos envuados por request."""
     assert_permit(session, "points_create")
 
-    Meeting_Point.create(name, direction, coordinates, telephone, email, state)# **request.form)
+    Meeting_Point.create(name, direction, coordinates, telephone, email, state)
 
 def modify(point_id):
     """Modifica los datos de un usuario."""
@@ -73,11 +83,13 @@ def modify(point_id):
         Meeting_Point.update()
         return redirect(url_for('points_index'))
     
-    param_wrapper = FormTemplateParamsWrapper(
-        form, url_for('points_modify', point_id=point.id), "edición", url_for('points_index'), "Punto_de_encuentro", point.name, point.id
+    temp_interface = FormPage(
+        form, url_for("points_modify", point_id=point.id),
+        title="Edición de punto de encuentro", subtitle="Editando el punto de encuentro "+str(point.name),
+        return_url=url_for('points_index')
     )
 
-    return render_template("generic/base_form.html", param_wrapper=param_wrapper)
+    return render_template("generic/pages/form.html", temp_interface=temp_interface)
     
 def delete(point_id):
     """Permite eliminar puntos de encuentro."""

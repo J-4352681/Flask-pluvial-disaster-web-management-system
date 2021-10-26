@@ -32,7 +32,6 @@ def create_app(environment="development"):
     # Funciones que se exportan al contexto de Jinja2
     app.jinja_env.globals.update(is_authenticated=helper_auth.authenticated)
     app.jinja_env.globals.update(get_navigation_actions=helper_auth.get_navigation_actions)
-    app.jinja_env.globals.update(private_theme=configObject.getPrivatePalette)
 
     # Autenticación
     app.add_url_rule("/iniciar_sesion", "auth_login", auth.login)
@@ -54,7 +53,6 @@ def create_app(environment="development"):
     app.add_url_rule("/perfil", "profile_index", user.profile)
     app.add_url_rule("/perfil/edit/<int:user_id>", "profile_modify", user.profile_modify, methods=["GET", "POST"])
 
-    
     # Rutas de Puntos de encuentro
     app.add_url_rule("/puntos_encuentro", "points_index", points.index)
     app.add_url_rule("/puntos_encuentro/show/<int:point_id>", "points_show", points.show, methods=["GET"])

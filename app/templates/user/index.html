@@ -19,7 +19,7 @@
                     <div class="col-6">
                         <div class="row">
                             <div class="col">
-                            <a class="btn " href="{{url_for("user_new")}}">+ Crear usuario</a>
+                            <a class="btn btn-primary" href="{{url_for("user_new")}}">+ Crear usuario</a>
                             </div>
                             <div class="col">
                             <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#user-filter">Filtrar</button>
@@ -89,5 +89,6 @@
                 {% include "user/filter.html" %}
             {% endwith %}
         </div>
-    </section> 
+    </section>  
+
 {% endblock %}

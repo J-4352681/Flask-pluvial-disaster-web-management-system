@@ -1,6 +1,6 @@
-<nav id="navbar" class="navbar position-fixed w-100 navbar-expand-lg navbar-light">
+<nav id="navbar" class="navbar position-fixed w-100 navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <a class="navbar-brand mx-3  p-0 col-auto m-auto text-decoration-none" href="{{ url_for('home') }}"><ion-icon class="nav-icon nav-coloricon" name="water"></ion-icon></a>
+        <a class="navbar-brand mx-3 btn p-0 col-auto m-auto text-decoration-none" href="{{ url_for('home') }}"><ion-icon class="nav-icon" name="water"></ion-icon></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNavbar" aria-controls="menuNavbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -9,13 +9,13 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 {% for apartado in get_navigation_actions(session) %}
                     <li class="nav-item">
-                        <a class="nav-link asd" href="{{ apartado.url }}">{{ apartado.nombre }}</a>
+                        <a class="nav-link" href="{{ apartado.url }}">{{ apartado.nombre }}</a>
                     </li>
                 {% endfor %}
             </ul>
         </div>
 
-        <div id="nav-user-icon" class="mx-3 p-0 col-auto m-auto text-decoration-none"><ion-icon class="nav-icon nav-coloricon" name="person"></ion-icon></div>
+        <div id="nav-user-icon" class="mx-3 btn p-0 col-auto m-auto text-decoration-none"><ion-icon class="nav-icon" name="person"></ion-icon></div>
 
         <div id="nav-drop-menu" class="position-fixed container card shadow-sm">
           <a class="row text-decoration-none text-secondary" href="{{ url_for('profile_index') }}">

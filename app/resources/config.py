@@ -167,10 +167,6 @@ def modify():
     else:
         form = Config_forms(obj=config)
     
-    # Ordenamiendo
-    form.sort_users.choices =  [('username','Nombre de usuario'), ('first_name','Nombre'), ('last_name','Apellido'), ('email','Mail')]
-    form.sort_meeting_points.choices = [('name','Nombre'),('direction','Direccion'),('coordinates','Coordenadas'), ('telephone', 'Telefono'), ('email','Mail')]
-
     #Obtener colores
     colores = [(g.id, g.value) for g in allColors()]
     form.private_color1.choices = colores

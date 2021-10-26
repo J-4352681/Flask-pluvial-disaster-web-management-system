@@ -1,6 +1,6 @@
 # Proyecto de Software - Grupo 38
 
-Aplicación de ejemplo para la cátedra de Proyecto de Software de la Facultad de Informática de la U.N.L.P.
+Aplicación para la cátedra de Proyecto de Software 2021 de la Facultad de Informática de la U.N.L.P.
 
 ## Integrantes
 
@@ -28,7 +28,3 @@ templates         # Módulo con los templates
 db.py             # Instancia de base de datos
 __init__.py       # Instancia de la aplicación y ruteo
 ```
-
-## TODO
-
-- [ ] Usar una hoja de estilos simple para que quede de ejemplo.

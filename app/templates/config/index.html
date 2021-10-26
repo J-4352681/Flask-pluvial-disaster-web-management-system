@@ -18,7 +18,7 @@
               <th class="col">Opciones de configuracion</th>
               <th class="col">Valor</th>
               <th class="col"></th>
-              <td class="col"><a class="btn btn-primary" href="{{ url_for('config_modify')}}"><ion-icon name="pencil-outline"></ion-icon> Editar</a></td>
+              <td class="col"><a class="btn" href="{{ url_for('config_modify')}}"><ion-icon name="pencil-outline"></ion-icon> Editar</a></td>
             </tr>
           </thead>
           <tbody class="row">
@@ -32,7 +32,7 @@
         <tbody class="row">
           <tr class="row">
             <th class="col">Criterio de ordenamiento de usuarios</th>
-            <td class="col">{{ config.sort_users }}</td>
+            <td class="col">{{ config.translateCriteria(config.sort_users)}}</td>
             <th class="col"></th>
             <th class="col"></th>
           </tr>
@@ -40,7 +40,7 @@
         <tbody class="row">
           <tr class="row">
             <th class="col">Criterio de ordenamiento de puntos de encuentro</th>
-            <td class="col">{{ config.sort_meeting_points }}</td>
+            <td class="col">{{ config.translateCriteria(config.sort_meeting_points)}}</td>
             <th class="col"></th>
             <th class="col"></th>
           </tr>

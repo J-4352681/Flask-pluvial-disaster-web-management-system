@@ -1,32 +1,35 @@
 {% extends "generic/base.html" %}
-
 {% block title %}Configuracion_del_sistema{% endblock %}
 
 {% block navbar %}
     {% include "generic/elements/navbar.html" %} 
 {% endblock %}
-
 {% block content %}
-    <section>
-        {% with titulo_apartado="Opciones de la configuracion ", subtitulo_apartado="Configuracion" %}
-            {% include "generic/generic_content.html" %}
-        {% endwith %}
-        {% for field, errors in form.errors.items() %}
-            <div class="alert alert-error bg-danger text-white">
-            {{ form[field].label }}: {{ ', '.join(errors) }}
-            </div>
-        {% endfor %}
-        
-        <form class="row mx-1" action="{{ url_for('config_modify') }}" method="POST">
-        {{ form.hidden_tag() }}
+<section>
+    {% with titulo_apartado="Opciones de la configuracion ", subtitulo_apartado="Configuracion" %}
+        {% include "generic/generic_content.html" %}
+    {% endwith %}
+    {% for field, errors in form.errors.items() %}
+        <div class="alert alert-error bg-danger text-white">
+        {{ form[field].label }}: {{ ', '.join(errors) }}
+        </div>
+    {% endfor %}
     
-        {% for field in form %}
-        {% if field.name not in ["submit", "csrf_token"] %}
-            {{ field.label(class="col-12 my-2 p-0") }}
-            {{ field(class="col-6 m-2 p-2 card") }}
-        {% endif %}
-        {% endfor %}
-        {{ form.submit(class="col-auto m-auto btn") }}
-        </form>
-    </section>
+    <form class="row mx-1" action="{{ url_for('config_modify') }}" method="POST">
+        {{ form.hidden_tag() }}
+        <div class="option-container">
+            {% for field in form %}
+            {% if field.name not in ["submit", "csrf_token"] %}
+            <span class='option'>
+                {{ field.label(class="my-2 p-0") }}
+                {{ field(class="m-2 p-2 input-form js-select") }}
+            </span>
+            {% endif %}
+            {% endfor %}
+        </div>
+        <span class='submit-container'>
+            {{ form.submit(class="btn btn-lg") }}
+        </span>
+    </form>
+</section>
 {% endblock %}

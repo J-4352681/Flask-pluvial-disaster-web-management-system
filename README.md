@@ -1,50 +1,29 @@
-# Proyecto de Software - Aplicación de ejemplo
+# Proyecto de Software - Grupo 38
 
 Aplicación de ejemplo para la cátedra de Proyecto de Software de la Facultad de Informática de la U.N.L.P.
 
-## Iniciar ambiente
+## Integrantes
 
-### Requisitos
+- Cobeaga Camilo
+- Marzano Franco
+- Oliva Tomás
+- Salsamendi Jeremías
 
-- python3
-- virtualenv
+## Login
 
-### Ejecución
+- admin: `admin@admin.com:123123`
+- operador: `pepe@pepe.com:123123`
 
-```bash
-$ virtualenv -p python3 venv
-# Para iniciar el entorno virtual
-$ source venv/bin/activate
-# Instalar las dependencias dentro del entorno virtual
-$ pip install -r requirements.txt
-# En el directorio raiz
-$ FLASK_ENV=development python run.py
-# Otra alternativa
-$ FLASK_ENV=development flask run
-```
-
-Para salir del entorno virutal, ejecutar:
-
-```bash
-$ deactivate
-```
-
-## Shell de prueba
-
-Para iniciar una consola interactiva que nos permita interactuar con
-nuestros modelos podemos ejecutar el siguiente comando:
-
-```bash
-FLASK_ENV=development flask shell
-```
+Backend: https://admin-grupo38.proyecto2021.linti.unlp.edu.ar/
 
 ## Estructura de carpetas del proyecto
 
 ```bash
-config            # Módulo de donde se obtienen las variables de configuración
+forms            # Módulo donde se encuentran clases que utilizan la libreria WTForms
 helpers           # Módulo donde se colocan funciones auxiliares para varias partes del código
 models            # Módulo con la lógica de negocio de la aplicación y la conexión a la base de datos
 resources         # Módulo con los controladores de la aplicación (parte web)
+static            # Módulo con los archivos estaticos (CSS, JavaScript)
 templates         # Módulo con los templates
 db.py             # Instancia de base de datos
 __init__.py       # Instancia de la aplicación y ruteo

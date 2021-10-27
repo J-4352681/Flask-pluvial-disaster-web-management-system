@@ -1,4 +1,4 @@
-{% extends "generic/base.html"%}
+{% extends "generic/pages/base.html"%}
 
 {% block title %}Home{% endblock %}
 
@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-  {% with titulo_apartado="Página principal", subtitulo_apartado="Página principal" %}
-    {% include "generic/generic_content.html" %}
+  {% with args={"title": "Página principal", "subtitle": "Página principal"} %}
+    {% include "generic/elements/headers/header.html" %}
   {% endwith %}
 {% endblock %}

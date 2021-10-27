@@ -2,13 +2,17 @@ from flask import redirect, render_template, request, url_for, session, abort, f
 from sqlalchemy.sql.expression import false, true
 
 from app.models.config import Config
+
 from app.resources.colors import getById as getColorById, all as allColors
 from app.resources.colors import new as newColor
 from app.resources.colors import get as getColor
+
 from app.helpers.auth import assert_permit
 # from app.helpers.filter import apply_filter
 
 from app.forms.config_forms import Config_forms
+
+from app.helpers.template_pages import FormPage, ItemDetailsPage
 
 # Protected resources
 def index():
@@ -18,8 +22,19 @@ def index():
     config=get()
     private_palette = getPrivatePalette()
     public_palette = getPublicPalette()
-    
-    return render_template("config/index.html", config=config, private_palette = private_palette, public_palette = public_palette, filters={"first_name": "Nombre", "last_name":"Apellido"})
+
+    temp_interface = ItemDetailsPage(
+        {
+          "Elementos por página": config.elements_per_page,
+          "Criterio de ordenamiento de usuarios": config.translateCriteria(config.sort_users),
+          "Criterio de ordenamiento de puntos de encuentro": config.translateCriteria(config.sort_meeting_points),
+          "Paleta de colores app privada": private_palette[0] + ", " + private_palette[1] + ", " + private_palette[2],
+          "Paleta de colores app publica": public_palette[0] + ", " + public_palette[1] + ", " + public_palette[2]
+        }, config,
+        title="Configuración", subtitle="Configuración de los datos del sistema"
+    )
+
+    return render_template("config/pages/index.html", temp_interface=temp_interface)
 
 def get():
     """Devuelve la configuracion del sistema. Si no existe una configuracion crea una nueva."""
@@ -194,4 +209,10 @@ def modify():
         
         return redirect(url_for('config_index'))
 
-    return render_template("config/edit.html", form=form, config=config)
+    temp_interface = FormPage(
+        form, url_for('config_modify'),
+        title="Edición de configuración", subtitle="Editando el apartado de configuración",
+        return_url=url_for('config_index')
+    )
+
+    return render_template("generic/pages/form.html", temp_interface=temp_interface)

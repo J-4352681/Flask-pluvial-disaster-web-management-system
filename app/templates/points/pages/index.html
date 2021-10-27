@@ -13,12 +13,12 @@
                 {% include "generic/elements/buttons/button1.html" %}
             {% endwith %}
     
-            {% with args={"text": "filtrar", "data_bs_toggle": "modal", "data_bs_target": "#points-filter"} %}
+            {% with args={"text": "Filtrar", "data_bs_toggle": "modal", "data_bs_target": "#points-filter"} %}
                 {% include "generic/elements/buttons/modal_button1.html" %}
             {% endwith %}
 
             {% if temp_interface.filt.has_filter() %}
-                {% with args={"text": "Limpiar Filtro", "url": url_for('points_index')} %}
+                {% with args={"text": "Limpiar filtro", "url": url_for('points_index')} %}
                     {% include "generic/elements/buttons/button1.html" %}
                 {% endwith %}
             {% endif %}

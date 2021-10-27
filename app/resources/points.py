@@ -5,12 +5,10 @@ from app.models.meeting_point import Meeting_Point
 
 from app.helpers.auth import assert_permit
 from app.helpers.filter import Filter
-from app.helpers.template_pages import FormPage, DBModelIndexPage
+from app.helpers.template_pages import FormPage, DBModelIndexPage, ItemDetailsPage
 
 from app.forms.filter_forms import PointFilter
 from app.forms.meeting_point_forms import MeetingPointModificationForm
-
-from app.resources.config import getSortCriterionMeetingPoints
 
 # Protected resources
 def index(page=None):
@@ -34,7 +32,19 @@ def show(point_id):
 
     point = Meeting_Point.find_by_id(point_id)
     
-    return render_template("points/show.html", point=point)
+    temp_interface = ItemDetailsPage(
+        {
+          "Nombre": point.name,
+          "Dirección": point.direction,
+          "Coordenadas": point.coordinates,
+          "Público": point.state,
+          "Teléfono": point.telephone,
+          "E-Mail": point.email
+        }, point,
+        title="Puntos de encuentro", subtitle="Detalles del punto " + str(point.name)
+    )
+    
+    return render_template("points/pages/show.html", temp_interface=temp_interface)
 
 def allPublic():
     """Devuelve la lista completa de los puntos de encuentro publicos gurdados en la base de datos."""

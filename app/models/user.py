@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import Table, Column, Integer, String, DateTime, ForeignKey, and_
 from sqlalchemy.sql.expression import false, true
 from sqlalchemy.sql.sqltypes import Boolean
 from sqlalchemy.orm import relationship
@@ -69,10 +69,10 @@ class User(db.Model):
         return cls.find_by_id(id).roles
 
     @classmethod
-    def find_by_email_and_password(cls, email=None, password=None):
+    def can_login_with_email_and_password(cls, email=None, password=None):
         """Devuelve el primer usuario cuyo email y password son iguales a los que se mandaron como parametros"""
         user = cls.query.filter(
-            cls.email == email and cls.password == password
+            and_(cls.email.like(email), cls.password.like(password), cls.active == 1)
         ).first()
         return user
     

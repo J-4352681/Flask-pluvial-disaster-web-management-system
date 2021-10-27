@@ -53,34 +53,20 @@ class FormPage(TitledBackPage):
     def method(self):
         return self._method
 
-class ListDBModelPage(TitledPage):
-    """Interfaz paramétrica para una página para el listado de un modelo de la db"""
-    def __init__(self, filter_obj, page, attr_names, headers, *args, **kwargs):
+class ItemDetailsPage(TitledPage):
+    """Interfaz paramétrica para una página que muestra los detalles de un item de la db."""
+    def __init__(self, attributes, item, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self._filter_obj = filter_obj
-        self._page_obj = self._filter_obj.get_query(page)
-        self._headers = headers
-        self._attr_names = attr_names
+        self._attributes = attributes
+        self._item = item
 
     @property
-    def items(self):
-        return self._page_obj.items
+    def attributes(self):
+        return self._attributes
     
     @property
-    def page_obj(self):
-        return self._page_obj
-
-    @property
-    def headers(self):
-        return self._headers
-
-    @property
-    def attr_names(self):
-        return self._attr_names
-
-    @property
-    def form(self):
-        return self._filter_obj.form
+    def item(self):
+        return self._item
 
 class DBModelIndexPage(TitledPage):
     """Interfaz paramétrica para una página para el listado de un modelo de la db"""

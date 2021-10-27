@@ -24,3 +24,26 @@ a.text-secondary:hover {
 .mx-auto {
     text-align: center;
 }
+
+.input-form {
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    width: 50%;
+}
+
+.option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+}
+
+.submit-container {
+    margin-top: 3em;
+    display: flex;
+    justify-content: flex-end;
+}
+
+

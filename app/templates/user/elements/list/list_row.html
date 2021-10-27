@@ -1,0 +1,25 @@
+{% extends "generic/elements/list/list_row.html" %}
+
+{% block action_icons %}
+    {% with args=args.item %}
+        <td class="col">
+            {% with args={"url": url_for("user_modify", user_id=args.id), "icon_name": "pencil", "title": "Editar"} %}
+                {% include "generic/elements/action_icon.html" %}
+            {% endwith %}
+
+            {% if args.active == 1 %}
+            {% with args={"url": url_for("user_block", user_id=args.id), "icon_name": "close", "title": "Bloquear", "onclick": "return confirm('¿Esta seguro que quiere bloquear a este usuario?')"} %}
+                {% include "generic/elements/action_icon.html" %}
+            {% endwith %}
+            {% else %}
+            {% with args={"url": url_for('user_unblock', user_id=args.id), "icon_name": "checkmark", "title": "Desbloquear"} %}
+                {% include "generic/elements/action_icon.html" %}
+            {% endwith %}
+            {% endif %}
+
+            {% with args={"url": url_for('user_delete', user_id=args.id), "icon_name": "trash", "title": "Borrar", "onclick": "return confirm('¿Esta seguro que quiere eliminar a este usuario?')"} %}
+                {% include "generic/elements/action_icon.html" %}
+            {% endwith %}
+        </td>
+    {% endwith %}
+{% endblock %}

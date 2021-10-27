@@ -1,0 +1,20 @@
+{% extends "generic/pages/not_auth_base.html" %}
+
+{% block import %}
+    <!-- CSS propio -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
+{% endblock %}
+
+{% block title %}{{temp_interface.item_type}}{% endblock %}
+
+{% block navbar %}
+    {% include "generic/elements/navbar.html" %}
+{% endblock %}
+
+{% block full_content %}
+  <div class="container">
+    <div class="row">
+        {% block content %}{% endblock %}
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,19 @@
+<div class="pagination row">
+    {% if args.has_prev %}
+        <div class="col mx-auto">
+            <a href="{{ args.prev_url }}">Anterior</a>
+        </div>
+    {% endif %}
+    <div class="col mx-auto">
+        {% if args.items %}
+            <p>Viendo página {{args.page}} de  {{(-(-args.total // args.per_page))}}</p>
+        {% else %}
+            <p>La tabla está vacía</p>
+        {% endif %}
+    </div>
+    {% if args.has_next %}
+        <div class="col mx-auto">
+            <a href="{{ args.next_url }}">Siguiente</a>
+        </div>
+    {% endif %}
+</div>

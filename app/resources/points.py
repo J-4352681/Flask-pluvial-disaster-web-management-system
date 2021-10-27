@@ -5,7 +5,7 @@ from app.models.meeting_point import Meeting_Point
 
 from app.helpers.auth import assert_permit
 from app.helpers.filter import Filter
-from app.helpers.template_pages import FormPage, ListDBModelPage
+from app.helpers.template_pages import FormPage, DBModelIndexPage
 
 from app.forms.filter_forms import PointFilter
 from app.forms.meeting_point_forms import MeetingPointModificationForm
@@ -20,9 +20,8 @@ def index(page=None):
     #points = allPublic()
     filt = Filter(PointFilter, Meeting_Point, request.args)
 
-    temp_interface = ListDBModelPage(
-        filt, page, ["name", "direction", "coordinates", "state", "telephone", "email"],
-        ["Nombre", "Dirección", "Coordenadas", "Publico", "Teléfono", "Mail", "Acciones"],
+    temp_interface = DBModelIndexPage(
+        filt, page,
         title="Administración de puntos de encuentro",
         subtitle="Administración, adición y eliminación de los puntos de encuentro del sitio"
     )

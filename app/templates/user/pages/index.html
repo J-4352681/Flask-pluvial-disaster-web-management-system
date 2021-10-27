@@ -16,6 +16,12 @@
             {% with args={"text": "filtrar", "data_bs_toggle": "modal", "data_bs_target": "#user-filter"} %}
                 {% include "generic/elements/buttons/modal_button1.html" %}
             {% endwith %}
+
+            {% if temp_interface.filt.has_filter() %}
+                {% with args={"text": "Limpiar Filtro", "url": url_for('user_index')} %}
+                    {% include "generic/elements/buttons/button1.html" %}
+                {% endwith %}
+            {% endif %}
         </div>
     {% endblock %}
 
@@ -31,7 +37,7 @@
 
 
     {% block filter %}
-        {% with args={"form": temp_interface.page.form, "id": "user-filter", "aria_labelledby": "user-filter-label", "url": url_for('user_index')} %}
+        {% with args={"form": temp_interface.filt.form, "id": "user-filter", "aria_labelledby": "user-filter-label", "url": url_for('user_index')} %}
             {% include "generic/elements/filter.html" %}
         {% endwith %}
     {% endblock %}

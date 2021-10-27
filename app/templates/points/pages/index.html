@@ -1,23 +1,44 @@
-{% extends "generic/pages/list_db_model.html" %}
+{% extends "generic/pages/base.html" %}
 
-{% block list %}
-    {% with args=temp_interface %}
-        {% include "points/elements/list/list.html" %}
-    {% endwith %}
-{% endblock %}
+{% block content %}
+    {% block header %}
+        {% with args={"title": "Puntos de encuentro", "name": "Administración de puntos de encuentro", "subtitle": "Administración, adición y eliminación de los puntos de encuentro del sitio"} %}
+            {% include "generic/elements/headers/header.html" %}
+        {% endwith %}
+    {% endblock %}
 
-{% block pre_list_row %}
-    {% with args={"text": "+ Crear punto", "url": url_for('points_new')} %}
-        {% include "generic/elements/buttons/button1.html" %}
-    {% endwith %}
+    {% block pre_list %}
+        <div class="row">
+            {% with args={"text": "+ Crear punto de encuentro", "url": url_for('points_new')} %}
+                {% include "generic/elements/buttons/button1.html" %}
+            {% endwith %}
+    
+            {% with args={"text": "filtrar", "data_bs_toggle": "modal", "data_bs_target": "#points-filter"} %}
+                {% include "generic/elements/buttons/modal_button1.html" %}
+            {% endwith %}
 
-    {% with args={"text": "filtrar", "data_bs_toggle": "modal", "data_bs_target": "#points-filter"} %}
-        {% include "generic/elements/buttons/modal_button1.html" %}
-    {% endwith %}
-{% endblock %}
+            {% if temp_interface.filt.has_filter() %}
+                {% with args={"text": "Limpiar Filtro", "url": url_for('points_index')} %}
+                    {% include "generic/elements/buttons/button1.html" %}
+                {% endwith %}
+            {% endif %}
+        </div>
+    {% endblock %}
 
-{% block filter %}
-    {% with args={"form": temp_interface.form, "id": "points-filter", "aria_labelledby": "points-filter-label", "url": url_for('points_index')} %}
-        {% include "generic/elements/filter.html" %}
-    {% endwith %}
+    {% block list %}
+        {% with args={"items": temp_interface.page.items, "headers": ["Nombre", "Direccion", "Coordenadas", "Activo", "Telefono", "Mail","Acciones"], "attr_names": ["name", "direction" , "coordinates", "state", "telephone", "email"]} %}
+            {% include "points/elements/list/list.html" %}
+        {% endwith %}
+
+        {% with args=temp_interface.page %}
+            {% include "generic/elements/pagination_row.html" %}
+        {% endwith %}
+    {% endblock %}
+
+
+    {% block filter %}
+        {% with args={"form": temp_interface.filt.form, "id": "points-filter", "aria_labelledby": "points-filter-label", "url": url_for('points_index')} %}
+            {% include "generic/elements/filter.html" %}
+        {% endwith %}
+    {% endblock %}
 {% endblock %}

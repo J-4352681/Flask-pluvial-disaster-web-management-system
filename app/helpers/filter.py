@@ -42,3 +42,6 @@ class Filter():
             criteria = self.config.sort_meeting_points
 
         return criteria
+
+    def has_filter(self):
+        return bool(self.form_query_fields)

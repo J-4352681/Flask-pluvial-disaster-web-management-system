@@ -30,7 +30,7 @@
             {% include "points/elements/list/list.html" %}
         {% endwith %}
 
-        {% with args=temp_interface.page %}
+        {% with args={"page": temp_interface.page, "url": "points_index"} %}
             {% include "generic/elements/pagination_row.html" %}
         {% endwith %}
     {% endblock %}

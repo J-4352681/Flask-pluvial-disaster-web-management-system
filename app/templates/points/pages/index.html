@@ -26,7 +26,7 @@
     {% endblock %}
 
     {% block list %}
-        {% with args={"items": temp_interface.page.items, "headers": ["Nombre", "Direccion", "Coordenadas", "Activo", "Telefono", "Mail","Acciones"], "attr_names": ["name", "direction" , "coordinates", "state", "telephone", "email"]} %}
+        {% with args={"items": temp_interface.page.items, "headers": ["Nombre", "Direccion", "Coordenadas", "Publico", "Telefono", "Mail","Acciones"], "attr_names": ["name", "direction" , "coordinates", "state", "telephone", "email"]} %}
             {% include "points/elements/list/list.html" %}
         {% endwith %}
 

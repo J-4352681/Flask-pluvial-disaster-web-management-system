@@ -84,6 +84,7 @@ class Meeting_Point(db.Model):
 
     @classmethod
     def update(cls):
+        """Actualiza la base de datos"""
         db.session.commit()
 
     def __init__(self, name=None, direction=None, coordinates=None, telephone=None, email=None, state=False):

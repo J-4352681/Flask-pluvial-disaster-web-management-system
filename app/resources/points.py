@@ -46,7 +46,7 @@ def new():
     form = MeetingPointModificationForm()
 
     if form.validate_on_submit():
-        create(form.name.data, form.direction.data, form.coordinates.data, form.telephone.data, form.email.data, form.state.data)
+        create(form.name.data, form.direction.data, form.latitude.data, form.longitude.data, form.telephone.data, form.email.data, form.state.data)
         return redirect(url_for('points_index'))
     else:
         param_wrapper = FormTemplateParamsWrapper(
@@ -56,20 +56,23 @@ def new():
         return render_template("generic/base_form.html", param_wrapper=param_wrapper)
     # return render_template("points/new.html", form=form, item_type="Punto de encuentro") #point=point
 
-def create(name, direction, coordinates, telephone, email, state):
+def create(name, direction, latitude, longitude, telephone, email, state):
     """Crea un punto de encuentro con los datos envuados por request."""
     assert_permit(session, "points_create")
 
-    Meeting_Point.create(name, direction, coordinates, telephone, email, state)# **request.form)
+    Meeting_Point.create(name, direction, latitude, longitude, telephone, email, state)# **request.form)
 
 def modify(point_id):
     """Modifica los datos de un usuario."""
     assert_permit(session, "points_modify")
     point = Meeting_Point.find_by_id(point_id)
-    form = MeetingPointModificationForm(obj=point)
+    form = MeetingPointModificationForm(obj=point,
+        latitude = point.coordinates[0],
+        longitude = point.coordinates[1])
 
     if form.validate_on_submit():
         form.populate_obj(point)
+        Meeting_Point.updateCoordinates(point, form.latitude.data,form.longitude.data) #Agregado por Tomi
         Meeting_Point.update()
         return redirect(url_for('points_index'))
     

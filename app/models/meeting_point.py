@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, JSON
 from sqlalchemy.sql.expression import false, true
 from sqlalchemy.sql.sqltypes import Boolean
 from app.db import db
@@ -9,14 +9,15 @@ class Meeting_Point(db.Model):
     id = Column(Integer, primary_key=True)
     name = Column(String(30), nullable=false)
     direction = Column(String(100), nullable=false)
-    coordinates = Column(String(100), nullable=false)
+    coordinates = Column(JSON, nullable=false)
     state = Column(Boolean, default=False, nullable=false) # publicado o despublicado
     telephone = Column(String(30), nullable=false)
     email = Column(String(100), nullable=false)
 
     @classmethod
-    def create(cls, name, direction, coordinates, telephone, email, state): #params
+    def create(cls, name, direction, latitude, longitude, telephone, email, state): #params
         """Crea un nuevo punto de encuentro."""
+        coordinates = [latitude, longitude]
         new_mp = Meeting_Point(name, direction, coordinates, telephone, email, state)
         db.session.add(new_mp)
         db.session.commit()
@@ -75,6 +76,12 @@ class Meeting_Point(db.Model):
         ).first()
         return user
     
+    @classmethod
+    def updateCoordinates(cls, point=None, latitude=None, longitude=None):
+        """Actualiza el objeto JSON con las nuevas coordenadas"""
+        point.coordinates = [latitude, longitude]
+        db.session.commit()
+
     @classmethod
     def update(cls):
         db.session.commit()

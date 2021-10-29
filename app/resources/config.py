@@ -155,7 +155,7 @@ def modify():
     config = get()
 
     #Initialice form
-    if (config.palette_private):
+    if (config and config.palette_private and config.palette_public):
         form = Config_forms(obj=config, 
             private_color1 = config.palette_private.color1.id,
             private_color2 = config.palette_private.color2.id,

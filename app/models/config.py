@@ -8,7 +8,7 @@ from app.models import palette, color
 """Este modulo incluye todo la informacion relacionada al modelado de la configuracion de la app en base de datos."""
 
 class Config(db.Model):
-    """Clase que representa los roles de la base datos"""
+    """Clase que reprecenta las opciones de configuracion por defecto en la base datos"""
     __tablename__ = "config"
     id = Column(Integer, primary_key=True)
     elements_per_page = Column(Integer, nullable=false)

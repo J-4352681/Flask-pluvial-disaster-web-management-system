@@ -1,0 +1,44 @@
+{% extends "generic/pages/base.html" %}
+
+{% block content %}
+    {% block header %}
+        {% with args={"title": "Administración de usuarios", "name": "Administración de usuarios", "subtitle": "Administración, adición y eliminación de los usuarios del sitio"} %}
+            {% include "generic/elements/headers/header.html" %}
+        {% endwith %}
+    {% endblock %}
+
+    {% block pre_list %}
+        <div class="row">
+            {% with args={"text": "+ Crear usuario", "url": url_for('user_new')} %}
+                {% include "generic/elements/buttons/button1.html" %}
+            {% endwith %}
+    
+            {% with args={"text": "Filtrar", "data_bs_toggle": "modal", "data_bs_target": "#user-filter"} %}
+                {% include "generic/elements/buttons/modal_button1.html" %}
+            {% endwith %}
+
+            {% if temp_interface.filt.has_filter() %}
+                {% with args={"text": "Limpiar filtro", "url": url_for('user_index')} %}
+                    {% include "generic/elements/buttons/button1.html" %}
+                {% endwith %}
+            {% endif %}
+        </div>
+    {% endblock %}
+
+    {% block list %}
+        {% with args={"items": temp_interface.page.items, "headers": ["Username", "Email", "Nombre", "Apellido", "Acciones"], "attr_names": ["username", "email", "first_name", "last_name"]} %}
+            {% include "user/elements/list/list.html" %}
+        {% endwith %}
+
+        {% with args={"page": temp_interface.page, "url": "user_index"} %}
+            {% include "generic/elements/pagination_row.html" %}
+        {% endwith %}
+    {% endblock %}
+
+
+    {% block filter %}
+        {% with args={"form": temp_interface.filt.form, "id": "user-filter", "aria_labelledby": "user-filter-label", "url": url_for('user_index')} %}
+            {% include "generic/elements/filter.html" %}
+        {% endwith %}
+    {% endblock %}
+{% endblock %}

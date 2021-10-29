@@ -1,0 +1,25 @@
+{% extends "generic/pages/base.html" %}
+
+{% block content %}
+    {% with args=temp_interface %}
+        {% include "generic/elements/headers/header.html" %}
+    {% endwith %}
+
+    <div class="row">
+        {% block pre_list_row %}
+        {% endblock %}
+    </div>
+
+    {% block list %}
+        {% with args=temp_interface %}
+            {% include "generic/elements/list/list.html" %}
+        {% endwith %}
+    {% endblock %}
+
+    {% with args=temp_interface.page_obj %}
+        {% include "generic/elements/pagination_row.html" %}
+    {% endwith %}
+
+    {% block filter %}
+    {% endblock %}
+{% endblock %}

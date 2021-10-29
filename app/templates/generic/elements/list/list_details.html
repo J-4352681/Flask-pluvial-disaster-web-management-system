@@ -1,0 +1,12 @@
+<section class="row">
+  <table class="col table table-hover h-100">
+      <tbody class="">
+          {% for key in attributes %}
+              <tr class="row">
+                    <td class="col">{{ key }}</td>
+                    <td class="col">{{ attributes[key] }}</td>
+              </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+</section>

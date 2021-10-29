@@ -74,6 +74,13 @@ class Config(db.Model):
         """Actualiza los datos de la configuracion."""
         db.session.commit()
 
+    @classmethod
+    def translateCriteria(*criteria):
+        """Traduce los campos de la base de datos a etiquetas en español"""
+        names={'name':'Nombre','last_name':'Apellido','email':'Mail','username':'Nombre de usuario', 'direction':'Direccion',
+        'coordinates': 'Coordenadas','state':'Estado','telephone': 'Telefono'}
+        return names[criteria[1]] # Se usa en [1] ya que criteria es una tupla
+
     def __init__(self, elements_per_page=None, sort_users=None, sort_meeting_points=None):
         self.elements_per_page = elements_per_page
         self.sort_users = sort_users

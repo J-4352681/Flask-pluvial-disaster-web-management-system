@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Integer, String, JSON
+from sqlalchemy import Column, Integer, String, JSON, ForeignKey
 from sqlalchemy.sql.expression import false, true
 from sqlalchemy.sql.sqltypes import Boolean
+from sqlalchemy.orm import relationship
 from app.db import db
 
 class Flood_zone(db.Model):
@@ -11,7 +12,9 @@ class Flood_zone(db.Model):
     name = Column(String(30), nullable=false)
     coordinates = Column(JSON, nullable=false) # Json
     state = Column(Boolean, default=True, nullable=false) # publicado o despublicado
-    color = Column(String(30), nullable=false) # Color del mapa
+    # color = Column(String(30), nullable=false) # Color del mapa
+    color_id = Column(Integer, ForeignKey('colors.id'))
+    color = relationship("Color", foreign_keys=color_id)
 
     @classmethod
     def create(cls, code, name, coordinates, state, color): #params
@@ -76,6 +79,7 @@ class Flood_zone(db.Model):
     
     @classmethod
     def update(cls):
+        """Actualiza la base de datos"""
         db.session.commit()
 
     def __init__(self, code=None, name=None, coordinates=None, state=None, color=None):

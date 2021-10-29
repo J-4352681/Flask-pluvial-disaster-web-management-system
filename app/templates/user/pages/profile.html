@@ -1,0 +1,19 @@
+{% extends "generic/pages/base.html" %}
+
+{% block content %}
+    {% block header %}
+        {% with args={"title": temp_interface.title, "name": "Perfil de usuario", "subtitle": temp_interface.subtitle} %}
+            {% include "generic/elements/headers/header.html" %}
+        {% endwith %}
+    {% endblock %}
+
+    {% with attributes=temp_interface.attributes %}
+        {% include "generic/elements/list/list_details.html" %}
+    {% endwith %}
+
+    <div class="row">
+      {% with args={"action_name": "Editar", "url": url_for('profile_modify'), "title": "Editar", "icon_name": "pencil"} %}
+          {% include "generic/elements/buttons/action_button.html" %}
+      {% endwith %}
+    </div>
+{% endblock %}

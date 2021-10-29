@@ -1,0 +1,24 @@
+<section class="row">
+    <table class="col table table-hover h-100">
+        <thead class="">
+            <tr class="row">
+                {% block list_header_row %}
+                    {% with args=args.headers %}
+                        {% include "generic/elements/list/list_header_row.html" %}
+                    {% endwith %}
+                {% endblock %}
+            </tr>
+        </thead>
+        <tbody class="">
+            {% block list_row %}
+                {% for item in args.items %}
+                    <tr class="row">
+                        {% with args={"item": item, "attr_names": args.attr_names} %}
+                            {% include "generic/elements/list/list_row.html" %}
+                        {% endwith %}
+                    </tr>
+                {% endfor %}
+            {% endblock %}
+        </tbody>
+    </table>
+</section>

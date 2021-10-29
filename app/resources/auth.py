@@ -9,7 +9,7 @@ def login():
 def authenticate():
     params = request.form
 
-    user = User.find_by_email_and_password(params["email"], params["password"])
+    user = User.can_login_with_email_and_password(params["email"], params["password"])
 
     if not user:
         flash("Usuario o clave incorrecto.")

@@ -1,8 +1,11 @@
 from sqlalchemy import Column, Integer, String, JSON, ForeignKey
+from sqlalchemy.sql.base import ColumnSet
 from sqlalchemy.sql.expression import false, true
 from sqlalchemy.sql.sqltypes import Boolean
 from sqlalchemy.orm import relationship
 from app.db import db
+
+from app.resources.config import get as config_get
 
 class Flood_zone(db.Model):
     """Clase que representa las zonas inundables en la base datos"""
@@ -15,6 +18,7 @@ class Flood_zone(db.Model):
     # color = Column(String(30), nullable=false) # Color del mapa
     color_id = Column(Integer, ForeignKey('colors.id'))
     color = relationship("Color", foreign_keys=color_id)
+
 
     @classmethod
     def create(cls, code, name, coordinates, state, color): #params
@@ -34,6 +38,11 @@ class Flood_zone(db.Model):
     def all(cls):
         """Devuelve todas las zonas inundables cargadas en el sistema"""
         return cls.query.all()
+
+    @classmethod
+    def all_paginated(cls, page):
+        per_page = config_get().elements_per_page
+        return cls.query.paginate(page=page, per_page=per_page)
     
     @classmethod
     def allPublic(cls):

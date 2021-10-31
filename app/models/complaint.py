@@ -2,9 +2,10 @@ from sqlalchemy import Column, Integer, String, JSON, ForeignKey, DateTime
 from sqlalchemy.sql.expression import false, true
 from sqlalchemy.sql.sqltypes import Boolean
 from sqlalchemy.orm import relationship
-from app.db import db
-
 from datetime import datetime
+
+from app.db import db
+from app.models import follow_up
 
 class Complaint(db.Model):
     """Clase que representa las quejas de los usuarios, de la aplicacion publica, en la aplicacion privada. El autor de la queja es un usuario de la aplicacion publica."""
@@ -30,11 +31,19 @@ class Complaint(db.Model):
     follow_ups = relationship("Follow_up") # Literalmente seguimientos. Basicamente comentarios que recompilan mas informacion sobre la investigacion sobre la queja.
 
     @classmethod
-    def create(cls, flood_zone_name, description, coordinates, state): #params
+    def create(cls, title, description, coordinates, state, author_first_name, author_last_name, author_telephone, author_email): #params
         """Crea una nueva queja en base a los datos dados."""
-        new_c = Complaint(flood_zone_name, description, coordinates, state)
+        new_c = Complaint(title, description, coordinates, state, author_first_name, author_last_name, author_telephone, author_email)
         db.session.add(new_c)
         db.session.commit()
+
+    @classmethod
+    def create_public(cls, title, description, coordinates, author_first_name, author_last_name, author_telephone, author_email): #params
+        """Crea una nueva queja en base a los datos dados."""
+        new_c = Complaint(title, description, coordinates, "Sin confirmar", author_first_name, author_last_name, author_telephone, author_email)
+        db.session.add(new_c)
+        db.session.commit()
+        return new_c
 
     @classmethod
     def delete(cls, id_param=None):
@@ -88,8 +97,12 @@ class Complaint(db.Model):
         """Actualiza la base de datos"""
         db.session.commit()
 
-    def __init__(self, flood_zone_name=None, description=None, coordinates=None, state=None):
-        self.flood_zone_name = flood_zone_name
+    def __init__(self, title=None, description=None, coordinates=None, state=None, author_first_name=None, author_last_name=None, author_telephone=None, author_email=None):
+        self.title = title
         self.description = description
         self.coordinates = coordinates
         self.state = state
+        self.author_first_name = author_first_name
+        self.author_last_name = author_last_name
+        self.author_telephone = author_telephone
+        self.author_email = author_email

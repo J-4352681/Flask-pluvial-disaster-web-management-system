@@ -8,11 +8,15 @@ class FloodZoneSchema(object):
             return cls._serialize(obj)
 
     @classmethod
-    def _serialize_collection(cls, collection):
-        return [
-            cls._serialize(item)
-            for item in collection
-        ]
+    def _serialize_collection(cls, pagination):
+        return {
+            "zonas": [
+                cls._serialize(item)
+                for item in pagination.items
+            ],
+            "total": pagination.pages,
+            "pagina": pagination.page
+        }
 
     @classmethod
     def _serialize(cls, obj):
@@ -24,5 +28,6 @@ class FloodZoneSchema(object):
                 getattr(obj, attr.name) if attr.name != "color_id"
                 else getattr(obj, "color").value
             )
-            for attr in obj.__table__.columns 
+            for attr in obj.__table__.columns
+            if attr.name not in ["state", "id"] 
         }

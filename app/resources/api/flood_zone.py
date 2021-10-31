@@ -9,14 +9,14 @@ flood_zone_api = Blueprint("zonas_inundables", __name__, url_prefix="/zonas_inun
 
 @flood_zone_api.get("/")
 def index():
-    page = request.args.get("page", 1)
-    flood_zone_rows = Flood_zone.all_paginated(int(page)).items
+    page = request.args.get("page", 1) # Validar que sea int
+    flood_zone_page = Flood_zone.all_paginated(int(page))
 
-    if flood_zone_rows: 
-        flood_zones = FloodZoneSchema.dump(flood_zone_rows, many=True)
-        return jsonify(flood_zones=flood_zones)
+    if flood_zone_page.items: 
+        flood_zones = FloodZoneSchema.dump(flood_zone_page, many=True)
+        return jsonify(flood_zones)
     else:
-        return jsonify(flood_zones=[]), 401
+        return jsonify([]), 401
 
 @flood_zone_api.get("/:id")
 def fetch_by_id():

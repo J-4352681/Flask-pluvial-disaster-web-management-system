@@ -1,33 +1,19 @@
-class FloodZoneSchema(object):
+from marshmallow import Schema, fields
 
-    @classmethod
-    def dump(cls, obj, many=False):
-        if many:
-            return cls._serialize_collection(obj)
-        else:
-            return cls._serialize(obj)
+class ColorSchema(Schema):
+    value = fields.Str()
 
-    @classmethod
-    def _serialize_collection(cls, pagination):
-        return {
-            "zonas": [
-                cls._serialize(item)
-                for item in pagination.items
-            ],
-            "total": pagination.pages,
-            "pagina": pagination.page
-        }
+class FloodZoneSchema(Schema):
+    code = fields.Int(data_key="codigo")
+    name = fields.Str(data_key="nombre")
+    coordinates = fields.List(fields.Dict(), data_key="coordenadas", many=True)
+    color = fields.Pluck(ColorSchema, "value")
 
-    @classmethod
-    def _serialize(cls, obj):
-        return { 
-            (
-                attr.name if attr.name != "color_id"
-                else "color"
-            ) : (
-                getattr(obj, attr.name) if attr.name != "color_id"
-                else getattr(obj, "color").value
-            )
-            for attr in obj.__table__.columns
-            if attr.name not in ["state", "id"] 
-        }
+class FloodZonePaginationSchema(Schema):
+    page = fields.Int(data_key="pagina")
+    pages = fields.Int(data_key="total")
+    items = fields.Nested(FloodZoneSchema, many=True, data_key="zonas")
+
+flood_zones_schema = FloodZoneSchema(many=True)
+flood_zone_schema = FloodZoneSchema()
+flood_zone_pagination_schema = FloodZonePaginationSchema()

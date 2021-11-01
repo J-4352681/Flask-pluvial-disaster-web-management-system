@@ -1,6 +1,12 @@
 from flask import render_template, request
 from flask.json import jsonify
 
+def bad_request_error(e):
+    kwargs = {
+        "error_name": "400 Bad Request",
+        "error_description": "El servidor no puede procesar el pedido",
+    }
+    return make_response(kwargs, 401)
 
 def unauthorized_error(e):
     kwargs = {

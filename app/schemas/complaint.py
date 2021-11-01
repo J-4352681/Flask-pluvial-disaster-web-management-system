@@ -1,15 +1,10 @@
-class ComplaintSchema(object):
+from marshmallow import Schema, fields
 
-    @classmethod
-    def dump(cls, obj):
-        return cls._serialize(obj)
-
-    @classmethod
-    def _serialize(cls, obj):
-        return { 
-            attr.name : getattr(obj, attr.name)
-            for attr in obj.__table__.columns
-            if attr.name not in ["state", "id", "assigned_user_id"] 
-            and getattr(obj, attr.name) is not None 
-        }
- 
+class ComplaintSchema(Schema):
+    title = fields.Str(required=True)
+    description = fields.Str(required=True)
+    coordinates = fields.Dict(required=True)
+    author_first_name = fields.Str(required=True)
+    author_last_name = fields.Str(required=True)
+    author_telephone = fields.Int(required=True)
+    author_email = fields.Email(required=True)

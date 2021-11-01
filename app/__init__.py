@@ -84,6 +84,7 @@ def create_app(environment="development"):
     app.register_blueprint(api)
 
     # Handlers
+    app.register_error_handler(400, handler.bad_request_error)
     app.register_error_handler(401, handler.unauthorized_error)
     app.register_error_handler(403, handler.forbidden_error)
     app.register_error_handler(404, handler.not_found_error)

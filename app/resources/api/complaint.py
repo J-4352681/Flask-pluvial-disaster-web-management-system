@@ -1,21 +1,26 @@
 from typing import Dict
-from flask import jsonify, Blueprint, request
+from flask import jsonify, Blueprint, request, abort
+from marshmallow import ValidationError
 
 from app.models.complaint import Complaint
 from app.schemas.complaint import ComplaintSchema
-from app.helpers.validators import ComplaintValidator
 
 
 complaint_api = Blueprint("denuncias", __name__, url_prefix="/denuncias")
 
 @complaint_api.post("/")
 def create():
-    data = ComplaintValidator(request.get_json()).validate()  # Siempre devuelve true, tiene que validar
     
-    if data.error:
-        response = data.error
-    else:
+    try:
+        ComplaintSchema().load(request.get_json())
+    except ValidationError as err:
+        abort(400)
+
+    try:
         new_complaint = Complaint.create_public(**request.get_json())
-        response = ComplaintSchema.dump(new_complaint)
+    except:
+        abort(500)
     
-    return jsonify(response)
+    response = ComplaintSchema().dump(new_complaint)
+    
+    return jsonify(response), 201

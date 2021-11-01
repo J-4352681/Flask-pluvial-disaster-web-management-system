@@ -13,11 +13,11 @@ class Palette(db.Model):
     id = Column(Integer, primary_key=True)
 
     color1_id = Column(Integer, ForeignKey('colors.id'))
-    color1 = relationship("Color", foreign_keys=[color1_id])
+    color1 = relationship("Color", foreign_keys=color1_id)
     color2_id = Column(Integer, ForeignKey('colors.id'))
-    color2 = relationship("Color", foreign_keys=[color2_id])
+    color2 = relationship("Color", foreign_keys=color2_id)
     color3_id = Column(Integer, ForeignKey('colors.id'))
-    color3 = relationship("Color", foreign_keys=[color3_id])
+    color3 = relationship("Color", foreign_keys=color3_id)
 
     @classmethod
     def all(cls):

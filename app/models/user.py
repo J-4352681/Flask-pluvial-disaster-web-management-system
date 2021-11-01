@@ -40,7 +40,7 @@ class User(db.Model):
 
     @classmethod
     def create_from_user(cls, new_user):
-        """Crea un nuevo usuario con los parametros mandados."""
+        """Crea un nuevo usuario con el usuario enviado por parámetro."""
         db.session.add(new_user)
         db.session.commit()
 

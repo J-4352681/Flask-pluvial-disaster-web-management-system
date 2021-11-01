@@ -42,6 +42,11 @@ def generate_navigation_actions(session):
             "nombre": "Usuarios",
             "url": url_for("user_index"),
             "permit": "user_index"
+        },
+        {
+            "nombre": "Zonas inundables",
+            "url": url_for("fzone_index"),
+            "permit": "fzone_index"
         }
     ]
     allowed_actions = []

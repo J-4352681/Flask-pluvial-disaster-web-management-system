@@ -3,7 +3,7 @@ from sqlalchemy.sql.expression import false, true
 from sqlalchemy.sql.sqltypes import Boolean
 from app.db import db
 
-class Meeting_Point(db.Model):
+class MeetingPoint(db.Model):
     """Clase que representa los puntos de encuentro en la base datos"""
     __tablename__ = "meeting_points"
     id = Column(Integer, primary_key=True)
@@ -35,7 +35,7 @@ class Meeting_Point(db.Model):
         return cls.query.all()
     
     @classmethod
-    def allPublic(cls):
+    def all_public(cls):
         """Devuelve todos los puntos de encuentro publicos"""
         res = cls.query.filter(
             cls.state == True
@@ -43,7 +43,7 @@ class Meeting_Point(db.Model):
         return res
     
     @classmethod
-    def allNotPublic(cls):
+    def all_not_public(cls):
         """Devuelve todos los puntos de encuentro publicos"""
         res = cls.query.filter(
             cls.state == false
@@ -54,7 +54,7 @@ class Meeting_Point(db.Model):
     def find_by_name(cls, name=None, excep=[]):
         """Devuelve el punto de encuentro cuyo nombre sea igual al mandado como parametro"""
         users = cls.query.filter(
-            cls.name.like('%'+name+'%'),
+            cls.name.like("%"+name+"%"),
             cls.id.not_in(excep)
         ).all()
         return users
@@ -77,7 +77,7 @@ class Meeting_Point(db.Model):
         return user
     
     @classmethod
-    def updateCoordinates(cls, point=None, latitude=None, longitude=None):
+    def update_coordinates(cls, point=None, latitude=None, longitude=None):
         """Actualiza el objeto JSON con las nuevas coordenadas"""
         point.coordinates = [latitude, longitude]
         db.session.commit()

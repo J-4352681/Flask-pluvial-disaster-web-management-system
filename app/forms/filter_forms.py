@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField
+from wtforms import StringField, SubmitField, SelectField, IntegerField
 from wtforms.validators import DataRequired
 
-class UserFilter(FlaskForm): # Los atributos llevan el nombre de los métodos del modelo que realizan la query
+class UserFilter(FlaskForm):
     first_name = StringField("Nombre")
     last_name = StringField("Apellido")
     email = StringField("Email")
@@ -14,4 +14,10 @@ class UserFilter(FlaskForm): # Los atributos llevan el nombre de los métodos de
 class PointFilter(FlaskForm):
     name = StringField("Nombre")
     state = SelectField("Público", choices=[('', 'Todos'), (1, 'Si'), (0, 'No')])
+    submit = SubmitField("Aceptar")
+
+class FZoneFilter(FlaskForm):
+    code = IntegerField("Código de zona")
+    name = StringField("Nombre de zona")
+    state = StringField("Público", choices=[('', 'Todos'), (1, 'Si'), (0, 'No')])
     submit = SubmitField("Aceptar")

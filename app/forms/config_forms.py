@@ -9,10 +9,11 @@ from flask import flash
 #def my_length_check(form, field):
 #    if len(field.data) > 50:
 #        raise ValidationError('Field must be less than 50 characters')
-class Config_forms(FlaskForm):
+class ConfigForm(FlaskForm):
     elements_per_page = IntegerField("Elementos por pagina (no puede ser 0)", validators=[DataRequired(), NumberRange(1, None, 'No pueden haber 0 elementos por pagina')])
     sort_users = SelectField("Criterio de ordenamiento de los usuarios", validators=[DataRequired()], choices=[]) 
     sort_meeting_points = SelectField("Criterio de ordenamiento de los puntos de encuentro", validators=[DataRequired()], choices=[]) 
+    sort_flood_zones = SelectField("Criterio de ordenamiento de las zonas inundables", validators=[DataRequired()], choices=[]) 
     private_color1 = SelectField("Color Primario de la aplicacion privada", choices=[], coerce=int, validators=[DataRequired()])
     private_color2 = SelectField("Color Secundario de la aplicacion privada", choices=[], coerce=int,validators=[DataRequired()])
     private_color3 = SelectField("Color Acento de la aplicacion privada", choices=[] ,coerce=int, validators=[DataRequired()])

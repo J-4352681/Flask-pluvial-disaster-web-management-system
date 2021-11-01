@@ -6,7 +6,7 @@ from flask_session import Session
 
 from config import config
 from app import db
-from app.resources import user, auth, points, config as configObject
+from app.resources import user, auth, points, flood_zone, config as configObject
 from app.helpers import handler
 from app.helpers import auth as helper_auth
 
@@ -62,6 +62,14 @@ def create_app(environment="development"):
     app.add_url_rule("/puntos_encuentro/nuevo", "points_new", points.new, methods=["GET", "POST"]) 
     app.add_url_rule("/puntos_encuentro", "points_create", points.create, methods=["GET", "POST"])
     app.add_url_rule("/puntos_encuentro/delete/<int:point_id>", "points_delete", points.delete, methods=["GET", "POST"])
+
+    # Rutas de zonas inundables
+    app.add_url_rule("/zonas_inundables", "fzone_index", flood_zone.index)
+    app.add_url_rule("/zonas_inundables/show/<int:fzone_id>", "fzone_show", flood_zone.show, methods=["GET"])
+    app.add_url_rule("/zonas_inundables/modify/<int:fzone_id>", "fzone_modify", flood_zone.modify, methods=["GET", "POST"])
+    app.add_url_rule("/zonas_inundables/nuevo", "fzone_new", flood_zone.new, methods=["GET", "POST"])
+    app.add_url_rule("/zonas_inundables/", "fzone_create", flood_zone.create, methods=["GET", "POST"])
+    app.add_url_rule("/zonas_inundables/delete/<int:fzone_id>", "fzone_delete", flood_zone.delete, methods=["GET", "POST"])
 
     # Rutas de Config
     app.add_url_rule("/config", "config_index", configObject.index)

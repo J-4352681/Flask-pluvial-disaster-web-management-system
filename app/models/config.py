@@ -12,12 +12,13 @@ class Config(db.Model):
     __tablename__ = "config"
     id = Column(Integer, primary_key=True)
     elements_per_page = Column(Integer, nullable=false)
-    sort_users= Column(String(30), nullable=false) # Criterio de ordenamiento por defecto de los usuarios
+    sort_users= Column(String(30), nullable=false, default="first_name") # Criterio de ordenamiento por defecto de los usuarios
     sort_meeting_points= Column(String(30), nullable=false) # criterio de ordenamiento por defecto de los meeting points
+    sort_flood_zones = Column(String(30), nullable=false) # Criterio de ordenamiento por defecto de zoans inundables
     
-    palette_private_id = Column(Integer, ForeignKey('palettes.id'))
+    palette_private_id = Column(Integer, ForeignKey("palettes.id"))
     palette_private = relationship("Palette", foreign_keys=[palette_private_id])
-    palette_public_id = Column(Integer, ForeignKey('palettes.id'))
+    palette_public_id = Column(Integer, ForeignKey("palettes.id"))
     palette_public = relationship("Palette", foreign_keys=[palette_public_id])
 
     @classmethod
@@ -30,7 +31,7 @@ class Config(db.Model):
         """Crea una nueva configuracion por defecto si no existe una ya en el sistema"""
         configExists = Config.get()
         if ( not configExists ):
-            new_conf = Config(elements_per_page=10, sort_users='username', sort_meeting_points='name')
+            new_conf = Config(elements_per_page=10, sort_users="username", sort_meeting_points="name")
 
             db.session.add(new_conf)
             db.session.commit()
@@ -51,6 +52,12 @@ class Config(db.Model):
     def modifySortCriterionMeetingPoints(cls, config, criteria):
         """actualiza el criterio por defecto de ordenamiento de los puntos de encuentro"""
         config.sort_meeting_points = criteria
+        db.session.commit()
+    
+    @classmethod
+    def modify_sort_criterion_flood_zones(cls, config, criteria):
+        """actualiza el criterio por defecto de ordenamiento de las zonas inundables"""
+        config.sort_flood_zones = criteria
         db.session.commit()
 
     @classmethod
@@ -77,14 +84,15 @@ class Config(db.Model):
     @classmethod
     def translateCriteria(*criteria):
         """Traduce los campos de la base de datos a etiquetas en español"""
-        names={'name':'Nombre','last_name':'Apellido','email':'Mail','username':'Nombre de usuario', 'direction':'Direccion',
-        'coordinates': 'Coordenadas','state':'Estado','telephone': 'Telefono'}
+        names={"name":"Nombre","last_name":"Apellido","email":"Mail","username":"Nombre de usuario", "direction":"Direccion",
+        "coordinates": "Coordenadas","state":"Estado","telephone": "Telefono"}
         return names[criteria[1]] # Se usa en [1] ya que criteria es una tupla
 
-    def __init__(self, elements_per_page=None, sort_users=None, sort_meeting_points=None):
+    def __init__(self, elements_per_page=None, sort_users=None, sort_meeting_points=None, sort_flood_zones=None):
         self.elements_per_page = elements_per_page
         self.sort_users = sort_users
         self.sort_meeting_points = sort_meeting_points
+        self.sort_flood_zones = sort_flood_zones
         self.palette_private = palette.Palette()
         self.palette_public = palette.Palette()
         

@@ -1,0 +1,25 @@
+{% extends "generic/elements/list/list_row.html" %}
+
+{% block action_icons %}
+    {% with args=args.item %}
+        <td class="col">
+            {% if "fzone_modify" in session.user_permits %}
+                {% with args={"url": url_for('fzone_modify', fzone_id=args.id), "icon_name": "pencil", "title": "Editar"} %}
+                    {% include "generic/elements/action_icon.html" %}
+                {% endwith %}
+            {% endif %}
+
+            {% if "fzone_show" in session.user_permits %}
+                {% with args={"url": url_for('fzone_show', fzone_id=args.id), "icon_name": "eye", "title": "Detalle"} %}
+                    {% include "generic/elements/action_icon.html" %}
+                {% endwith %}
+            {% endif %}
+
+            {% if "fzone_delete" in session.user_permits %}
+                {% with args={"url": url_for('fzone_delete', fzone_id=args.id), "icon_name": "trash", "title": "Borrar", "onclick": "return confirm('¿Esta seguro que quiere eliminar a este elemento?')"} %}
+                    {% include "generic/elements/action_icon.html" %}
+                {% endwith %}
+            {% endif %}
+        </td>
+    {% endwith %}
+{% endblock %}

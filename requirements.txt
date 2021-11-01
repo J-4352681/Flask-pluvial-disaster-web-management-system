@@ -7,3 +7,4 @@ SQLAlchemy==1.4.25
 Flask-SQLAlchemy==2.5.1
 Flask-WTF==0.15.1
 wtforms[email]
+marshmallow==3.14.0

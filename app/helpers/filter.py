@@ -1,6 +1,7 @@
 from app.resources.config import get as config_get
 from app.models.user import User
-from app.models.meeting_point import Meeting_Point
+from app.models.meeting_point import MeetingPoint
+from app.models.flood_zone import FloodZone
 
 
 class Filter():
@@ -38,8 +39,10 @@ class Filter():
     def get_default_sort_criteria(self):
         if self.model == User:
             criteria = self.config.sort_users
-        elif self.model == Meeting_Point:
+        elif self.model == MeetingPoint:
             criteria = self.config.sort_meeting_points
+        elif self.model == FloodZone:
+            criteria = self.config.sort_flood_zones
 
         return criteria
 

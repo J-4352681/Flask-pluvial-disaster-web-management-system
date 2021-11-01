@@ -3,10 +3,12 @@
 {% block action_icons %}
     {% with args=args.item %}
           <td class="col">
-            {% with args={"url": url_for("user_modify", user_id=args.id), "icon_name": "pencil", "title": "Editar"} %}
-                {% include "generic/elements/action_icon.html" %}
-            {% endwith %}
-
+            {% if "user_modify" in session.user_permits %}
+                {% with args={"url": url_for("user_modify", user_id=args.id), "icon_name": "pencil", "title": "Editar"} %}
+                    {% include "generic/elements/action_icon.html" %}
+                {% endwith %}
+            {% endif %}
+            
             {% if args.active == 1 %}
               {% with args={"url": url_for("user_block", user_id=args.id), "icon_name": "close", "title": "Bloquear", "onclick": "return confirm('¿Esta seguro que quiere bloquear a este usuario?')"} %}
                   {% include "generic/elements/action_icon.html" %}
@@ -17,9 +19,11 @@
               {% endwith %}
             {% endif %}
 
-            {% with args={"url": url_for('user_delete', user_id=args.id), "icon_name": "trash", "title": "Borrar", "onclick": "return confirm('¿Esta seguro que quiere eliminar a este usuario?')"} %}
-                {% include "generic/elements/action_icon.html" %}
-            {% endwith %}
+            {% if "user_delete" in session.user_permits and session.user.id != args.id %}
+                {% with args={"url": url_for('user_delete', user_id=args.id), "icon_name": "trash", "title": "Borrar", "onclick": "return confirm('¿Esta seguro que quiere eliminar a este usuario?')"} %}
+                    {% include "generic/elements/action_icon.html" %}
+                {% endwith %}
+            {% endif %}
         </td>
     {% endwith %}
 {% endblock %}

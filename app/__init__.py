@@ -84,10 +84,10 @@ def create_app(environment="development"):
     app.register_blueprint(api)
 
     # Handlers
-    app.register_error_handler(404, handler.not_found_error)
-    app.register_error_handler(403, handler.forbidden_error)
     app.register_error_handler(401, handler.unauthorized_error)
-    # Implementar lo mismo para el error 500
+    app.register_error_handler(403, handler.forbidden_error)
+    app.register_error_handler(404, handler.not_found_error)
+    app.register_error_handler(500, handler.internal_server_error)
 
     # Retornar la instancia de app configurada
     return app

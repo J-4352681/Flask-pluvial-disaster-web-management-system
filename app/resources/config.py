@@ -10,7 +10,7 @@ from app.resources.colors import get as getColor
 from app.helpers.auth import assert_permit
 # from app.helpers.filter import apply_filter
 
-from app.forms.config_forms import Config_forms
+from app.forms.config_forms import ConfigForm
 
 from app.helpers.template_pages import FormPage, ItemDetailsPage
 
@@ -68,6 +68,13 @@ def getSortCriterionMeetingPoints():
     configExists = get()
 
     return configExists.sort_meeting_points
+
+def get_sort_criterion_flood_zones():
+    """Devuelve el criterio de ordenacion por defecto para los listados de zonas inundables."""
+
+    configExists = get()
+
+    return configExists.sort_flood_zones
 
 def getPrivatePalette():
     """Devuelve una lista de nombres de colores reconocidos por HTML. [0] color primario, [1] secundario y [2] accento. Si no existe una lista de colores para la aplicacion privadada especificada en la configuracion se deuvelve una por defecto."""
@@ -130,37 +137,39 @@ def getPublicAccentColor():
 
 #MODIFY
 
-def modifyElementsPerPage( config, cant ):
+def modifyElementsPerPage(config, cant):
     """Actualiza la cantidad de elementos que se muestran por pagina del listado."""
-    # assert_permit(session, "config_modifyElementsPerPage")
 
-    Config.modifyElementsPerPage( config, cant )
+    Config.modifyElementsPerPage(config, cant)
 
-def modifySortCriterionUser( config, criteria ):
+def modifySortCriterionUser(config, criteria):
     """Actualiza el criterio por defecto de ordenamiento de los usuarios."""
-    # assert_permit(session, "config_modifySortCriterionUser")
 
-    Config.modifySortCriterionUser( config, criteria )
+    Config.modifySortCriterionUser(config, criteria)
 
 def modifySortCriterionMeetingPoints( config, criteria ):
     """Actualiza el criterio por defecto de ordenamiento de los puntos de encuentro."""
-    # assert_permit(session, "config_modifySortCriterionMeetingPoints")
 
-    Config.modifySortCriterionMeetingPoints( config, criteria )
+    Config.modifySortCriterionMeetingPoints(config, criteria)
 
-def newPrivatePallete( config, colorList ):
+def modify_sort_criterion_flood_zones(config, criteria):
+    """Actualiza el criterio por defecto de ordenamiento de las zonas inundables."""
+
+    Config.modify_sort_criterion_flood_zones(config, criteria)
+
+def newPrivatePallete(config, colorList):
     """Actualiza la paleta privada de colores en configuracion. Recibe una lista de objetos 'Color'."""
     # assert_permit(session, "config_newPrivatePallete")
     if (len(colorList) >= 3):
-        Config.newPrivatePalette( config, colorList )
+        Config.newPrivatePalette(config, colorList)
     else:
         flash("La paleta nueva debe de contener al menos 3 colores.")
 
-def newPublicPallete( config, colorList ):
+def newPublicPallete(config, colorList):
     """Actualiza la paleta privada de colores en configuracion. Recibe una lista de objetos 'Color', si la lista es de menos de 3 elementos no se actualiza."""
     # assert_permit(session, "config_newPublicPallete")
     if (len(colorList) >= 3):
-        Config.newPublicPalette( config, colorList )
+        Config.newPublicPalette(config, colorList)
     else:
         flash("La paleta nueva debe de contener al menos 3 colores.")
 
@@ -171,7 +180,7 @@ def modify():
 
     #Initialice form
     if (config and config.palette_private and config.palette_public):
-        form = Config_forms(obj=config, 
+        form = ConfigForm(obj=config, 
             private_color1 = config.palette_private.color1.id,
             private_color2 = config.palette_private.color2.id,
             private_color3 = config.palette_private.color3.id,
@@ -180,11 +189,12 @@ def modify():
             public_color3 = config.palette_public.color3.id
         )
     else:
-        form = Config_forms(obj=config)
+        form = ConfigForm(obj=config)
     
     # Ordenamiendo
-    form.sort_users.choices =  [('username','Nombre de usuario'), ('first_name','Nombre'), ('last_name','Apellido'), ('email','Mail')]
-    form.sort_meeting_points.choices = [('name','Nombre'),('direction','Direccion'),('coordinates','Coordenadas'), ('telephone', 'Telefono'), ('email','Mail')]
+    form.sort_users.choices =  [("username","Nombre de usuario"), ("first_name","Nombre"), ("last_name","Apellido"), ("email","Mail")]
+    form.sort_meeting_points.choices = [("name","Nombre"),("direction","Direccion"),("coordinates","Coordenadas"), ("telephone", "Telefono"), ("email","Mail")]
+    form.sort_flood_zones.choices = [("code", "Código"), ("name", "Nombre")]
 
     #Obtener colores
     colores = [(g.id, g.value) for g in allColors()]
@@ -207,12 +217,12 @@ def modify():
             coloresPublicos = [getColor(dict(colores).get(form.public_color1.data)), getColor(dict(colores).get(form.public_color2.data)), getColor(dict(colores).get(form.public_color3.data))]
             newPublicPallete(config, coloresPublicos)
         
-        return redirect(url_for('config_index'))
+        return redirect(url_for("config_index"))
 
     temp_interface = FormPage(
-        form, url_for('config_modify'),
+        form, url_for("config_modify"),
         title="Edición de configuración", subtitle="Editando el apartado de configuración",
-        return_url=url_for('config_index')
+        return_url=url_for("config_index")
     )
 
     return render_template("generic/pages/form.html", temp_interface=temp_interface)

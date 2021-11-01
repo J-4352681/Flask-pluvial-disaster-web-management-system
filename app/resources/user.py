@@ -44,11 +44,11 @@ def new():
         return render_template("generic/pages/form.html", temp_interface=temp_interface)
 
 def create(form, user):
-    """Verifica que los datos unicos no esten repetidos antes de crear un nuevo usuario con los datos pasados por request."""
+    """Verifica que que quien crea el usuario tenga los permisos de modificar la BD con un alta de usuario"""
     assert_permit(session, "user_create")
 
-    form.populate_obj(user)
-    User.create_from_user(user)
+    form.populate_obj(flood_zone)
+    FloodZone.create_from_flood_zone(flood_zone)
 
 def block(user_id):
     """Cambiara el estado de un usuario de "activo" a "bloqueado". Los usuarios administradores no pueden ser bloqueados."""

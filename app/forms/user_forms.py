@@ -37,6 +37,7 @@ class UserCreationForm(UserForm):
     confirm_password = PasswordField("Confirmar contraseña", validators=[DataRequired(), Length(1,30,'El nombre debe de ser de entre 1 y 30 caracteres'), EqualTo("password"),])
     submit = SubmitField("Aceptar")
 
+
 class UserProfileModificationForm(FlaskForm):
     id = IntegerField(widget=HiddenInput())
     first_name = StringField("Nombre del usuario", validators=[DataRequired(), Length(1,30,'El nombre debe de ser de entre 1 y 30 caracteres')])

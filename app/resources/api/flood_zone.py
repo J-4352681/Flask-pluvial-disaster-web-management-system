@@ -1,6 +1,6 @@
 from flask import jsonify, Blueprint, request, abort
 
-from app.models.flood_zone import Flood_zone
+from app.models.flood_zone import FloodZone
 from app.schemas.flood_zone import FloodZonePaginationSchema, FloodZoneSchema
 
 
@@ -12,7 +12,7 @@ def index():
 
     try:
         page = int(page)
-        flood_zone_page = Flood_zone.all_paginated(page)
+        flood_zone_page = FloodZone.all_paginated(page)
     except:
         abort(500)
 
@@ -25,7 +25,7 @@ def index():
 @flood_zone_api.get("/<id>")
 def fetch_by_id(id):
     try:
-        flood_zone = Flood_zone.find_by_id(id)
+        flood_zone = FloodZone.find_by_id(id)
     except:
         abort(500)
     

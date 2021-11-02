@@ -9,6 +9,8 @@ from app import db
 from app.resources import user, auth, points, flood_zone, config as configObject
 from app.helpers import handler
 from app.helpers import auth as helper_auth
+from app.resources.api.flood_zone import flood_zone_api
+from app.resources.api.complaint import complaint_api
 
 logging.basicConfig()
 logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
@@ -83,11 +85,18 @@ def create_app(environment="development"):
 
         return render_template("home.html")
 
+    # Rutas de la API
+    api = Blueprint("api", __name__, url_prefix="/api")
+    api.register_blueprint(flood_zone_api)
+    api.register_blueprint(complaint_api)
+    app.register_blueprint(api)
+
     # Handlers
-    app.register_error_handler(404, handler.not_found_error)
-    app.register_error_handler(403, handler.forbidden_error)
+    app.register_error_handler(400, handler.bad_request_error)
     app.register_error_handler(401, handler.unauthorized_error)
-    # Implementar lo mismo para el error 500
+    app.register_error_handler(403, handler.forbidden_error)
+    app.register_error_handler(404, handler.not_found_error)
+    app.register_error_handler(500, handler.internal_server_error)
 
     # Retornar la instancia de app configurada
     return app

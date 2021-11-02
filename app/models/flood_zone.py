@@ -4,6 +4,8 @@ from sqlalchemy.sql.sqltypes import Boolean
 from sqlalchemy.orm import relationship
 from app.db import db
 
+from app.resources.config import get as config_get
+
 class FloodZone(db.Model):
     """Clase que representa las zonas inundables en la base datos"""
     __tablename__ = "flood_zone"
@@ -15,10 +17,11 @@ class FloodZone(db.Model):
     color = Column(String(7), nullable=False, default='#000000')
 
 
+
     @classmethod
     def create(cls, code, name, coordinates, state, color):
         """Crea una nueva zona inundable."""
-        new_fz = Flood_zone(code, name, coordinates, state, color)
+        new_fz = FloodZone(code, name, coordinates, state, color)
         db.session.add(new_fz)
         db.session.commit()
 
@@ -43,7 +46,11 @@ class FloodZone(db.Model):
         """Devuelve todas las zonas inundables cargadas en el sistema"""
         return cls.query.all()
 
-
+    @classmethod
+    def all_paginated(cls, page):
+        per_page = config_get().elements_per_page
+        return cls.query.paginate(page=page, per_page=per_page)
+    
     @classmethod
     def allPublic(cls):
         """Devuelve todas las zonas inundables publicas"""

@@ -1,9 +1,15 @@
 {% extends "generic/pages/base.html" %}
 
 {% block content %}
-    {% with args=temp_interface %}
-        {% include "generic/elements/headers/header_back.html" %}
+    {% block header %}
+        {% with args=temp_interface %}
+            {% include "generic/elements/headers/header_back.html" %}
+        {% endwith %}
+    {% endblock %}
 
-        {% include "generic/elements/forms/form.html" %}
-    {% endwith %}
+    {% block form %}
+        {% with args=temp_interface %}
+            {% include "generic/elements/forms/form.html" %}
+        {% endwith %}
+    {% endblock %}
 {% endblock %}

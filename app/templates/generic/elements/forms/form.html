@@ -7,7 +7,7 @@
             {{ field.label(class="col") }}: {{ ', '.join(errors) }}
             </div>
         {% endfor %}
-    
+
         {% for field in args.form %}
         {% if field.name not in ["submit", "csrf_token", "id"] %}
     
@@ -35,7 +35,6 @@
                         </div>
                     {% endif %}
                 {% else %}
-                
                     <div class="row">
                         {{ field(class="col my-2 form-control") }}
                     </div>

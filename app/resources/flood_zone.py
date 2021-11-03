@@ -1,5 +1,6 @@
 from flask import redirect, render_template, request, url_for, session, flash
 # from sqlalchemy.sql.expression import false, true
+from json import loads
 
 from app.models.flood_zone import FloodZone
 
@@ -43,7 +44,7 @@ def new():
             return_url=url_for('fzone_index')
         )
 
-        return render_template("generic/pages/form.html", temp_interface=temp_interface)
+        return render_template("flood_zone/pages/form.html", temp_interface=temp_interface)
 
 
 def create(form, flood_zone):
@@ -51,6 +52,7 @@ def create(form, flood_zone):
     assert_permit(session, "fzone_create")
 
     form.populate_obj(flood_zone)
+    flood_zone.coordinates = loads(flood_zone.coordinates)
     FloodZone.create_from_flood_zone(flood_zone)
 
 

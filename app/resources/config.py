@@ -28,6 +28,9 @@ def index():
           "Elementos por página": config.elements_per_page,
           "Criterio de ordenamiento de usuarios": config.translateCriteria(config.sort_users),
           "Criterio de ordenamiento de puntos de encuentro": config.translateCriteria(config.sort_meeting_points),
+          "Criterio de ordenamiento de zonas inundables": config.translateCriteria(config.sort_flood_zones),
+          "Criterio de ordenamiento de rutas de evacuacion": config.translateCriteria(config.sort_evacuation_routes),
+          "Criterio de ordenamiento de denuncias": config.translateCriteria(config.sort_complaints),
           "Paleta de colores app privada": private_palette[0] + ", " + private_palette[1] + ", " + private_palette[2],
           "Paleta de colores app publica": public_palette[0] + ", " + public_palette[1] + ", " + public_palette[2]
         }, config,
@@ -79,7 +82,7 @@ def get_sort_criterion_flood_zones():
 def getPrivatePalette():
     """Devuelve una lista de nombres de colores reconocidos por HTML. [0] color primario, [1] secundario y [2] accento. Si no existe una lista de colores para la aplicacion privadada especificada en la configuracion se deuvelve una por defecto."""
     configuration = get()
-    if ( configuration.palette_private.color1 and configuration.palette_private.color2 and configuration.palette_private.color3): # una lista vacia es falso
+    if ( configuration and configuration.palette_private): # una lista vacia es falso
         return [configuration.palette_private.color1.value, configuration.palette_private.color2.value, configuration.palette_private.color3.value]
     else:
         return ["Snow", "Gray", "Salmon"] # Colores por defecto, reconocidos por HTML
@@ -195,6 +198,8 @@ def modify():
     form.sort_users.choices =  [("username","Nombre de usuario"), ("first_name","Nombre"), ("last_name","Apellido"), ("email","Mail")]
     form.sort_meeting_points.choices = [("name","Nombre"),("direction","Direccion"),("coordinates","Coordenadas"), ("telephone", "Telefono"), ("email","Mail")]
     form.sort_flood_zones.choices = [("code", "Código"), ("name", "Nombre")]
+    form.sort_evacuation_routes.choices = [("name", "Nombre")] # Es necesario??
+    form.sort_complaints.choices = [("title", "Código"), ("creation_date", "Fecha de creación")]
 
     #Obtener colores
     colores = [(g.id, g.value) for g in allColors()]

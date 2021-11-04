@@ -5,6 +5,8 @@ from marshmallow import ValidationError
 from app.models.complaint import Complaint
 from app.schemas.complaint import ComplaintSchema
 
+import logging
+logger = logging.getLogger(__name__) # Nos permite devolver mas informacion sobre una excepcion en el servidor.
 
 complaint_api = Blueprint("denuncias", __name__, url_prefix="/denuncias")
 
@@ -19,6 +21,7 @@ def create():
     try:
         new_complaint = Complaint.create_public(**request.get_json())
     except:
+        logger.exception("Error creando denuncia.")  # Imprime todo el traceback del error
         abort(500)
     
     response = ComplaintSchema().dump(new_complaint)

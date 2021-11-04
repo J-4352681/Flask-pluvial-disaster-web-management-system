@@ -7,6 +7,13 @@ from app.resources.colors import getById as getColorById, all as allColors
 from app.resources.colors import new as newColor
 from app.resources.colors import get as getColor
 
+from app.models.meeting_point import MeetingPoint
+from app.models.user import User
+from app.models.evacuation_route import EvacuationRoute
+import app.models
+from app.models.complaint import Complaint
+
+
 from app.helpers.auth import assert_permit
 # from app.helpers.filter import apply_filter
 
@@ -195,11 +202,11 @@ def modify():
         form = ConfigForm(obj=config)
     
     # Ordenamiendo
-    form.sort_users.choices =  [("username","Nombre de usuario"), ("first_name","Nombre"), ("last_name","Apellido"), ("email","Mail")]
-    form.sort_meeting_points.choices = [("name","Nombre"),("direction","Direccion"),("coordinates","Coordenadas"), ("telephone", "Telefono"), ("email","Mail")]
-    form.sort_flood_zones.choices = [("code", "Código"), ("name", "Nombre")]
-    form.sort_evacuation_routes.choices = [("name", "Nombre")] # Es necesario??
-    form.sort_complaints.choices = [("title", "Código"), ("creation_date", "Fecha de creación")]
+    form.sort_users.choices =  User.get_sorting_atributes()
+    form.sort_meeting_points.choices = MeetingPoint.get_sorting_atributes()
+    form.sort_flood_zones.choices = app.models.flood_zone.FloodZone.get_sorting_atributes()
+    form.sort_evacuation_routes.choices = EvacuationRoute.get_sorting_atributes()
+    form.sort_complaints.choices = Complaint.get_sorting_atributes()
 
     #Obtener colores
     colores = [(g.id, g.value) for g in allColors()]

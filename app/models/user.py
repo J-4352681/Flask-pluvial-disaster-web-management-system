@@ -185,6 +185,11 @@ class User(db.Model):
             user.roles.remove(role)
             db.session.commit()
 
+    @classmethod
+    def get_sorting_atributes(cls):
+        """Devuelve los atributos para ordenar las listas"""
+        return [("username","Nombre de usuario"), ("first_name","Nombre"), ("last_name","Apellido"), ("email","Mail")]
+
     def __init__(self, first_name=None, last_name=None, username=None, email=None, password=None, active=False, roles=[]):
         self.first_name = first_name
         self.last_name = last_name

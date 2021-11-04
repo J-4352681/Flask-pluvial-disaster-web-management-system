@@ -18,14 +18,14 @@ class MeetingPoint(db.Model):
     def create(cls, name, direction, latitude, longitude, telephone, email, state): #params
         """Crea un nuevo punto de encuentro."""
         coordinates = [latitude, longitude]
-        new_mp = Meeting_Point(name, direction, coordinates, telephone, email, state)
+        new_mp = cls(name, direction, coordinates, telephone, email, state)
         db.session.add(new_mp)
         db.session.commit()
 
     @classmethod
     def delete(cls, id_param=None):
         """Elimina un punto de encuentro cuyo nombre coincide con el id mandado como parametro."""
-        point_selected = Meeting_Point.query.filter_by(id=id_param).first()
+        point_selected = cls.query.filter_by(id=id_param).first()
         db.session.delete(point_selected)
         db.session.commit()
 
@@ -86,6 +86,11 @@ class MeetingPoint(db.Model):
     def update(cls):
         """Actualiza la base de datos"""
         db.session.commit()
+
+    @classmethod
+    def get_sorting_atributes(cls):
+        """Devuelve los atributos para ordenar las listas"""
+        return [("name","Nombre"),("direction","Direccion"),("coordinates","Coordenadas"), ("telephone", "Telefono"), ("email","Mail")]
 
     def __init__(self, name=None, direction=None, coordinates=None, telephone=None, email=None, state=False):
         self.name = name

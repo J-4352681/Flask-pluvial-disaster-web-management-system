@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.5deb2
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 27-10-2021 a las 12:40:26
--- Versión del servidor: 10.3.31-MariaDB-0ubuntu0.20.04.1
--- Versión de PHP: 7.4.3
+-- Tiempo de generación: 05-11-2021 a las 00:04:48
+-- Versión del servidor: 10.4.21-MariaDB
+-- Versión de PHP: 7.3.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,8 +18,19 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `grupo38`
+-- Base de datos: `proyecto`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `categories`
+--
+
+CREATE TABLE `categories` (
+  `id` int(11) NOT NULL,
+  `name` varchar(30) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -33,20 +43,27 @@ CREATE TABLE `colors` (
   `value` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `colors`
+-- Estructura de tabla para la tabla `complaints`
 --
 
-INSERT INTO `colors` (`id`, `value`) VALUES
-(1, 'Royal Blue'),
-(2, 'Snow'),
-(3, 'Salmon'),
-(4, 'Azure'),
-(5, 'DarkOliveGreen'),
-(6, 'DeepPink'),
-(7, 'Gold'),
-(8, 'MidnightBlue'),
-(9, 'SkyBlue');
+CREATE TABLE `complaints` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `creation_date` datetime DEFAULT NULL,
+  `closure_date` datetime DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `coordinates` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`coordinates`)),
+  `state` varchar(30) DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL,
+  `assigned_user_id` int(11) DEFAULT NULL,
+  `author_first_name` varchar(30) DEFAULT NULL,
+  `author_last_name` varchar(30) DEFAULT NULL,
+  `author_telephone` varchar(30) DEFAULT NULL,
+  `author_email` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -59,16 +76,55 @@ CREATE TABLE `config` (
   `elements_per_page` int(11) DEFAULT NULL,
   `sort_users` varchar(30) DEFAULT NULL,
   `sort_meeting_points` varchar(30) DEFAULT NULL,
+  `sort_flood_zones` varchar(30) DEFAULT NULL,
+  `sort_evacuation_routes` varchar(30) DEFAULT NULL,
+  `sort_complaints` varchar(30) DEFAULT NULL,
   `palette_private_id` int(11) DEFAULT NULL,
   `palette_public_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `config`
+-- Estructura de tabla para la tabla `evacuation_routes`
 --
 
-INSERT INTO `config` (`id`, `elements_per_page`, `sort_users`, `sort_meeting_points`, `palette_private_id`, `palette_public_id`) VALUES
-(1, 3, 'last_name', 'name', 3, 4);
+CREATE TABLE `evacuation_routes` (
+  `id` int(11) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `coordinates` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`coordinates`)),
+  `state` tinyint(1) DEFAULT NULL,
+  `fz_name` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `flood_zones`
+--
+
+CREATE TABLE `flood_zones` (
+  `id` int(11) NOT NULL,
+  `code` varchar(30) NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `coordinates` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`coordinates`)),
+  `state` tinyint(1) NOT NULL,
+  `color` varchar(7) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `follow_ups`
+--
+
+CREATE TABLE `follow_ups` (
+  `id` int(11) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `author_id` int(11) DEFAULT NULL,
+  `creation_date` datetime DEFAULT NULL,
+  `complaint_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -80,22 +136,11 @@ CREATE TABLE `meeting_points` (
   `id` int(11) NOT NULL,
   `name` varchar(30) DEFAULT NULL,
   `direction` varchar(100) DEFAULT NULL,
-  `coordinates` varchar(100) DEFAULT NULL,
+  `coordinates` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`coordinates`)),
   `state` tinyint(1) DEFAULT NULL,
   `telephone` varchar(30) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `meeting_points`
---
-
-INSERT INTO `meeting_points` (`id`, `name`, `direction`, `coordinates`, `state`, `telephone`, `email`) VALUES
-(8, 'refugio_1', '116, 1411', '84.7938, -38.0691', 1, '296631452511', 'darw@gmail.com'),
-(9, 'refugio_2', '1, 195', '49.0077, 17.6468', 1, '424264', 'sdada@gmail.com'),
-(10, 'escuela_19', '85, 900', '-13.4562, -107.1375', 1, '2131231', 'sadas@gmail.com'),
-(11, 'escuela_32', '20, 280', '24.4480, 160.8784', 0, '123123', 'Tomad0@hotmail.com'),
-(12, 'escuela_19', '123123', '123123, 123113', 1, '11111111', 'email1@email1.com');
 
 -- --------------------------------------------------------
 
@@ -110,14 +155,6 @@ CREATE TABLE `palettes` (
   `color3_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Volcado de datos para la tabla `palettes`
---
-
-INSERT INTO `palettes` (`id`, `color1_id`, `color2_id`, `color3_id`) VALUES
-(3, 5, 2, 4),
-(4, 6, 2, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -128,51 +165,6 @@ CREATE TABLE `permits` (
   `id` int(11) NOT NULL,
   `name` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `permits`
---
-
-INSERT INTO `permits` (`id`, `name`) VALUES
-(1, 'user_index'),
-(2, 'config_index'),
-(3, 'user_modify'),
-(4, 'points_index'),
-(5, 'points_modify'),
-(6, 'points_new'),
-(7, 'points_create'),
-(8, 'points_show'),
-(9, 'points_delete'),
-(10, 'config_modify'),
-(11, 'user_new'),
-(12, 'user_block'),
-(13, 'user_unblock'),
-(14, 'user_delete'),
-(15, 'user_assign_role'),
-(16, 'user_unassign_role'),
-(17, 'user_create');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `private_palett_has_color`
---
-
-CREATE TABLE `private_palett_has_color` (
-  `config_id` int(11) DEFAULT NULL,
-  `color_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `public_palett_has_color`
---
-
-CREATE TABLE `public_palett_has_color` (
-  `config_id` int(11) DEFAULT NULL,
-  `color_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -185,14 +177,6 @@ CREATE TABLE `roles` (
   `name` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `roles`
---
-
-INSERT INTO `roles` (`id`, `name`) VALUES
-(1, 'admin'),
-(2, 'operator');
-
 -- --------------------------------------------------------
 
 --
@@ -203,34 +187,6 @@ CREATE TABLE `role_has_permit` (
   `role_id` int(11) DEFAULT NULL,
   `permit_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `role_has_permit`
---
-
-INSERT INTO `role_has_permit` (`role_id`, `permit_id`) VALUES
-(1, 1),
-(1, 2),
-(1, 3),
-(1, 4),
-(1, 5),
-(1, 6),
-(1, 7),
-(1, 8),
-(1, 9),
-(1, 10),
-(1, 11),
-(1, 12),
-(1, 13),
-(1, 14),
-(1, 15),
-(1, 16),
-(2, 4),
-(2, 8),
-(2, 5),
-(2, 6),
-(2, 7),
-(1, 17);
 
 -- --------------------------------------------------------
 
@@ -249,15 +205,6 @@ CREATE TABLE `users` (
   `created_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `users`
---
-
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `username`, `email`, `password`, `active`, `created_at`) VALUES
-(1, 'cosme', 'fulanito', 'admin', 'admin@admin.com', '123123', 1, '2021-10-13 16:30:13'),
-(2, 'zosme', 'zulanito', 'zozme', 'zozme@gmail.com', '234234', 0, '2021-10-17 11:46:56'),
-(3, 'pepe', 'pepe', 'pepe', 'pepe@pepe.com', '123123', 1, '2021-10-21 12:33:07');
-
 -- --------------------------------------------------------
 
 --
@@ -270,17 +217,15 @@ CREATE TABLE `user_has_role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `user_has_role`
---
-
-INSERT INTO `user_has_role` (`user_id`, `role_id`) VALUES
-(1, 1),
-(2, 2),
-(3, 2);
-
---
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- Indices de la tabla `colors`
@@ -289,12 +234,43 @@ ALTER TABLE `colors`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `complaints`
+--
+ALTER TABLE `complaints`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `category_id` (`category_id`),
+  ADD KEY `assigned_user_id` (`assigned_user_id`);
+
+--
 -- Indices de la tabla `config`
 --
 ALTER TABLE `config`
   ADD PRIMARY KEY (`id`),
   ADD KEY `palette_private_id` (`palette_private_id`),
   ADD KEY `palette_public_id` (`palette_public_id`);
+
+--
+-- Indices de la tabla `evacuation_routes`
+--
+ALTER TABLE `evacuation_routes`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `fz_name` (`fz_name`);
+
+--
+-- Indices de la tabla `flood_zones`
+--
+ALTER TABLE `flood_zones`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `code` (`code`),
+  ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Indices de la tabla `follow_ups`
+--
+ALTER TABLE `follow_ups`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `author_id` (`author_id`),
+  ADD KEY `complaint_id` (`complaint_id`);
 
 --
 -- Indices de la tabla `meeting_points`
@@ -316,20 +292,6 @@ ALTER TABLE `palettes`
 --
 ALTER TABLE `permits`
   ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `private_palett_has_color`
---
-ALTER TABLE `private_palett_has_color`
-  ADD KEY `config_id` (`config_id`),
-  ADD KEY `color_id` (`color_id`);
-
---
--- Indices de la tabla `public_palett_has_color`
---
-ALTER TABLE `public_palett_has_color`
-  ADD KEY `config_id` (`config_id`),
-  ADD KEY `color_id` (`color_id`);
 
 --
 -- Indices de la tabla `roles`
@@ -364,50 +326,87 @@ ALTER TABLE `user_has_role`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `colors`
 --
 ALTER TABLE `colors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `complaints`
+--
+ALTER TABLE `complaints`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `config`
 --
 ALTER TABLE `config`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `evacuation_routes`
+--
+ALTER TABLE `evacuation_routes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `flood_zones`
+--
+ALTER TABLE `flood_zones`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `follow_ups`
+--
+ALTER TABLE `follow_ups`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `meeting_points`
 --
 ALTER TABLE `meeting_points`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `palettes`
 --
 ALTER TABLE `palettes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `permits`
 --
 ALTER TABLE `permits`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `complaints`
+--
+ALTER TABLE `complaints`
+  ADD CONSTRAINT `complaints_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`),
+  ADD CONSTRAINT `complaints_ibfk_2` FOREIGN KEY (`assigned_user_id`) REFERENCES `users` (`id`);
 
 --
 -- Filtros para la tabla `config`
@@ -417,26 +416,25 @@ ALTER TABLE `config`
   ADD CONSTRAINT `config_ibfk_2` FOREIGN KEY (`palette_public_id`) REFERENCES `palettes` (`id`);
 
 --
+-- Filtros para la tabla `evacuation_routes`
+--
+ALTER TABLE `evacuation_routes`
+  ADD CONSTRAINT `evacuation_routes_ibfk_1` FOREIGN KEY (`fz_name`) REFERENCES `flood_zones` (`name`);
+
+--
+-- Filtros para la tabla `follow_ups`
+--
+ALTER TABLE `follow_ups`
+  ADD CONSTRAINT `follow_ups_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `follow_ups_ibfk_2` FOREIGN KEY (`complaint_id`) REFERENCES `complaints` (`id`);
+
+--
 -- Filtros para la tabla `palettes`
 --
 ALTER TABLE `palettes`
   ADD CONSTRAINT `palettes_ibfk_1` FOREIGN KEY (`color1_id`) REFERENCES `colors` (`id`),
   ADD CONSTRAINT `palettes_ibfk_2` FOREIGN KEY (`color2_id`) REFERENCES `colors` (`id`),
   ADD CONSTRAINT `palettes_ibfk_3` FOREIGN KEY (`color3_id`) REFERENCES `colors` (`id`);
-
---
--- Filtros para la tabla `private_palett_has_color`
---
-ALTER TABLE `private_palett_has_color`
-  ADD CONSTRAINT `private_palett_has_color_ibfk_1` FOREIGN KEY (`config_id`) REFERENCES `config` (`id`),
-  ADD CONSTRAINT `private_palett_has_color_ibfk_2` FOREIGN KEY (`color_id`) REFERENCES `colors` (`id`);
-
---
--- Filtros para la tabla `public_palett_has_color`
---
-ALTER TABLE `public_palett_has_color`
-  ADD CONSTRAINT `public_palett_has_color_ibfk_1` FOREIGN KEY (`config_id`) REFERENCES `config` (`id`),
-  ADD CONSTRAINT `public_palett_has_color_ibfk_2` FOREIGN KEY (`color_id`) REFERENCES `colors` (`id`);
 
 --
 -- Filtros para la tabla `role_has_permit`

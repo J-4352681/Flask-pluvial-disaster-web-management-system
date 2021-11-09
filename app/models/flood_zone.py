@@ -11,7 +11,7 @@ from random import choice as random_choice
 
 class FloodZone(db.Model):
     """Clase que representa las zonas inundables en la base datos"""
-    __tablename__ = "flood_zone"
+    __tablename__ = "flood_zones"
     id = Column(Integer, primary_key=True)
     code = Column(String(30), unique=True, nullable=false) # Codigo de zona
     name = Column(String(30), nullable=false)
@@ -133,6 +133,11 @@ class FloodZone(db.Model):
     def update(cls):
         """Actualiza la base de datos"""
         db.session.commit()
+
+    @classmethod
+    def get_sorting_atributes(cls):
+        """Devuelve los atributos para ordenar las listas"""
+        return [("code", "Código"), ("name", "Nombre")]
 
 
     def __init__(self, code=None, name=None, coordinates=None, state=None, color=None):

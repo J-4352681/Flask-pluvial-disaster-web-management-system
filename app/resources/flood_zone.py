@@ -1,5 +1,5 @@
 from flask import redirect, render_template, request, url_for, session, flash
-# from sqlalchemy.sql.expression import false, true
+from sqlalchemy.sql.expression import false, true
 from json import loads
 
 from app.models.flood_zone import FloodZone
@@ -10,6 +10,10 @@ from app.helpers.template_pages import FormPage, DBModelIndexPage, ItemDetailsPa
 
 from app.forms.fzone_forms import FloodZoneForm
 from app.forms.filter_forms import FZoneFilter
+
+from csv import reader as csv_reader
+from werkzeug.utils import secure_filename
+from io import StringIO
 
 # Protected resources
 def index(page=None):
@@ -31,8 +35,6 @@ def new():
     assert_permit(session, "fzone_new")
     flood_zone = FloodZone()
     form = FloodZoneForm(obj=flood_zone)
-
-    print(vars(form)["_fields"]['color'])
 
     if form.validate_on_submit():
         create(form, flood_zone)
@@ -70,3 +72,36 @@ def delete(fzone_id):
 
 def show(fzone_id):
     pass
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() == "csv"
+
+
+def csv_import():
+    if request.method == 'POST':
+        if "file_import" not in request.files:
+            flash('Sin archivo')
+            return redirect(url_for("fzone_index"))
+        file = request.files["file_import"]
+        
+        if file.filename == '':
+            flash("No se seleccionó archivo")
+            return redirect(url_for("fzone_index"))
+
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.stream = StringIO(file.read().decode("utf-8"))
+            reader = csv_reader(file.stream, delimiter=",")
+            next(reader)
+
+            for row in reader:
+                coords = list(map(lambda x: x.strip(",[] "), row[1].split(",")))
+                row[1] = [{"lat": coords[i], "lng": coords[i+1]} for i in range(0, len(coords), 2)]
+                FloodZone.create_from_name_coord(*row)
+            return redirect(url_for("fzone_index"))
+
+    else: flash("No se seleccionó archivo")
+    
+    return redirect(url_for("fzone_index"))

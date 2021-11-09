@@ -100,7 +100,6 @@ def csv_import():
                 coords = list(map(lambda x: x.strip(",[] "), row[1].split(",")))
                 row[1] = [{"lat": coords[i], "lng": coords[i+1]} for i in range(0, len(coords), 2)]
                 FloodZone.create_from_name_coord(*row)
-                break
             return redirect(url_for("fzone_index"))
 
     else: flash("No se seleccionó archivo")

@@ -12,11 +12,11 @@
             {% with args={"text": "+ Crear zona inundable", "url": url_for('fzone_new')} %}
                 {% include "generic/elements/buttons/button1.html" %}
             {% endwith %}
+            
+            {% with args={"text": "Importar desde csv", "action_url": url_for("fzone_csvimport")} %}
+                {% include "generic/elements/forms/upload_file.html" %}
+            {% endwith %}
 
-            <form class="col-auto mx-2 m-0 p-0" action="{{url_for('fzone_csvimport')}}" enctype="multipart/form-data" method="POST">
-                <input type="file" class="btn btn-primary m-0" accept=".csv" name="file_import" onchange="form.submit();">
-            </form>
-    
             {% with args={"text": "Filtrar", "data_bs_toggle": "modal", "data_bs_target": "#fzone-filter"} %}
                 {% include "generic/elements/buttons/modal_button1.html" %}
             {% endwith %}

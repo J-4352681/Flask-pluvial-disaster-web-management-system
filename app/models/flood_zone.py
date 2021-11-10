@@ -4,6 +4,7 @@ from sqlalchemy.sql.sqltypes import Boolean
 from sqlalchemy.orm import relationship
 from app.db import db
 
+from app.models.color import Color
 from app.resources.config import get as config_get
 
 class FloodZone(db.Model):
@@ -11,10 +12,12 @@ class FloodZone(db.Model):
     __tablename__ = "flood_zones"
     id = Column(Integer, primary_key=True)
     code = Column(String(30), unique=True, nullable=false) # Codigo de zona
-    name = Column(String(30), unique=True, nullable=false)
+    name = Column(String(30), unique=True, nullable=false, primary_key=True)
     coordinates = Column(JSON, nullable=false)
     state = Column(Boolean, default=True, nullable=false) # publicado o despublicado
     color = Column(String(7), nullable=false, default='#000000')
+    # color_id = Column(Integer, ForeignKey('colors.id'))
+    # color = relationship("Color", foreign_keys=color_id)
 
 
     @classmethod

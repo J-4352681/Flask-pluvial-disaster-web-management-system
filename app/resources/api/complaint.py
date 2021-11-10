@@ -14,16 +14,16 @@ complaint_api = Blueprint("denuncias", __name__, url_prefix="/denuncias")
 def create():
     
     try:
-        ComplaintSchema().load(request.get_json())
+        input_args = ComplaintSchema().load(request.get_json())
     except ValidationError as err:
         abort(400)
 
     try:
-        new_complaint = Complaint.create_public(**request.get_json())
+        new_complaint = Complaint.create_public(**input_args)
     except:
         logger.exception("Error creando denuncia.")  # Imprime todo el traceback del error
         abort(500)
     
     response = ComplaintSchema().dump(new_complaint)
     
-    return jsonify(response), 201
+    return jsonify(atributos=response), 201

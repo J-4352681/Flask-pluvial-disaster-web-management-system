@@ -41,9 +41,9 @@ class Complaint(db.Model):
         db.session.commit()
 
     @classmethod
-    def create_public(cls, title, description, coordinates, author_first_name, author_last_name, author_telephone, author_email): #params
+    def create_public(cls, title, description, coordinates, author_first_name, author_last_name, author_telephone, author_email, category_id): #params
         """Crea una nueva queja en base a los datos dados."""
-        new_c = Complaint(title, description, coordinates, "Sin confirmar", author_first_name, author_last_name, author_telephone, author_email)
+        new_c = Complaint(title, description, coordinates, "Sin confirmar", author_first_name, author_last_name, author_telephone, author_email, category_id)
         db.session.add(new_c)
         db.session.commit()
         return new_c
@@ -105,7 +105,7 @@ class Complaint(db.Model):
         """Devuelve los atributos para ordenar las listas"""
         return [("title", "Código"), ("creation_date", "Fecha de creación")]
 
-    def __init__(self, title=None, description=None, coordinates=None, state=None, author_first_name=None, author_last_name=None, author_telephone=None, author_email=None):
+    def __init__(self, title=None, description=None, coordinates=None, state=None, author_first_name=None, author_last_name=None, author_telephone=None, author_email=None, category_id=None):
         self.title = title
         self.description = description
         self.coordinates = coordinates
@@ -114,3 +114,4 @@ class Complaint(db.Model):
         self.author_last_name = author_last_name
         self.author_telephone = author_telephone
         self.author_email = author_email
+        self.category_id = category_id

@@ -40,9 +40,9 @@
     {% endblock %}
 
 
-    {# {% block filter %}
+    {% block filter %}
         {% with args={"form": temp_interface.filt.form, "id": "fzone-filter", "aria_labelledby": "fzone-filter-label", "url": url_for('fzone_index')} %}
             {% include "generic/elements/filter.html" %}
         {% endwith %}
-    {% endblock %} #}
+    {% endblock %}
 {% endblock %}

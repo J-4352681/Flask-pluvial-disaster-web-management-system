@@ -20,7 +20,7 @@ from random import choice as random_choice
 # Protected resources
 def index(page=None):
     """Muestra la lista de usuarios."""
-    # assert_permit(session, "fzone_index")
+    assert_permit(session, "fzone_index")
 
     filt = Filter(FZoneFilter, FloodZone, request.args)
     
@@ -92,7 +92,7 @@ def delete(fzone_id):
 
 def show(fzone_id):
     """Muestra la lista de puntos de encuentro."""
-    assert_permit(session, "points_show")
+    assert_permit(session, "fzone_show")
 
     fzone = FloodZone.find_by_id(fzone_id)
     
@@ -163,6 +163,7 @@ def get_or_create_by_name(fzone):
 
 def csv_import():
     """Importa zonas desde archivo csv."""
+    assert_permit(session, "fzone_importcsv")
     if request.method == 'POST':
         if "file_import" not in request.files:
             flash('Sin archivo')

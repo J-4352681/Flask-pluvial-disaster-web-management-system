@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-11-2021 a las 04:53:56
+-- Tiempo de generación: 10-11-2021 a las 05:15:21
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 8.0.11
 
@@ -267,7 +267,8 @@ INSERT INTO `permits` (`id`, `name`) VALUES
 (19, 'fzone_create'),
 (20, 'fzone_new'),
 (21, 'fzone_delete'),
-(22, 'fzone_index');
+(22, 'fzone_index'),
+(23, 'fzone_importcsv');
 
 -- --------------------------------------------------------
 
@@ -332,7 +333,8 @@ INSERT INTO `role_has_permit` (`role_id`, `permit_id`) VALUES
 (1, 20),
 (1, 18),
 (1, 18),
-(1, 22);
+(1, 22),
+(1, 23);
 
 -- --------------------------------------------------------
 
@@ -545,7 +547,7 @@ ALTER TABLE `palettes`
 -- AUTO_INCREMENT de la tabla `permits`
 --
 ALTER TABLE `permits`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`

@@ -13,9 +13,11 @@
                 {% include "generic/elements/buttons/button1.html" %}
             {% endwith %}
             
-            {% with args={"text": "Importar desde csv", "action_url": url_for("fzone_csvimport")} %}
-                {% include "generic/elements/forms/upload_file.html" %}
-            {% endwith %}
+            {% if "fzone_importcsv" in session.user_permits %}
+                {% with args={"text": "Importar desde csv", "action_url": url_for("fzone_csvimport")} %}
+                    {% include "generic/elements/forms/upload_file.html" %}
+                {% endwith %}
+            {% endif %}
 
             {% with args={"text": "Filtrar", "data_bs_toggle": "modal", "data_bs_target": "#fzone-filter"} %}
                 {% include "generic/elements/buttons/modal_button1.html" %}

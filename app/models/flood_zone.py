@@ -59,10 +59,6 @@ class FloodZone(db.Model):
         per_page = config_get().elements_per_page
         return cls.query.paginate(page=page, per_page=per_page)
     
-<<<<<<< HEAD
-=======
-
->>>>>>> development
     @classmethod
     def allPublic(cls):
         """Devuelve todas las zonas inundables publicas"""

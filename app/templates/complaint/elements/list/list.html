@@ -1,0 +1,11 @@
+{% extends "generic/elements/list/list.html" %}
+
+{% block list_row %}
+    {% for item in args['items'] %}
+        <tr class="row">
+            {% with args={"item": item, "attr_names": args.attr_names} %}
+                {% include "complaint/elements/list/list_row.html" %}
+            {% endwith %}
+        </tr>
+    {% endfor %}
+{% endblock %}

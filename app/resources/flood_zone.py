@@ -19,7 +19,7 @@ from random import choice as random_choice
 
 # Protected resources
 def index(page=None):
-    """Muestra la lista de usuarios."""
+    """Muestra la lista de zonas inunzables."""
     assert_permit(session, "fzone_index")
 
     filt = Filter(FZoneFilter, FloodZone, request.args)
@@ -33,7 +33,7 @@ def index(page=None):
 
 
 def new():
-    """Devuelve el template para crear un nuevo usuario."""
+    """Devuelve el template para crear una nueva zona inundable."""
     assert_permit(session, "fzone_new")
     fzone = FloodZone()
     form = FloodZoneForm(obj=fzone)
@@ -52,7 +52,7 @@ def new():
 
 
 def create(form, fzone):
-    """Verifica que los datos unicos no esten repetidos antes de crear un nuevo usuario con los datos pasados por request."""
+    """Verifica que los datos unicos no esten repetidos antes de crear una nueva zona inundable con los datos pasados por request."""
     assert_permit(session, "fzone_create")
 
     form.populate_obj(fzone)
@@ -91,7 +91,7 @@ def delete(fzone_id):
 
 
 def show(fzone_id):
-    """Muestra la lista de puntos de encuentro."""
+    """Muestra los datos de la zona inundable."""
     assert_permit(session, "fzone_show")
 
     fzone = FloodZone.find_by_id(fzone_id)

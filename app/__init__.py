@@ -7,6 +7,7 @@ from flask_session import Session
 from config import config
 from app import db
 from app.resources import user, auth, points, flood_zone, complaint, config as configObject
+from app.resources import follow_up
 from app.helpers import handler
 from app.helpers import auth as helper_auth
 from app.resources.api.flood_zone import flood_zone_api
@@ -80,6 +81,13 @@ def create_app(environment="development"):
     app.add_url_rule("/denuncias/nuevo", "complaint_new", complaint.new, methods=["GET", "POST"]) 
     app.add_url_rule("/denuncias", "complaint_create", complaint.create, methods=["GET", "POST"])
     app.add_url_rule("/denuncias/delete/<int:complaint_id>", "complaint_delete", complaint.delete, methods=["GET", "POST"])
+
+    # Rutas de seguimientos
+    app.add_url_rule("/seguimientos/<int:complaint_id>", "follow_up_index", follow_up.index)
+    app.add_url_rule("/seguimientos/modify/<int:follow_up_id>", "follow_up_modify", follow_up.modify, methods=["GET", "POST"])
+    app.add_url_rule("/seguimientos/nuevo/<int:complaint_id>", "follow_up_new", follow_up.new, methods=["GET", "POST"])
+    app.add_url_rule("/seguimientos/", "follow_up_create", follow_up.create, methods=["GET", "POST"])
+    app.add_url_rule("/seguimientos/delete/<int:follow_up_id>", "follow_up_delete", follow_up.delete, methods=["GET", "POST"])
 
     # Rutas de Config
     app.add_url_rule("/config", "config_index", configObject.index)

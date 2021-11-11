@@ -26,6 +26,12 @@ class Follow_up(db.Model):
         db.session.commit()
 
     @classmethod
+    def create_from_follow_up(cls, new_fu): #params
+        """Crea un nuevo seguimiento a partir de un seguimiento."""
+        db.session.add(new_fu)
+        db.session.commit()
+
+    @classmethod
     def delete(cls, id_param=None):
         """Elimina un seguimiento cuyo id coincida con el numero mandado como parametro."""
         fu_selected = Follow_up.query.filter_by(id=id_param).first()

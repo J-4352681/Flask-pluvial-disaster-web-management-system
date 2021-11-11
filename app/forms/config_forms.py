@@ -14,6 +14,11 @@ class ConfigForm(FlaskForm):
     sort_users = SelectField("Criterio de ordenamiento de los usuarios", validators=[DataRequired()], choices=[]) 
     sort_meeting_points = SelectField("Criterio de ordenamiento de los puntos de encuentro", validators=[DataRequired()], choices=[]) 
     sort_flood_zones = SelectField("Criterio de ordenamiento de las zonas inundables", validators=[DataRequired()], choices=[]) 
+<<<<<<< HEAD
+=======
+    sort_evacuation_routes = SelectField("Criterio de ordenamiento de las rutas de evacuacion", validators=[DataRequired()], choices=[]) 
+    sort_complaints = SelectField("Criterio de ordenamiento de las denuncias", validators=[DataRequired()], choices=[]) 
+>>>>>>> development
     private_color1 = SelectField("Color Primario de la aplicacion privada", choices=[], coerce=int, validators=[DataRequired()])
     private_color2 = SelectField("Color Secundario de la aplicacion privada", choices=[], coerce=int,validators=[DataRequired()])
     private_color3 = SelectField("Color Acento de la aplicacion privada", choices=[] ,coerce=int, validators=[DataRequired()])

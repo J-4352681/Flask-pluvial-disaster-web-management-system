@@ -4,18 +4,26 @@ from sqlalchemy.sql.sqltypes import Boolean
 from sqlalchemy.orm import relationship
 from app.db import db
 
+from app.models.color import Color
 from app.resources.config import get as config_get
 
 class FloodZone(db.Model):
     """Clase que representa las zonas inundables en la base datos"""
-    __tablename__ = "flood_zone"
+    __tablename__ = "flood_zones"
     id = Column(Integer, primary_key=True)
-    code = Column(String(30), unique=True, nullable=False) # Codigo de zona
-    name = Column(String(30), nullable=False)
-    coordinates = Column(JSON, nullable=False)
-    state = Column(Boolean, default=True, nullable=False) # publicado o despublicado
-    color = Column(String(7), nullable=False, default='#000000')
+    code = Column(String(30), unique=True, nullable=false) # Codigo de zona
+    name = Column(String(30), unique=True, nullable=false, primary_key=True)
+    coordinates = Column(JSON, nullable=false)
+    state = Column(Boolean, default=True, nullable=false) # publicado o despublicado
+    color = Column(String(7), nullable=false, default='#000000')
+    # color_id = Column(Integer, ForeignKey('colors.id'))
+    # color = relationship("Color", foreign_keys=color_id)
 
+
+    @classmethod
+    def update(cls):
+        """Actualiza los datos de zona inundable"""
+        db.session.commit()
 
 
     @classmethod
@@ -51,6 +59,10 @@ class FloodZone(db.Model):
         per_page = config_get().elements_per_page
         return cls.query.paginate(page=page, per_page=per_page)
     
+<<<<<<< HEAD
+=======
+
+>>>>>>> development
     @classmethod
     def allPublic(cls):
         """Devuelve todas las zonas inundables publicas"""
@@ -79,29 +91,43 @@ class FloodZone(db.Model):
 
 
     @classmethod
-    def find_by_name(cls, name=None, excep=[]):
+    def find_by_name(cls, name=None):
         """Devuelve la zona inundable cuyo nombre sea igual al mandado como parametro"""
-        users = cls.query.filter(
-            cls.name.like("%"+name+"%"),
-            cls.id.not_in(excep)
-        ).all()
-        return users
+        fzone = cls.query.filter(
+            cls.name == name
+        ).first()
+        return fzone
 
 
     @classmethod
     def find_by_state(cls, publico=None, excep=[]):
         """Devuelve todas las zonas inundables publicas si el parametro publico=true o todos los no publicados si publico=false"""
-        users = cls.query.filter(
+        fzones = cls.query.filter(
             cls.state == publico,
             cls.id.not_in(excep)
         ).all()
-        return users
+        return fzones
+
+
+    @classmethod
+    def find_by_code(cls, code=None, excep=[]):
+        """Devuelve todas las zonas inundables cuyo codigo sea igual al pasado por parametro"""
+        fzone = cls.query.filter(
+            cls.code == code,
+            cls.id.not_in(excep)
+        ).all()
+        return fzone
 
 
     @classmethod
     def update(cls):
         """Actualiza la base de datos"""
         db.session.commit()
+
+    @classmethod
+    def get_sorting_atributes(cls):
+        """Devuelve los atributos para ordenar las listas"""
+        return [("code", "Código"), ("name", "Nombre")]
 
 
     def __init__(self, code=None, name=None, coordinates=None, state=None, color=None):

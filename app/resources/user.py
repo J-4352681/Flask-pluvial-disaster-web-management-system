@@ -128,10 +128,12 @@ def profile():
           "Email": user.email,
           "Username": user.username
         }, user,
-        title="Perfil del usuario "+ str(user.first_name), subtitle="Datos del usuario"
+        title="Perfil del usuario "+ str(user.first_name), subtitle="Datos del usuario",
+        return_url=url_for("user_index"),
+        edit_url=url_for("user_modify", user_id=user.id)
     )
     
-    return render_template("user/pages/profile.html", temp_interface=temp_interface)
+    return render_template("generic/pages/item_details.html", temp_interface=temp_interface)
 
 def profile_modify():
     """Modifica los datos de un usuario."""

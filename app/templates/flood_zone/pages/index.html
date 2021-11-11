@@ -1,5 +1,6 @@
 {% extends "generic/pages/base.html" %}
 
+<<<<<<< HEAD
 {# {% block import %}
     {{ super() }}
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
@@ -14,6 +15,9 @@
     crossorigin=""></script>
     <script src="{{ url_for('static', filename='map.js') }}"></script> #}
 
+=======
+{% block content %}
+>>>>>>> development
     {% block header %}
         {% with args={"title": "Administración de zonas inundables", "name": "Administración de zonas inundables", "subtitle": "Administración, adición y eliminación de las zonas inundables del sitio"} %}
             {% include "generic/elements/headers/header.html" %}
@@ -25,7 +29,17 @@
             {% with args={"text": "+ Crear zona inundable", "url": url_for('fzone_new')} %}
                 {% include "generic/elements/buttons/button1.html" %}
             {% endwith %}
+<<<<<<< HEAD
     
+=======
+            
+            {% if "fzone_importcsv" in session.user_permits %}
+                {% with args={"text": "Importar desde csv", "action_url": url_for("fzone_csvimport")} %}
+                    {% include "generic/elements/forms/upload_file.html" %}
+                {% endwith %}
+            {% endif %}
+
+>>>>>>> development
             {% with args={"text": "Filtrar", "data_bs_toggle": "modal", "data_bs_target": "#fzone-filter"} %}
                 {% include "generic/elements/buttons/modal_button1.html" %}
             {% endwith %}
@@ -49,9 +63,17 @@
     {% endblock %}
 
 
+<<<<<<< HEAD
     {# {% block filter %}
         {% with args={"form": temp_interface.filt.form, "id": "fzone-filter", "aria_labelledby": "fzone-filter-label", "url": url_for('fzone_index')} %}
             {% include "generic/elements/filter.html" %}
         {% endwith %}
     {% endblock %} #}
+=======
+    {% block filter %}
+        {% with args={"form": temp_interface.filt.form, "id": "fzone-filter", "aria_labelledby": "fzone-filter-label", "url": url_for('fzone_index')} %}
+            {% include "generic/elements/filter.html" %}
+        {% endwith %}
+    {% endblock %}
+>>>>>>> development
 {% endblock %}

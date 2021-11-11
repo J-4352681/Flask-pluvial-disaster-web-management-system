@@ -3,26 +3,28 @@ from sqlalchemy.sql.expression import false, true
 from sqlalchemy.sql.sqltypes import Boolean
 from app.db import db
 
-class Evacuation_route(db.Model):
+class EvacuationRoute(db.Model):
     """Clase que representa los recorridos de evacuacion guardados en la aplicacion"""
     __tablename__ = "evacuation_routes"
     id = Column(Integer, primary_key=True)
-    flood_zone_name = Column(String(30), ForeignKey('flood_zones.name')) # NOMBRE DE LA ZONA INUNDABLE
+    
     description = Column(String(255), nullable=false) 
     coordinates = Column(JSON, nullable=false) # Json
     state = Column(Boolean, default=True, nullable=false) # publicado o despublicado
 
+    fz_name = Column(String(30), ForeignKey('flood_zones.name'), unique=True, nullable=False)
+
     @classmethod
     def create(cls, flood_zone_name, description, coordinates, state): #params
         """Crea un nuevo recorrido de evacuacion."""
-        new_er = Evacuation_route(flood_zone_name, description, coordinates, state)
+        new_er = EvacuationRoute(flood_zone_name, description, coordinates, state)
         db.session.add(new_er)
         db.session.commit()
 
     @classmethod
     def delete(cls, id_param=None):
         """Elimina un recorrido de evacuacion cuyo id coincida con el numero mandado como parametro."""
-        er_selected = Evacuation_route.query.filter_by(id=id_param).first()
+        er_selected = EvacuationRoute.query.filter_by(id=id_param).first()
         db.session.delete(er_selected)
         db.session.commit()
 
@@ -76,6 +78,11 @@ class Evacuation_route(db.Model):
     def update(cls):
         """Actualiza la base de datos"""
         db.session.commit()
+
+    @classmethod
+    def get_sorting_atributes(cls):
+        """Devuelve los atributos para ordenar las listas"""
+        return [("name", "Nombre"), ("state", "Estado")]
 
     def __init__(self, flood_zone_name=None, description=None, coordinates=None, state=None):
         self.flood_zone_name = flood_zone_name

@@ -72,6 +72,7 @@ def create_app(environment="development"):
     app.add_url_rule("/zonas_inundables/nuevo", "fzone_new", flood_zone.new, methods=["GET", "POST"])
     app.add_url_rule("/zonas_inundables/", "fzone_create", flood_zone.create, methods=["GET", "POST"])
     app.add_url_rule("/zonas_inundables/delete/<int:fzone_id>", "fzone_delete", flood_zone.delete, methods=["GET", "POST"])
+    app.add_url_rule("/zonas_inundables/csvimport", "fzone_csvimport", flood_zone.csv_import, methods=["GET", "POST"])
 
     # Rutas de Config
     app.add_url_rule("/config", "config_index", configObject.index)

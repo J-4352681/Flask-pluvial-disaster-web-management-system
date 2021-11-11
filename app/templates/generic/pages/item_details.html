@@ -1,0 +1,33 @@
+{% extends "generic/pages/base.html" %}
+
+{% block content %}
+    {% block header %}
+        {% if temp_interface.return_url %}
+            {% with args={"title": temp_interface.title, "subtitle": temp_interface.subtitle, "return_url": temp_interface.return_url} %}
+                {% include "generic/elements/headers/header_back.html" %}
+            {% endwith %}
+        {% else %}
+            {% with args={"title": temp_interface.title, "subtitle": temp_interface.subtitle} %}
+                {% include "generic/elements/headers/header.html" %}
+            {% endwith %}
+        {% endif %}
+    {% endblock %}
+
+    {% with args={"attributes": temp_interface.attributes} %}
+        {% include "generic/elements/list/list_details.html" %}
+    {% endwith %}
+
+    <div class="row my-3 mb-5">
+      {% if temp_interface.edit_url %}
+      {% with args={"action_name": "Editar", "url": temp_interface.edit_url, "title": "Editar", "icon_name": "pencil"} %}
+          {% include "generic/elements/buttons/action_button.html" %}
+      {% endwith %}
+      {% endif %}
+      
+      {% if temp_interface.delete_url %}
+      {% with args={"action_name": "Borrar", "url": temp_interface.delete_url, "title": "Borrar", "icon_name": "trash", "onclick": "return confirm('¿Esta seguro que quiere eliminar a este usuario?')"} %}
+          {% include "generic/elements/buttons/action_button.html" %}
+      {% endwith %}
+      {% endif %}
+    </div>
+{% endblock %}

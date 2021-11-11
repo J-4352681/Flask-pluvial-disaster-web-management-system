@@ -15,6 +15,8 @@ class Config(db.Model):
     sort_users= Column(String(30), nullable=false, default="first_name") # Criterio de ordenamiento por defecto de los usuarios
     sort_meeting_points= Column(String(30), nullable=false) # criterio de ordenamiento por defecto de los meeting points
     sort_flood_zones = Column(String(30), nullable=false) # Criterio de ordenamiento por defecto de zoans inundables
+    sort_evacuation_routes = Column(String(30), nullable=false) # Criterio de ordenamiento por defecto de las rutas de evacuacion
+    sort_complaints = Column(String(30), nullable=false) # Criterio de ordenamiento por defecto de las denuncias
     
     palette_private_id = Column(Integer, ForeignKey("palettes.id"))
     palette_private = relationship("Palette", foreign_keys=[palette_private_id])
@@ -31,10 +33,12 @@ class Config(db.Model):
         """Crea una nueva configuracion por defecto si no existe una ya en el sistema"""
         configExists = Config.get()
         if ( not configExists ):
-            new_conf = Config(elements_per_page=10, sort_users="username", sort_meeting_points="name")
+            new_conf = Config(elements_per_page=10, sort_users="username", sort_meeting_points="name", sort_flood_zones="name", sort_evacuation_routes="flood_zone_name", sort_complaints="title")
 
             db.session.add(new_conf)
             db.session.commit()
+
+        return configExists
 
     @classmethod
     def modifyElementsPerPage(cls, config, cant):
@@ -85,14 +89,17 @@ class Config(db.Model):
     def translateCriteria(*criteria):
         """Traduce los campos de la base de datos a etiquetas en español"""
         names={"name":"Nombre","last_name":"Apellido","email":"Mail","username":"Nombre de usuario", "direction":"Direccion",
-        "coordinates": "Coordenadas","state":"Estado","telephone": "Telefono"}
+        "coordinates": "Coordenadas","state":"Estado","telephone": "Telefono",
+        "flood_zone_name":"Nombre de zona", "title":"Titulo"}
         return names[criteria[1]] # Se usa en [1] ya que criteria es una tupla
 
-    def __init__(self, elements_per_page=None, sort_users=None, sort_meeting_points=None, sort_flood_zones=None):
+    def __init__(self, elements_per_page=None, sort_users=None, sort_meeting_points=None, sort_flood_zones=None, sort_evacuation_routes=None, sort_complaints=None):
         self.elements_per_page = elements_per_page
         self.sort_users = sort_users
         self.sort_meeting_points = sort_meeting_points
         self.sort_flood_zones = sort_flood_zones
+        self.sort_evacuation_routes = sort_evacuation_routes
+        self.sort_complaints = sort_complaints
         self.palette_private = palette.Palette()
         self.palette_public = palette.Palette()
         

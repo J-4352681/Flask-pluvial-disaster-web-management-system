@@ -19,9 +19,5 @@ class PointFilter(FlaskForm):
 class FZoneFilter(FlaskForm):
     code = IntegerField("Código de zona")
     name = StringField("Nombre de zona")
-<<<<<<< HEAD
-    state = StringField("Público", choices=[('', 'Todos'), (1, 'Si'), (0, 'No')])
-=======
     state = SelectField("Público", choices=[('', 'Todos'), (1, 'Si'), (0, 'No')])
->>>>>>> development
     submit = SubmitField("Aceptar")

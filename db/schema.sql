@@ -268,7 +268,13 @@ INSERT INTO `permits` (`id`, `name`) VALUES
 (20, 'fzone_new'),
 (21, 'fzone_delete'),
 (22, 'fzone_index'),
-(23, 'fzone_importcsv');
+(23, 'fzone_importcsv'),
+(24, 'complaint_modify'),
+(25, 'complaint_show'),
+(26, 'complaint_create'),
+(27, 'complaint_new'),
+(28, 'complaint_delete'),
+(29, 'complaint_index');
 
 -- --------------------------------------------------------
 
@@ -305,6 +311,12 @@ CREATE TABLE `role_has_permit` (
 --
 
 INSERT INTO `role_has_permit` (`role_id`, `permit_id`) VALUES
+(2, 4),
+(2, 8),
+(2, 5),
+(2, 9),
+(2, 6),
+(2, 7),
 (1, 1),
 (1, 2),
 (1, 3),
@@ -321,20 +333,19 @@ INSERT INTO `role_has_permit` (`role_id`, `permit_id`) VALUES
 (1, 14),
 (1, 15),
 (1, 16),
-(2, 4),
-(2, 8),
-(2, 5),
-(2, 9),
-(2, 6),
-(2, 7),
-(1, 19),
-(1, 21),
 (1, 17),
+(1, 18),
+(1, 19),
 (1, 20),
-(1, 18),
-(1, 18),
+(1, 21),
 (1, 22),
-(1, 23);
+(1, 23),
+(1, 24),
+(1, 25),
+(1, 26),
+(1, 27),
+(1, 28),
+(1, 29);
 
 -- --------------------------------------------------------
 

@@ -17,8 +17,17 @@ function create_polygon(map, input, areaColor) {
     return polygon;
 }
 
-$( document ).ready(function() {
-    var color_input = $('#color')[0];
+$(document).ready(function() {
+    var color_input; color_input_exists = false;
+    if($('#color').length > 0) {
+        color_input = $('#color') [0];
+        color_input_exists = true;
+    } else {
+        color_input = {
+            value: '#000000',
+            val: function() {return '#000000';}
+        };
+    }
     if($('#code').val() == '') color_input.value = '#000000'.replaceAll('0', function(){return Math.floor(Math.random()*16).toString(16)});
 
     var json_input = $('input[name="coordinates"]').hide();
@@ -30,10 +39,12 @@ $( document ).ready(function() {
     
     polygon = create_polygon(map, json_input, color_input.value); // creo el poligono
 
-    color_input.addEventListener('change', function(){
-        // areaColor = color_input.value
-        polygon.setStyle({color: color_input.value});
-    });
-
-    json_input.val(JSON.stringify(polygon.getLatLngs()[0])); // inicializo el input que se guarda en bd
+    if (color_input_exists){
+        color_input.addEventListener('change', function(){
+            // areaColor = color_input.value
+            polygon.setStyle({color: color_input.value});
+        });
+    
+        json_input.val(JSON.stringify(polygon.getLatLngs()[0])); // inicializo el input que se guarda en bd
+    }
 });

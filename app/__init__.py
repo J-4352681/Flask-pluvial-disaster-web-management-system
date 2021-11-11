@@ -6,7 +6,7 @@ from flask_session import Session
 
 from config import config
 from app import db
-from app.resources import user, auth, points, flood_zone, follow_up, config as configObject
+from app.resources import user, auth, points, flood_zone, complaint, config as configObject
 from app.helpers import handler
 from app.helpers import auth as helper_auth
 from app.resources.api.flood_zone import flood_zone_api
@@ -55,7 +55,6 @@ def create_app(environment="development"):
     app.add_url_rule("/usuarios/rol", "user_unassing_role", user.unassign_role, methods=["DELETE"])
     app.add_url_rule("/perfil", "profile_index", user.profile)
     app.add_url_rule("/perfil/edit", "profile_modify", user.profile_modify, methods=["GET", "POST"])
-
     
     # Rutas de Puntos de encuentro
     app.add_url_rule("/puntos_encuentro", "points_index", points.index)
@@ -73,6 +72,14 @@ def create_app(environment="development"):
     app.add_url_rule("/zonas_inundables/", "fzone_create", flood_zone.create, methods=["GET", "POST"])
     app.add_url_rule("/zonas_inundables/delete/<int:fzone_id>", "fzone_delete", flood_zone.delete, methods=["GET", "POST"])
     app.add_url_rule("/zonas_inundables/csvimport", "fzone_csvimport", flood_zone.csv_import, methods=["GET", "POST"])
+    
+    # Rutas de denuncias
+    app.add_url_rule("/denuncias", "complaint_index", complaint.index)
+    app.add_url_rule("/denuncias/show/<int:complaint_id>", "complaint_show", complaint.show, methods=["GET"])
+    app.add_url_rule("/denuncias/modify/<int:complaint_id>", "complaint_modify", complaint.modify, methods=["GET", "POST"])
+    app.add_url_rule("/denuncias/nuevo", "complaint_new", complaint.new, methods=["GET", "POST"]) 
+    app.add_url_rule("/denuncias", "complaint_create", complaint.create, methods=["GET", "POST"])
+    app.add_url_rule("/denuncias/delete/<int:complaint_id>", "complaint_delete", complaint.delete, methods=["GET", "POST"])
 
     # Rutas de seguimientos
     app.add_url_rule("/seguimientos/<int:complaint_id>", "follow_up_index", follow_up.index)

@@ -1,0 +1,44 @@
+{% extends "generic/pages/base.html" %}
+
+{% block content %}
+    {% block header %}
+        {% with args={"title": temp_interface.title, "name": temp_interface.name, "subtitle": temp_interface.subtitle} %}
+            {% include "generic/elements/headers/header.html" %}
+        {% endwith %}
+    {% endblock %}
+
+    {% block pre_list %}
+        <div class="row">
+            {% with args={"text": "+ Crear denuncia", "url": url_for('complaint_new')} %}
+                {% include "generic/elements/buttons/button1.html" %}
+            {% endwith %}
+
+            {% with args={"text": "Filtrar", "data_bs_toggle": "modal", "data_bs_target": "#complaint-filter"} %}
+                {% include "generic/elements/buttons/modal_button1.html" %}
+            {% endwith %}
+
+            {% if temp_interface.filt.has_filter() %}
+                {% with args={"text": "Limpiar filtro", "url": url_for('complaint_index')} %}
+                    {% include "generic/elements/buttons/button1.html" %}
+                {% endwith %}
+            {% endif %}
+        </div>
+    {% endblock %}
+
+    {% block list %}
+        {% with args={"items": temp_interface.page.items, "headers": ["Título", "Fecha de apertura", "Fecha de cierre", "Usuario", "Autor", "Acciones"], "attr_names": ["title", "creation_date", "closure_date", "assigned_user", "author_email"]} %}
+            {% include "complaint/elements/list/list.html" %}
+        {% endwith %}
+
+        {% with args={"page": temp_interface.page, "url": "complaint_index"} %}
+            {% include "generic/elements/pagination_row.html" %}
+        {% endwith %}
+    {% endblock %}
+
+
+    {% block filter %}
+        {% with args={"form": temp_interface.filt.form, "id": "complaint-filter", "aria_labelledby": "complaint-filter-label", "url": url_for('complaint_index')} %}
+            {% include "generic/elements/filter.html" %}
+        {% endwith %}
+    {% endblock %}
+{% endblock %}

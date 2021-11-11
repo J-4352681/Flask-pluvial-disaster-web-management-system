@@ -7,6 +7,7 @@ from flask_session import Session
 from config import config
 from app import db
 from app.resources import user, auth, points, flood_zone, complaint, config as configObject
+from app.resources import follow_up
 from app.helpers import handler
 from app.helpers import auth as helper_auth
 from app.resources.api.flood_zone import flood_zone_api

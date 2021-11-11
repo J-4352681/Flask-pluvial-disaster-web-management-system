@@ -48,11 +48,12 @@ def new():
             return_url=url_for('fzone_index')
         )
 
-        return render_template("flood_zone/pages/form.html", temp_interface=temp_interface)
+        return render_template("generic/pages/zone_form.html", temp_interface=temp_interface)
 
 
 def create(form, fzone):
-    """Verifica que los datos unicos no esten repetidos antes de crear una nueva zona inundable con los datos pasados por request."""
+    """Verifica que los datos unicos no esten repetidos
+    antes de crear una nueva zona inundable con los datos pasados por request."""
     assert_permit(session, "fzone_create")
 
     form.populate_obj(fzone)
@@ -79,7 +80,7 @@ def modify(fzone_id):
         return_url=url_for('fzone_index')
     )
     
-    return render_template("flood_zone/pages/form.html", temp_interface=temp_interface)
+    return render_template("generic/pages/zone_form.html", temp_interface=temp_interface)
 
 
 def delete(fzone_id):

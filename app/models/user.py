@@ -6,7 +6,6 @@ from app.db import db
 from flask import session
 
 from datetime import datetime
-from app.models.config import Config
 # from app.models import role
 from app.models.role import Role
 from app.models.permit import Permit
@@ -175,7 +174,7 @@ class User(db.Model):
     def assign_roles(cls, user=None, roles=[]):
         """Asigna un rol a un usuario."""
         roles_to_assign = filter(lambda r: r in user.roles, roles)
-        map(lambda r: user.roles.append(r), roles)
+        map(lambda r: user.roles.append(r), roles_to_assign)
         db.session.commit()
     
     @classmethod
@@ -209,11 +208,6 @@ class User(db.Model):
             for permit in permits
             ])
         return permits
-
-    def assign_roles(self, roles=[]):
-        """Asigna un rol al usuario."""
-        roles_to_assign = filter(lambda r: r not in self.roles, roles)
-        self.roles.extend(list(roles_to_assign))
 
 
 

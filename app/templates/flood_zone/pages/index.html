@@ -1,23 +1,6 @@
 {% extends "generic/pages/base.html" %}
 
-<<<<<<< HEAD
-{# {% block import %}
-    {{ super() }}
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-  crossorigin=""/>
-{% endblock %} #}
-
 {% block content %}
-    {# <div id="map" class="mt-5" style="width: 1500px; height: 500px;"></div>
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-    crossorigin=""></script>
-    <script src="{{ url_for('static', filename='map.js') }}"></script> #}
-
-=======
-{% block content %}
->>>>>>> development
     {% block header %}
         {% with args={"title": "Administración de zonas inundables", "name": "Administración de zonas inundables", "subtitle": "Administración, adición y eliminación de las zonas inundables del sitio"} %}
             {% include "generic/elements/headers/header.html" %}
@@ -29,9 +12,6 @@
             {% with args={"text": "+ Crear zona inundable", "url": url_for('fzone_new')} %}
                 {% include "generic/elements/buttons/button1.html" %}
             {% endwith %}
-<<<<<<< HEAD
-    
-=======
             
             {% if "fzone_importcsv" in session.user_permits %}
                 {% with args={"text": "Importar desde csv", "action_url": url_for("fzone_csvimport")} %}
@@ -39,7 +19,6 @@
                 {% endwith %}
             {% endif %}
 
->>>>>>> development
             {% with args={"text": "Filtrar", "data_bs_toggle": "modal", "data_bs_target": "#fzone-filter"} %}
                 {% include "generic/elements/buttons/modal_button1.html" %}
             {% endwith %}
@@ -63,17 +42,9 @@
     {% endblock %}
 
 
-<<<<<<< HEAD
-    {# {% block filter %}
-        {% with args={"form": temp_interface.filt.form, "id": "fzone-filter", "aria_labelledby": "fzone-filter-label", "url": url_for('fzone_index')} %}
-            {% include "generic/elements/filter.html" %}
-        {% endwith %}
-    {% endblock %} #}
-=======
     {% block filter %}
         {% with args={"form": temp_interface.filt.form, "id": "fzone-filter", "aria_labelledby": "fzone-filter-label", "url": url_for('fzone_index')} %}
             {% include "generic/elements/filter.html" %}
         {% endwith %}
     {% endblock %}
->>>>>>> development
 {% endblock %}

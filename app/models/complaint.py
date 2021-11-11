@@ -134,7 +134,7 @@ class Complaint(db.Model):
     @classmethod
     def get_states(cls):
         "Retorna los estados en los que puede estar una denuncia"
-        return [(1, "Sin confirmar"), (2, "En curso"), (3, "Resuelta"), (4, "Cerrada")]
+        return [("Sin confirmar", "Sin confirmar"), ("En curso", "En curso"), ("Resuelta", "Resuelta"), ("Cerrada", "Cerrada")]
 
 
     def __init__(self, title=None, description=None, coordinates=None, state=None, author_first_name=None, author_last_name=None, author_telephone=None, author_email=None, category_id=None):

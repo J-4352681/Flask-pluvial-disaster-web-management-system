@@ -16,7 +16,7 @@
             {% endif %}
 
             {% if "complaint_delete" in session.user_permits %}
-                {% with args={"url": url_for('complaint_delete', fzone_id=args.id), "icon_name": "trash", "title": "Borrar", "onclick": "return confirm('¿Esta seguro que quiere eliminar a este elemento?')"} %}
+                {% with args={"url": url_for('complaint_delete', complaint_id=args.id), "icon_name": "trash", "title": "Borrar", "onclick": "return confirm('¿Esta seguro que quiere eliminar a este elemento?')"} %}
                     {% include "generic/elements/action_icon.html" %}
                 {% endwith %}
             {% endif %}

@@ -64,6 +64,7 @@ class User(db.Model):
         """Devuelve todos los usuarios"""
         return cls.query.all()
 
+
     @classmethod
     def get_active_states(cls):
         """Retorna los posibles estados de actividad de un usuario"""

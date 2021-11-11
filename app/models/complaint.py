@@ -41,6 +41,13 @@ class Complaint(db.Model):
         db.session.add(new_c)
         db.session.commit()
 
+    
+    @classmethod
+    def create_from_complaint(cls, new_complaint):
+        """Crea una nueva denuncia desde la pasada por parámetro"""
+        db.session.add(new_complaint)
+        db.session.commit()
+
 
     @classmethod
     def create_public(cls, title, description, coordinates, author_first_name, author_last_name, author_telephone, author_email, category_id): #params
@@ -107,6 +114,14 @@ class Complaint(db.Model):
     @classmethod
     def update(cls):
         """Actualiza la base de datos"""
+        db.session.commit()
+
+
+    @classmethod
+    def delete_by_id(cls, id=None):
+        """Elimina una denuncia cuya id coincida con el numero mandado como parametro."""
+        complaint_selected = cls.query.filter_by(id=id).first()
+        db.session.delete(complaint_selected)
         db.session.commit()
 
 

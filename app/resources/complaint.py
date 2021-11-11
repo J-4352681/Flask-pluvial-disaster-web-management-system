@@ -1,5 +1,7 @@
 from flask import redirect, render_template, request, url_for, session, flash
 
+from json import loads
+
 from app.helpers.auth import assert_permit, authenticated
 from app.helpers.filter import Filter
 from app.helpers.template_pages import FormPage, DBModelIndexPage, ItemDetailsPage
@@ -8,9 +10,7 @@ from app.models.complaint import Complaint
 from app.models.user import User
 from app.models.category import Category
 
-from app.forms.complaint_forms import ComplaintForm
-
-# from app.forms.complaint_forms import ComplaintForm
+from app.forms.complaint_forms import ComplaintForm, ComplaintModificactionForm
 from app.forms.filter_forms import ComplaintFilter
 
 def index(page=None):
@@ -57,12 +57,60 @@ def create(form, complaint):
 
 
 def modify(complaint_id):
-    pass
+    """Modifica los datos de una denuncia."""
+    assert_permit(session, "complaint_modify")
+
+    complaint = Complaint.find_by_id(complaint_id)
+    form = ComplaintModificactionForm(User.all(), Category.all(), obj=complaint)
+
+    if form.validate_on_submit():
+        form.populate_obj(complaint)
+        complaint.coordinates = loads(complaint.coordinates)
+        Complaint.update()
+        return redirect(url_for('complaint_index'))
+
+    temp_interface = FormPage(
+        form, url_for("complaint_modify", complaint_id=complaint.id),
+        title="Edición de denuncia", subtitle="Editando la denuncia "+str(complaint.title),
+        return_url=url_for('complaint_index')
+    )
+    
+    return render_template("generic/pages/zone_form.html", temp_interface=temp_interface)
 
 
 def delete(complaint_id):
-    pass
+    """Borra una zona inundable"""
+    assert_permit(session, "complaint_delete")
+    Complaint.delete_by_id(complaint_id)
+
+    return redirect(url_for("complaint_index"))
 
 
 def show(complaint_id):
-    pass
+    """Muestra los datos de la zona inundable."""
+    assert_permit(session, "complaint_show")
+
+    complaint = Complaint.find_by_id(complaint_id)
+    
+    temp_interface = ItemDetailsPage(
+        {
+          "Título": complaint.title,
+          "Día y fecha de creación": complaint.creation_date, 
+          "Día y fecha de cierre": complaint.closure_date,
+          "Descripción": complaint.description,
+          "Coordenadas": complaint.coordinates,
+          "Estado": complaint.state,
+          "Categoría": complaint.category,
+          "Usuario asignado": complaint.assigned_user,
+          "Nombre del autor": complaint.author_first_name,
+          "Apellido del autor": complaint.author_last_name,
+          "Teléfono del autor": complaint.author_telephone,
+          "Email del autor": complaint.author_email,
+        }, complaint,
+        title="Denuncias", subtitle="Detalles de la denuncia " + str(complaint.title),
+        return_url=url_for("complaint_index"),
+        edit_url=url_for("complaint_modify", complaint_id=complaint.id),
+        delete_url=url_for("complaint_delete", complaint_id=complaint.id)
+    )
+    
+    return render_template("generic/pages/zone_item_details.html", temp_interface=temp_interface)

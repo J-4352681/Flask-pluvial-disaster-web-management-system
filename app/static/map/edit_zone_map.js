@@ -45,6 +45,7 @@ $(document).ready(function() {
             polygon.setStyle({color: color_input.value});
         });
     
-        json_input.val(JSON.stringify(polygon.getLatLngs()[0])); // inicializo el input que se guarda en bd
     }
+
+    json_input.val(JSON.stringify(polygon.getLatLngs()[0])); // inicializo el input que se guarda en bd
 });

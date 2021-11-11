@@ -111,7 +111,7 @@ def show(fzone_id):
         delete_url=url_for("fzone_delete", fzone_id=fzone.id)
     )
     
-    return render_template("flood_zone/pages/item_details.html", temp_interface=temp_interface)
+    return render_template("generic/pages/zone_item_details.html", temp_interface=temp_interface)
 
 
 def allowed_file(filename):

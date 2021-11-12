@@ -103,7 +103,7 @@ CREATE TABLE `config` (
 --
 
 INSERT INTO `config` (`id`, `elements_per_page`, `sort_users`, `sort_meeting_points`, `sort_flood_zones`, `sort_evacuation_routes`, `sort_complaints`, `palette_private_id`, `palette_public_id`) VALUES
-(1, 10, 'username', 'name', 'name', 'flood_zone_name', 'title', 31, 32);
+(1, 10, 'username', 'name', 'name', 'name', 'title', 31, 32);
 
 -- --------------------------------------------------------
 

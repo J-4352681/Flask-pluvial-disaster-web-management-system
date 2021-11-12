@@ -279,7 +279,9 @@ INSERT INTO `permits` (`id`, `name`) VALUES
 (31, 'follow_up_create'),
 (32, 'follow_up_new'),
 (33, 'follow_up_delete'),
-(34, 'follow_up_index');
+(34, 'follow_up_index'),
+(35, 'evroutes_index'),
+(36, 'evroutes_show');
 
 -- --------------------------------------------------------
 
@@ -355,7 +357,9 @@ INSERT INTO `role_has_permit` (`role_id`, `permit_id`) VALUES
 (1, 31),
 (1, 32),
 (1, 33),
-(1, 34);
+(1, 34),
+(1, 35),
+(1, 36);
 
 -- --------------------------------------------------------
 

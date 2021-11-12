@@ -95,8 +95,7 @@ class Config(db.Model):
     def translateCriteria(*criteria):
         """Traduce los campos de la base de datos a etiquetas en español"""
         names={"name":"Nombre","last_name":"Apellido","email":"Mail","username":"Nombre de usuario", "direction":"Direccion",
-        "coordinates": "Coordenadas","state":"Estado","telephone": "Telefono",
-        "flood_zone_name":"Nombre de zona", "title":"Titulo"}
+        "coordinates": "Coordenadas","state":"Estado","telephone": "Telefono", "title":"Titulo"}
         return names[criteria[1]] # Se usa en [1] ya que criteria es una tupla
 
     def __init__(self, elements_per_page=None, sort_users=None, sort_meeting_points=None, sort_flood_zones=None, sort_evacuation_routes=None, sort_complaints=None):

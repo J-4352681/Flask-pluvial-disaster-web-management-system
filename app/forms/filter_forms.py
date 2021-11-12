@@ -28,9 +28,7 @@ class FZoneFilter(FlaskForm):
 
 class EvRouteFilter(FlaskForm):
     name = StringField("Nombre de ruta")
-    state = StringField("Público", choices=[('', 'Todos'), (1, 'Si'), (0, 'No')])
-    submit = SubmitField("Aceptar")
-    state = SelectField("Público", choices=[("", "Todos"), (1, "Si"), (0, "No")])
+    state = Select("Público", choices=[('', 'Todos'), (1, 'Si'), (0, 'No')])
     submit = SubmitField("Aceptar")
 
 class ComplaintFilter(FlaskForm):

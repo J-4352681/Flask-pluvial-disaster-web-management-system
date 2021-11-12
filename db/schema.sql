@@ -91,10 +91,10 @@ CREATE TABLE `config` (
 
 CREATE TABLE `evacuation_routes` (
   `id` int(11) NOT NULL,
+  `name` varchar(30) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
   `coordinates` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`coordinates`)),
   `state` tinyint(1) DEFAULT NULL,
-  `fz_name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------

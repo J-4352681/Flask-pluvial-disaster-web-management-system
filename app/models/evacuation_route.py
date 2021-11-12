@@ -7,7 +7,8 @@ class EvacuationRoute(db.Model):
     """Clase que representa los recorridos de evacuacion guardados en la aplicacion"""
     __tablename__ = "evacuation_routes"
     id = Column(Integer, primary_key=True)
-    
+
+    name = Column(String(30), unique=True, nullable=False)
     description = Column(String(255), nullable=false) 
     coordinates = Column(JSON, nullable=false) # Json
     state = Column(Boolean, default=True, nullable=false) # publicado o despublicado
@@ -56,10 +57,10 @@ class EvacuationRoute(db.Model):
         return res
 
     @classmethod
-    def find_by_zone_name(cls, zone_name=None):
-        """Devuelve todos los recorrido de evacuacion cuyo nombre de zona sea igual al mandado como parametro"""
+    def find_by_name(cls, name=None):
+        """Devuelve todos los recorridos de evacuacion que coincidan con ese nombre"""
         res = cls.query.filter(
-            cls.flood_zone_name == zone_name
+            cls.name == name
         ).all() 
         return res
 
@@ -82,8 +83,8 @@ class EvacuationRoute(db.Model):
         """Devuelve los atributos para ordenar las listas"""
         return [("name", "Nombre"), ("state", "Estado")]
 
-    def __init__(self, flood_zone_name=None, description=None, coordinates=None, state=None):
-        self.flood_zone_name = flood_zone_name
+    def __init__(self, name=None, description=None, coordinates=None, state=None):
+        self.name = name
         self.description = description
         self.coordinates = coordinates
         self.state = state

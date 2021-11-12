@@ -2,7 +2,7 @@
 
 {% block content %}
     {% block header %}
-        {% with args={"title": temp_interface.title, "name": "Detalles de punto de encuentro", "subtitle": temp_interface.subtitle, "return_url": url_for("points_index")} %}
+        {% with args={"title": temp_interface.title, "name": "Detalles de punto de encuentro", "subtitle": temp_interface.subtitle, "return_url": url_for("evroutes_index")} %}
             {% include "generic/elements/headers/header_back.html" %}
         {% endwith %}
     {% endblock %}

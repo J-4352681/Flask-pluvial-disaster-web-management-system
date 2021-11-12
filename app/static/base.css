@@ -49,3 +49,7 @@ a.text-secondary:hover {
 a:link {
     text-decoration: none !important;
 }
+
+ion-icon {
+    pointer-events: none;
+}

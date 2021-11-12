@@ -33,6 +33,7 @@ class Complaint(db.Model):
     
     follow_ups = relationship("Follow_up") # Literalmente seguimientos. Basicamente comentarios que recompilan mas informacion sobre la investigacion sobre la queja.
 
+
     @classmethod
     def create(cls, title, description, coordinates, state, author_first_name, author_last_name, author_telephone, author_email): #params
         """Crea una nueva queja en base a los datos dados."""
@@ -40,13 +41,22 @@ class Complaint(db.Model):
         db.session.add(new_c)
         db.session.commit()
 
+    
     @classmethod
-    def create_public(cls, title, description, coordinates, author_first_name, author_last_name, author_telephone, author_email): #params
+    def create_from_complaint(cls, new_complaint):
+        """Crea una nueva denuncia desde la pasada por parámetro"""
+        db.session.add(new_complaint)
+        db.session.commit()
+
+
+    @classmethod
+    def create_public(cls, title, description, coordinates, author_first_name, author_last_name, author_telephone, author_email, category_id): #params
         """Crea una nueva queja en base a los datos dados."""
-        new_c = Complaint(title, description, coordinates, "Sin confirmar", author_first_name, author_last_name, author_telephone, author_email)
+        new_c = Complaint(title, description, coordinates, "Sin confirmar", author_first_name, author_last_name, author_telephone, author_email, category_id)
         db.session.add(new_c)
         db.session.commit()
         return new_c
+
 
     @classmethod
     def delete(cls, id_param=None):
@@ -55,11 +65,20 @@ class Complaint(db.Model):
         db.session.delete(c_selected)
         db.session.commit()
 
+
     @classmethod
     def all(cls):
         """Devuelve todas las quejas cargadas en el sistema"""
         return cls.query.all()
+
     
+    @classmethod
+    def close_complaint(cls, complaint_id):
+        complaint = cls.find_by_id(complaint_id)
+        if complaint: complaint.closure_date = datetime.now()
+        db.session.commit()
+    
+
     @classmethod
     def find_by_id(cls, id=None):
         """Devuelve la primer queja cuyo id es igual al que se mando como parametro"""
@@ -67,6 +86,7 @@ class Complaint(db.Model):
             cls.id == id
         ).first()
         return res
+
 
     @classmethod
     def find_by_title(cls, title=None, excep=[]):
@@ -77,6 +97,7 @@ class Complaint(db.Model):
         ).all()
         return users
 
+
     @classmethod
     def find_by_state(cls, publico=None, excep=[]):
         """Devuelve todas las quejas cuyos estados coincidan con el String enviado como parametro. Opciones: Sin confirmar, En curso, Resuelta, Cerrada."""
@@ -86,6 +107,7 @@ class Complaint(db.Model):
         ).all()
         return res
     
+
     @classmethod
     def find_by_date_range(cls, first_date=None, last_date=None):
         """Devuelve todas las quejas cuyas fechas de creacion se encuentren entre la primera fecha y la ultima fecha del rango."""
@@ -95,17 +117,34 @@ class Complaint(db.Model):
         ).all()
         return res
     
+
     @classmethod
     def update(cls):
         """Actualiza la base de datos"""
         db.session.commit()
 
+
+    @classmethod
+    def delete_by_id(cls, id=None):
+        """Elimina una denuncia cuya id coincida con el numero mandado como parametro."""
+        complaint_selected = cls.query.filter_by(id=id).first()
+        db.session.delete(complaint_selected)
+        db.session.commit()
+
+
     @classmethod
     def get_sorting_atributes(cls):
         """Devuelve los atributos para ordenar las listas"""
-        return [("title", "Código"), ("creation_date", "Fecha de creación")]
+        return [("title", "Código"), ("creation_date", "Fecha de creación"), ("state", "Estado de la denuncia")]
+    
 
-    def __init__(self, title=None, description=None, coordinates=None, state=None, author_first_name=None, author_last_name=None, author_telephone=None, author_email=None):
+    @classmethod
+    def get_states(cls):
+        "Retorna los estados en los que puede estar una denuncia"
+        return [("Sin confirmar", "Sin confirmar"), ("En curso", "En curso"), ("Resuelta", "Resuelta"), ("Cerrada", "Cerrada")]
+
+
+    def __init__(self, title=None, description=None, coordinates=None, state=None, author_first_name=None, author_last_name=None, author_telephone=None, author_email=None, category_id=None):
         self.title = title
         self.description = description
         self.coordinates = coordinates
@@ -114,3 +153,4 @@ class Complaint(db.Model):
         self.author_last_name = author_last_name
         self.author_telephone = author_telephone
         self.author_email = author_email
+        self.category_id = category_id

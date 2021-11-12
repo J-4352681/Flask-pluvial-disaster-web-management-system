@@ -1,0 +1,6 @@
+<form class="col-auto mx-2 m-0 p-0" action="{{ args.action_url }}" enctype="multipart/form-data" method="{% if args.method %}{{ args.method }}{% else %}POST{% endif %}">
+    <label class="btn btn-primary m-0">
+        <input type="file" accept=".csv" name="file_import" onchange="form.submit();" hidden>
+        {{ args.text }}
+    </label>
+</form>

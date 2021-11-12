@@ -41,10 +41,11 @@ def index():
           "Paleta de colores app privada": private_palette[0] + ", " + private_palette[1] + ", " + private_palette[2],
           "Paleta de colores app publica": public_palette[0] + ", " + public_palette[1] + ", " + public_palette[2]
         }, config,
-        title="Configuración", subtitle="Configuración de los datos del sistema"
+        title="Configuración", subtitle="Configuración de los datos del sistema",
+        return_url=None, edit_url=url_for('config_modify')
     )
 
-    return render_template("config/pages/index.html", temp_interface=temp_interface)
+    return render_template("generic/pages/item_details.html", temp_interface=temp_interface)
 
 def get():
     """Devuelve la configuracion del sistema. Si no existe una configuracion crea una nueva."""

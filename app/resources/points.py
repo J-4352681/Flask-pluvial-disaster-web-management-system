@@ -41,10 +41,13 @@ def show(point_id):
           "Teléfono": point.telephone,
           "E-Mail": point.email
         }, point,
-        title="Puntos de encuentro", subtitle="Detalles del punto " + str(point.name)
+        title="Puntos de encuentro", subtitle="Detalles del punto " + str(point.name),
+        return_url=url_for("points_index"),
+        edit_url=url_for("points_modify", point_id=point.id),
+        delete_url=url_for("points_delete", point_id=point.id)
     )
     
-    return render_template("points/pages/show.html", temp_interface=temp_interface)
+    return render_template("generic/pages/item_details.html", temp_interface=temp_interface)
 
 def allPublic():
     """Devuelve la lista completa de los puntos de encuentro publicos gurdados en la base de datos."""
@@ -82,7 +85,7 @@ def create(name, direction, latitude, longitude, telephone, email, state):
     MeetingPoint.create(name, direction, latitude, longitude, telephone, email, state)# **request.form)
 
 def modify(point_id):
-    """Modifica los datos de un usuario."""
+    """Modifica los datos de un punto de encuentro."""
     assert_permit(session, "points_modify")
     point = MeetingPoint.find_by_id(point_id)
     form = MeetingPointModificationForm(obj=point,

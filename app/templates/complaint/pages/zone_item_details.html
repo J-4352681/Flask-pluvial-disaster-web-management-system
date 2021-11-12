@@ -1,0 +1,7 @@
+{% extends "generic/pages/zone_item_details.html" %}
+
+{% block extra_buttons %}
+    {% with args={"text": "Ver seguimientos", "url": url_for("follow_up_index", complaint_id=temp_interface.item.id), "title": "Ver seguimientos", "icon_name": "analytics"} %}
+        {% include "generic/elements/buttons/button2.html" %}
+    {% endwith %}
+{% endblock %}

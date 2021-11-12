@@ -47,8 +47,8 @@ def create(form, user):
     """Verifica que que quien crea el usuario tenga los permisos de modificar la BD con un alta de usuario"""
     assert_permit(session, "user_create")
 
-    form.populate_obj(flood_zone)
-    FloodZone.create_from_flood_zone(flood_zone)
+    form.populate_obj(user)
+    User.create_from_user(user)
 
 def block(user_id):
     """Cambiara el estado de un usuario de "activo" a "bloqueado". Los usuarios administradores no pueden ser bloqueados."""
@@ -128,10 +128,12 @@ def profile():
           "Email": user.email,
           "Username": user.username
         }, user,
-        title="Perfil del usuario "+ str(user.first_name), subtitle="Datos del usuario"
+        title="Perfil del usuario "+ str(user.first_name), subtitle="Datos del usuario",
+        return_url=url_for("user_index"),
+        edit_url=url_for("user_modify", user_id=user.id)
     )
     
-    return render_template("user/pages/profile.html", temp_interface=temp_interface)
+    return render_template("generic/pages/item_details.html", temp_interface=temp_interface)
 
 def profile_modify():
     """Modifica los datos de un usuario."""

@@ -52,6 +52,11 @@ def generate_navigation_actions(session):
             "nombre": "Rutas de evacuación",
             "url": url_for("evroutes_index"),
             "permit": "evroutes_index"
+        },
+        {
+            "nombre": "Denuncias",
+            "url": url_for("complaint_index"),
+            "permit": "complaint_index"
         }
     ]
     allowed_actions = []

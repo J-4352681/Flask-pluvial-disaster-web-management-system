@@ -2,11 +2,8 @@ from app.resources.config import get as config_get
 from app.models.user import User
 from app.models.meeting_point import MeetingPoint
 from app.models.flood_zone import FloodZone
-<<<<<<< HEAD
 from app.models.evacuation_route import EvacuationRoute
-=======
 from app.models.complaint import Complaint
->>>>>>> development
 
 
 class Filter():

@@ -17,8 +17,10 @@ class ComplaintForm(FlaskForm):
     description = StringField("Descripción de la denuncia", validators=[DataRequired(), Length(1, 255, "La descripción debe de ser de entre 1 y 255 carácteres")])
     coordinates = StringField("Área de la denuncia", validators=[DataRequired()])
     state = SelectField("Estado de la denuncia", choices=Complaint.get_states(), validators=[DataRequired()])
-    category = SelectField("Categoría de la denuncia", choices=[], validators=[DataRequired()])
-    assigned_user = SelectField("Usuario asignado a al denuncia", choices=[], validators=[DataRequired()])
+
+    category = NonValidatingSelectField("Categoría de la denuncia", validators=[DataRequired()], filters=[lambda x: Category.find_by_id(int(x)) if x != None else None])
+    assigned_user = NonValidatingSelectField("Usuario asignado a al denuncia", validators=[DataRequired()], filters=[lambda x: User.find_by_id(int(x)) if x != None else None])
+
     author_first_name = StringField("Nombre del autor de la denuncia", validators=[DataRequired(), Length(1, 30, "El nombre del autor debe de ser de entre 1 y 30 carácteres")])
     author_last_name = StringField("Apellido del autor de la denuncia", validators=[DataRequired(), Length(1, 30, "El apellido del autor debe de ser de entre 1 y 30 carácteres")])
     author_telephone = StringField("Número de teléfono del autor de la denuncia", validators=[DataRequired(), Length(1, 30, "El número de teléfono del autor debe de ser de entre 1 y 30 carácteres")])

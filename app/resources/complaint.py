@@ -69,8 +69,8 @@ def modify(complaint_id):
         assigned_user = complaint.assigned_user.id
     )
 
-    form.category.choices = [(category.id, category.name) for category in Category.all()]
-    form.assigned_user.choices = [(user.id, user.username + " - " + user.email) for user in User.all()]
+    form.category.choices = [("", "Ninguno seleccionado")]+[(category.id, category.name) for category in Category.all()]
+    form.assigned_user.choices = [("", "Ninguno seleccionado")]+[(user.id, user.username + " - " + user.email) for user in User.all()]
 
     if form.validate_on_submit():
         form.populate_obj(complaint)

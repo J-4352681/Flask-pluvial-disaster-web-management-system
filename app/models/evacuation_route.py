@@ -57,11 +57,12 @@ class EvacuationRoute(db.Model):
         return res
 
     @classmethod
-    def find_by_name(cls, name=None):
-        """Devuelve todos los recorridos de evacuacion que coincidan con ese nombre"""
+    def find_by_name(cls, name=None, excep=[]):
+        """Devuelve la ruta de evacuacion cuyo nombre sea igual al mandado por parametro"""
         res = cls.query.filter(
-            cls.name == name
-        ).all() 
+            cls.name == name,
+            cls.id.not_in(excep)
+        ).first() 
         return res
 
     @classmethod

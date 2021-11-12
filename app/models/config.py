@@ -33,7 +33,7 @@ class Config(db.Model):
         """Crea una nueva configuracion por defecto si no existe una ya en el sistema"""
         configExists = Config.get()
         if ( not configExists ):
-            new_conf = Config(elements_per_page=10, sort_users="username", sort_meeting_points="name", sort_flood_zones="name", sort_evacuation_routes="flood_zone_name", sort_complaints="title")
+            new_conf = Config(elements_per_page=10, sort_users="username", sort_meeting_points="name", sort_flood_zones="name", sort_evacuation_routes="name", sort_complaints="title")
 
             db.session.add(new_conf)
             db.session.commit()
@@ -62,6 +62,12 @@ class Config(db.Model):
     def modify_sort_criterion_flood_zones(cls, config, criteria):
         """actualiza el criterio por defecto de ordenamiento de las zonas inundables"""
         config.sort_flood_zones = criteria
+        db.session.commit()
+
+    @classmethod
+    def modify_sort_criterion_evacuation_routes(cls, config, criteria):
+        """actualiza el criterio por defecto de ordenamiento de las zonas inundables"""
+        config.sort_evacuation_routes = criteria
         db.session.commit()
 
     @classmethod

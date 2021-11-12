@@ -2,6 +2,7 @@ from app.resources.config import get as config_get
 from app.models.user import User
 from app.models.meeting_point import MeetingPoint
 from app.models.flood_zone import FloodZone
+from app.models.evacuation_route import EvacuationRoute
 
 
 class Filter():
@@ -43,6 +44,8 @@ class Filter():
             criteria = self.config.sort_meeting_points
         elif self.model == FloodZone:
             criteria = self.config.sort_flood_zones
+        elif self.model == EvacuationRoute:
+            criteria = self.config.sort_evacuation_routes
 
         return criteria
 

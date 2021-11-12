@@ -6,7 +6,7 @@ from flask_session import Session
 
 from config import config
 from app import db
-from app.resources import user, auth, points, flood_zone, config as configObject
+from app.resources import user, auth, points, flood_zone, evacuation_routes, config as configObject
 from app.helpers import handler
 from app.helpers import auth as helper_auth
 from app.resources.api.flood_zone import flood_zone_api
@@ -72,6 +72,10 @@ def create_app(environment="development"):
     app.add_url_rule("/zonas_inundables/nuevo", "fzone_new", flood_zone.new, methods=["GET", "POST"])
     app.add_url_rule("/zonas_inundables/", "fzone_create", flood_zone.create, methods=["GET", "POST"])
     app.add_url_rule("/zonas_inundables/delete/<int:fzone_id>", "fzone_delete", flood_zone.delete, methods=["GET", "POST"])
+
+    # Rutas de rutas de evacuacion
+    app.add_url_rule("/rutas_evacuacion", "evroutes_index", evacuation_routes.index)
+    app.add_url_rule("/rutas_evacuacion/show/<int:evroute_id>", "evroutes_show", evacuation_routes.show, methods=["GET"])
 
     # Rutas de Config
     app.add_url_rule("/config", "config_index", configObject.index)

@@ -1,6 +1,8 @@
 {% extends "generic/pages/base.html" %}
 
 {% block content %}
+    {{ super() }}
+    
     {% block header %}
         {% with args={"title": temp_interface.title, "name": temp_interface.name, "subtitle": temp_interface.subtitle} %}
             {% include "generic/elements/headers/header.html" %}

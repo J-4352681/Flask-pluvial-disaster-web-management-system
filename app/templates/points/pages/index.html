@@ -1,6 +1,8 @@
 {% extends "generic/pages/base.html" %}
 
 {% block content %}
+    {{ super() }}
+    
     {% block header %}
         {% with args={"title": "Puntos de encuentro", "name": "Administración de puntos de encuentro", "subtitle": "Administración, adición y eliminación de los puntos de encuentro del sitio"} %}
             {% include "generic/elements/headers/header.html" %}

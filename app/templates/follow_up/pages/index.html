@@ -1,6 +1,8 @@
 {% extends "generic/pages/base.html" %}
 
 {% block content %}
+    {{ super() }}
+    
     {% block header %}
         {% with args={"title": temp_interface.title, "name": "Lista de seguimientos", "subtitle": temp_interface.subtitle, "return_url": temp_interface.return_url} %}
             {% include "generic/elements/headers/header_back.html" %}

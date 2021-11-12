@@ -114,3 +114,8 @@ def show(complaint_id):
     )
     
     return render_template("complaint/pages/zone_item_details.html", temp_interface=temp_interface)
+
+
+def close_complaint(complaint_id):
+    Complaint.close_complaint(complaint_id)
+    return redirect(url_for("follow_up_index", complaint_id=complaint_id))

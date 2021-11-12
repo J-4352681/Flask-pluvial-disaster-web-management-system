@@ -70,6 +70,13 @@ class Complaint(db.Model):
     def all(cls):
         """Devuelve todas las quejas cargadas en el sistema"""
         return cls.query.all()
+
+    
+    @classmethod
+    def close_complaint(cls, complaint_id):
+        complaint = cls.find_by_id(complaint_id)
+        if complaint: complaint.closure_date = datetime.now()
+        db.session.commit()
     
 
     @classmethod

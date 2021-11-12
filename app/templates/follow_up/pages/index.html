@@ -14,6 +14,12 @@
             {% with args={"text": "+ Agregar seguimiento para esta denuncia", "url": url_for('follow_up_new', complaint_id=complaint_id)} %}
                 {% include "generic/elements/buttons/button1.html" %}
             {% endwith %}
+
+            {% if not temp_interface.super_item.closure_date %}
+                {% with args={"text": "Cerrar denuncia", "url": url_for('complaint_close', complaint_id=complaint_id)} %}
+                    {% include "generic/elements/buttons/button1.html" %}
+                {% endwith %}
+            {% endif %}
         </div>
     {% endblock %}
 

@@ -8,7 +8,7 @@ from app.models.role import Role
 
 from app.helpers.auth import assert_permit, authenticated
 from app.helpers.filter import Filter
-from app.helpers.template_pages import FormPage, DBModelIndexPage, ItemDetailsPage, TitledBackPage
+from app.helpers.template_pages import FormPage, DBModelIndexPage, ItemDetailsPage, SubDBModelIndexPage
 
 from app.forms.follow_up_forms import FollowUpForm
 
@@ -20,8 +20,8 @@ def index(complaint_id): #, page=None):
     fups = Follow_up.find_by_complaint_id(complaint_id)
     com = Complaint.find_by_id(complaint_id)
 
-    temp= TitledBackPage(
-        url_for('complaint_show', complaint_id=complaint_id),
+    temp= SubDBModelIndexPage(
+        com, url_for('complaint_show', complaint_id=complaint_id),
         title="Lista de seguimientos de denuncia "+str(com.title),
         subtitle="Seguimientos de denuncia "+str(com.title),
     )

@@ -81,6 +81,7 @@ def create_app(environment="development"):
     app.add_url_rule("/denuncias/nuevo", "complaint_new", complaint.new, methods=["GET", "POST"]) 
     app.add_url_rule("/denuncias", "complaint_create", complaint.create, methods=["GET", "POST"])
     app.add_url_rule("/denuncias/delete/<int:complaint_id>", "complaint_delete", complaint.delete, methods=["GET", "POST"])
+    app.add_url_rule("/denuncias/close/<int:complaint_id>", "complaint_close", complaint.close_complaint, methods=["GET", "POST"])
 
     # Rutas de seguimientos
     app.add_url_rule("/seguimientos/<int:complaint_id>", "follow_up_index", follow_up.index)

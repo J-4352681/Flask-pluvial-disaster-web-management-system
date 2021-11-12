@@ -9,6 +9,7 @@ from datetime import datetime
 # from app.models import role
 from app.models.role import Role
 from app.models.permit import Permit
+from app.models.complaint import Complaint
 
 """Este modulo incluye todo la informacion relacionada al modelo de usuarios, y como pedir informacion a la base de datos en relacion a estos"""
 
@@ -74,6 +75,16 @@ class User(db.Model):
     @classmethod
     def find_by_id(cls, id):
         return cls.query.get(id)
+
+    @classmethod
+    def find_by_id_if_has_no_complaints(cls, id):
+        user = cls.query.get(id)
+        complaints = Complaint.all_by_assigned_user_id(id)
+
+        if complaints:
+            return None
+        else:
+            return user
 
 
     @classmethod

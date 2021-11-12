@@ -144,6 +144,13 @@ class Complaint(db.Model):
         return [("Sin confirmar", "Sin confirmar"), ("En curso", "En curso"), ("Resuelta", "Resuelta"), ("Cerrada", "Cerrada")]
 
 
+    @classmethod
+    def all_by_assigned_user_id(cls, id):
+        return cls.query.filter(
+            cls.assigned_user_id == id
+        ).all()
+
+
     def __init__(self, title=None, description=None, coordinates=None, state=None, author_first_name=None, author_last_name=None, author_telephone=None, author_email=None, category_id=None):
         self.title = title
         self.description = description

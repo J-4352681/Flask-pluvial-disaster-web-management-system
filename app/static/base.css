@@ -46,4 +46,6 @@ a.text-secondary:hover {
     justify-content: flex-end;
 }
 
-
+a:link {
+    text-decoration: none !important;
+}

@@ -29,4 +29,5 @@ class FZoneFilter(FlaskForm):
 class ComplaintFilter(FlaskForm):
     title = StringField("Título de la denuncia")
     state = SelectField("Estado", choices=[("", "Todos")]+Complaint.get_states())
-    # Rango de fechas
+    creation_date = StringField("Fecha de creacion (dd/mm/aaaa hh:mm)")
+    closure_date = StringField("Fecha de cierre (dd/mm/aaaa hh:mm)")

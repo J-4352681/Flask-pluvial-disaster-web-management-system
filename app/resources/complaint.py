@@ -113,4 +113,4 @@ def show(complaint_id):
         delete_url=url_for("complaint_delete", complaint_id=complaint.id)
     )
     
-    return render_template("generic/pages/zone_item_details.html", temp_interface=temp_interface)
+    return render_template("complaint/pages/zone_item_details.html", temp_interface=temp_interface)

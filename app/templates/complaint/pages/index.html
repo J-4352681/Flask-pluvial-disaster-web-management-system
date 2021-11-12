@@ -26,7 +26,7 @@
     {% endblock %}
 
     {% block list %}
-        {% with args={"items": temp_interface.page.items, "headers": ["Título", "Fecha de apertura", "Fecha de cierre", "Usuario", "Autor", "Acciones"], "attr_names": ["title", "creation_date", "closure_date", "assigned_user", "author_email"]} %}
+        {% with args={"items": temp_interface.page.items, "headers": ["Título", "Fecha de apertura", "Fecha de cierre", "Email del autor", "Acciones"], "attr_names": ["title", "creation_date", "closure_date", "author_email"]} %}
             {% include "complaint/elements/list/list.html" %}
         {% endwith %}
 

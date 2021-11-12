@@ -20,7 +20,11 @@ def index(complaint_id): #, page=None):
     fups = Follow_up.find_by_complaint_id(complaint_id)
     com = Complaint.find_by_id(complaint_id)
 
-    temp= TitledBackPage(url_for('user_index'),title="Lista de seguimientos", subtitle="Seguimientos de denuncia "+str(com.title))
+    temp= TitledBackPage(
+        url_for('complaint_show', complaint_id=complaint_id),
+        title="Lista de seguimientos de denuncia "+str(com.title),
+        subtitle="Seguimientos de denuncia "+str(com.title),
+    )
 
     return render_template("follow_up/pages/index.html", temp_interface=temp, followUps = fups, complaint_id=complaint_id)
 

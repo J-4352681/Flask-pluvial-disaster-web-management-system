@@ -13,7 +13,7 @@ from app.forms.fields import NonValidatingSelectField
 
 class ComplaintForm(FlaskForm):
     title = StringField("Título de la denuncia", validators=[DataRequired(), Length(1, 255, "El título debe de ser de entre 1 y 255 carácteres")])
-    closure_date = DateTimeField("Fecha de cierre (dd/mm/aaaa)", format="%d/%m/%Y")
+    closure_date = DateTimeField("Fecha de cierre (dd/mm/aaaa hh:mm)", format="%d/%m/%Y %H:%M")
     description = StringField("Descripción de la denuncia", validators=[DataRequired(), Length(1, 255, "La descripción debe de ser de entre 1 y 255 carácteres")])
     coordinates = StringField("Área de la denuncia", validators=[DataRequired()])
     state = SelectField("Estado de la denuncia", choices=Complaint.get_states(), validators=[DataRequired()])

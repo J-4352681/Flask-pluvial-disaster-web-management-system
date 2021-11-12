@@ -18,16 +18,18 @@
     {% endwith %}
 
     <div class="row my-3 mb-5">
-      {% if temp_interface.edit_url %}
-      {% with args={"action_name": "Editar", "url": temp_interface.edit_url, "title": "Editar", "icon_name": "pencil"} %}
-          {% include "generic/elements/buttons/action_button.html" %}
-      {% endwith %}
-      {% endif %}
-      
-      {% if temp_interface.delete_url %}
-      {% with args={"action_name": "Borrar", "url": temp_interface.delete_url, "title": "Borrar", "icon_name": "trash", "onclick": "return confirm('¿Esta seguro que quiere eliminar a este usuario?')"} %}
-          {% include "generic/elements/buttons/action_button.html" %}
-      {% endwith %}
-      {% endif %}
+        {% if temp_interface.edit_url %}
+        {% with args={"text": "Editar", "url": temp_interface.edit_url, "title": "Editar", "icon_name": "pencil"} %}
+            {% include "generic/elements/buttons/button2.html" %}
+        {% endwith %}
+        {% endif %}
+        
+        {% if temp_interface.delete_url %}
+        {% with args={"text": "Borrar", "url": temp_interface.delete_url, "title": "Borrar", "icon_name": "trash", "onclick": "return confirm('¿Esta seguro que quiere eliminar a este usuario?')"} %}
+            {% include "generic/elements/buttons/button2.html" %}
+        {% endwith %}
+        {% endif %}
+
+        {% block extra_buttons %}{% endblock %}
     </div>
 {% endblock %}

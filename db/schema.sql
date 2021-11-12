@@ -274,7 +274,12 @@ INSERT INTO `permits` (`id`, `name`) VALUES
 (26, 'complaint_create'),
 (27, 'complaint_new'),
 (28, 'complaint_delete'),
-(29, 'complaint_index');
+(29, 'complaint_index'),
+(30, 'follow_up_modify'),
+(31, 'follow_up_create'),
+(32, 'follow_up_new'),
+(33, 'follow_up_delete'),
+(34, 'follow_up_index');
 
 -- --------------------------------------------------------
 
@@ -345,7 +350,12 @@ INSERT INTO `role_has_permit` (`role_id`, `permit_id`) VALUES
 (1, 26),
 (1, 27),
 (1, 28),
-(1, 29);
+(1, 29),
+(1, 30),
+(1, 31),
+(1, 32),
+(1, 33),
+(1, 34);
 
 -- --------------------------------------------------------
 
@@ -401,6 +411,14 @@ INSERT INTO `user_has_role` (`user_id`, `role_id`) VALUES
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Volcado de datos para la tabla `categories`
+--
+
+INSERT INTO `categories` (`id`, `name`) VALUES
+(1, 'Categoría 1'),
+(2, 'Categoría 2');
 
 --
 -- Indices de la tabla `colors`

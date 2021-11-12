@@ -1,4 +1,12 @@
+function userMenuOrder() {
+  if ($('#menuNavbar').is(':visible')) $('#nav-user-icon').insertAfter($('#menuNavbar'));
+  else $('#menuNavbar').insertAfter($('#nav-user-icon'));
+}
+
 $(document).ready(function() {
+  userMenuOrder()
+  $(window).on('resize', userMenuOrder);
+  
   let menu = $('#nav-drop-menu'), menu_width =  menu.outerWidth(true);
   let u_icon = $('#nav-user-icon'), u_icon_width = u_icon.outerWidth(true), u_icon_height = u_icon.outerHeight(true), u_icon_pos = u_icon.position();
   let navbar = $('#navbar'), nv_height = navbar.outerHeight(true);

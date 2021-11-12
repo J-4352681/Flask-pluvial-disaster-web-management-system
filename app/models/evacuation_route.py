@@ -12,13 +12,11 @@ class EvacuationRoute(db.Model):
     coordinates = Column(JSON, nullable=false) # Json
     state = Column(Boolean, default=True, nullable=false) # publicado o despublicado
 
-    fz_name = Column(String(30), ForeignKey('flood_zones.name'), unique=True, nullable=False)
-
     @classmethod
-    def create(cls, flood_zone_name, description, coordinates, state): #params
+    def create(cls, name, description, coordinates, state): #params
         """Crea un nuevo recorrido de evacuacion."""
-        new_er = EvacuationRoute(flood_zone_name, description, coordinates, state)
-        db.session.add(new_er)
+        new_evroute = EvacuationRoute(name, description, coordinates, state)
+        db.session.add(new_evroute)
         db.session.commit()
 
     @classmethod

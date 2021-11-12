@@ -101,7 +101,7 @@ def show(complaint_id):
           "Coordenadas": complaint.coordinates,
           "Estado": complaint.state,
           "Categoría": complaint.category.name,
-          "Usuario asignado": complaint.assigned_user.username + " - " + complaint.assigned_user.email,
+          "Usuario asignado": (complaint.assigned_user.username + " - " + complaint.assigned_user.email) if complaint.assigned_user else "No hay usuario asignado",
           "Nombre del autor": complaint.author_first_name,
           "Apellido del autor": complaint.author_last_name,
           "Teléfono del autor": complaint.author_telephone,

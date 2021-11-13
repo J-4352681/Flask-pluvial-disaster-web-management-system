@@ -66,8 +66,8 @@ def create(name, description, coordinates, state):
     EvacuationRoute.create(name, description, coordinates, state)
 
 def modify(evroute_id):
-    """Modifica los datos de una denuncia."""
-    assert_permit(session, "evroute_modify")
+    """Modifica los datos de una ruta de evacuacion."""
+    assert_permit(session, "evroutes_modify")
 
     evroute = EvacuationRoute.find_by_id(evroute_id)
     form = EvacuationRouteForm(obj=evroute)
@@ -76,12 +76,19 @@ def modify(evroute_id):
         form.populate_obj(evroute)
         evroute.coordinates = loads(evroute.coordinates)
         EvacuationRoute.update()
-        return redirect(url_for('evroute_index'))
+        return redirect(url_for('evroutes_index'))
 
     temp_interface = FormPage(
-        form, url_for("evroute_modify", evroute_id=evroute.id),
+        form, url_for("evroutes_modify", evroute_id=evroute.id),
         title="Edición de ruta de evacuación", subtitle="Editando la ruta de evacuación "+str(evroute.name),
-        return_url=url_for('evroute_index')
+        return_url=url_for('evroutes_index')
     )
     
     return render_template("generic/pages/zone_form.html", temp_interface=temp_interface)
+
+def delete(evroute_id):
+    """Borra una ruta de evacuacion"""
+    assert_permit(session, "evroutes_delete")
+    EvacuationRoute.delete_by_id(evroute_id)
+
+    return redirect(url_for("evroutes_index"))

@@ -54,13 +54,11 @@ class FloodZone(db.Model):
         """Devuelve todas las zonas inundables cargadas en el sistema"""
         return cls.query.all()
 
-
     @classmethod
     def all_paginated(cls, page):
         per_page = config_get().elements_per_page
         return cls.query.paginate(page=page, per_page=per_page)
     
-
     @classmethod
     def allPublic(cls):
         """Devuelve todas las zonas inundables publicas"""

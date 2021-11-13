@@ -34,7 +34,6 @@ def show(evroute_id):
         {
         "Nombre": evroute.name,
         "Descripción": evroute.description,
-        "Coordenadas": evroute.coordinates,
         "Público": evroute.state,
         }, evroute,
         title="Recorrido de evacuación", subtitle="Detalles del recorrido " + str(evroute.name)
@@ -45,25 +44,28 @@ def show(evroute_id):
 def new():
     """Devuelve el template para crear una nueva ruta de evacuacion."""
     assert_permit(session, "evroutes_new")
-    form = EvacuationRouteForm()
+    evroute = EvacuationRoute()
+    form = EvacuationRouteForm(obj=evroute)
 
     if form.validate_on_submit():
-        create(form.name.data, form.description.data, form.coordinates.data, form.state.data)
+        create(form, evroute)
         return redirect(url_for('evroutes_index'))
     else:
         temp_interface = FormPage(
-            form, url_for("evroute_new"),
+            form, url_for("evroutes_new"),
             title="Creación de rutas de evacuacion", subtitle="Creando un nuevo ruta de evacuacion",
             return_url=url_for('evroutes_index')
         )
 
-        return render_template("generic/pages/form.html", temp_interface=temp_interface)
+        return render_template("generic/pages/zone_form.html", temp_interface=temp_interface)
 
-def create(name, description, coordinates, state):
+def create(form, evroute):
     """Crea un ruta de evacuacion con los datos envuados por request."""
     assert_permit(session, "evroutes_create")
 
-    EvacuationRoute.create(name, description, coordinates, state)
+    form.populate_obj(evroute)
+    evroute.coordinates = loads(evroute.coordinates)
+    EvacuationRoute.create_from_evacuation_route(evroute)
 
 def modify(evroute_id):
     """Modifica los datos de una ruta de evacuacion."""

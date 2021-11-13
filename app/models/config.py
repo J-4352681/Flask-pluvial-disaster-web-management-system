@@ -33,7 +33,7 @@ class Config(db.Model):
         """Crea una nueva configuracion por defecto si no existe una ya en el sistema"""
         configExists = Config.get()
         if ( not configExists ):
-            new_conf = Config(elements_per_page=10, sort_users="username", sort_meeting_points="name", sort_flood_zones="name", sort_evacuation_routes="flood_zone_name", sort_complaints="title")
+            new_conf = Config(elements_per_page=10, sort_users="username", sort_meeting_points="name", sort_flood_zones="name", sort_evacuation_routes="name", sort_complaints="title")
 
             db.session.add(new_conf)
             db.session.commit()
@@ -65,6 +65,12 @@ class Config(db.Model):
         db.session.commit()
 
     @classmethod
+    def modify_sort_criterion_evacuation_routes(cls, config, criteria):
+        """actualiza el criterio por defecto de ordenamiento de las zonas inundables"""
+        config.sort_evacuation_routes = criteria
+        db.session.commit()
+
+    @classmethod
     def newPrivatePalette(cls, config, newPalette):
         """reemplaza la paleta de colores privada por otra. Recibe una lista de objeto Color."""
         palette.Palette.newColor1(config.palette_private, newPalette[0])
@@ -89,8 +95,7 @@ class Config(db.Model):
     def translateCriteria(*criteria):
         """Traduce los campos de la base de datos a etiquetas en español"""
         names={"name":"Nombre","last_name":"Apellido","email":"Mail","username":"Nombre de usuario", "direction":"Direccion",
-        "coordinates": "Coordenadas","state":"Estado","telephone": "Telefono",
-        "flood_zone_name":"Nombre de zona", "title":"Titulo"}
+        "coordinates": "Coordenadas","state":"Estado","telephone": "Telefono", "title":"Titulo"}
         return names[criteria[1]] # Se usa en [1] ya que criteria es una tupla
 
     def __init__(self, elements_per_page=None, sort_users=None, sort_meeting_points=None, sort_flood_zones=None, sort_evacuation_routes=None, sort_complaints=None):

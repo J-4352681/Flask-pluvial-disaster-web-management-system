@@ -6,7 +6,7 @@ from app.models.complaint import Complaint
 from app.schemas.complaint import ComplaintSchema
 
 import logging
-logger = logging.getLogger(__name__) # Nos permite devolver mas informacion sobre una excepcion en el servidor.
+logger = logging. getLogger(__name__) # Nos permite devolver mas informacion sobre una excepcion en el servidor.
 
 complaint_api = Blueprint("denuncias", __name__, url_prefix="/denuncias")
 
@@ -16,6 +16,7 @@ def create():
     try:
         input_args = ComplaintSchema().load(request.get_json())
     except ValidationError as err:
+        logger.exception("Error de validacion.")
         abort(400)
 
     try:

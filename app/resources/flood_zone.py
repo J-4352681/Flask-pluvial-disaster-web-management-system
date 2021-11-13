@@ -19,7 +19,7 @@ from random import choice as random_choice
 
 # Protected resources
 def index(page=None):
-    """Muestra la lista de usuarios."""
+    """Muestra la lista de zonas inunzables."""
     assert_permit(session, "fzone_index")
 
     filt = Filter(FZoneFilter, FloodZone, request.args)
@@ -33,7 +33,7 @@ def index(page=None):
 
 
 def new():
-    """Devuelve el template para crear un nuevo usuario."""
+    """Devuelve el template para crear una nueva zona inundable."""
     assert_permit(session, "fzone_new")
     fzone = FloodZone()
     form = FloodZoneForm(obj=fzone)
@@ -48,11 +48,12 @@ def new():
             return_url=url_for('fzone_index')
         )
 
-        return render_template("flood_zone/pages/form.html", temp_interface=temp_interface)
+        return render_template("generic/pages/zone_form.html", temp_interface=temp_interface)
 
 
 def create(form, fzone):
-    """Verifica que los datos unicos no esten repetidos antes de crear un nuevo usuario con los datos pasados por request."""
+    """Verifica que los datos unicos no esten repetidos
+    antes de crear una nueva zona inundable con los datos pasados por request."""
     assert_permit(session, "fzone_create")
 
     form.populate_obj(fzone)
@@ -79,7 +80,7 @@ def modify(fzone_id):
         return_url=url_for('fzone_index')
     )
     
-    return render_template("flood_zone/pages/form.html", temp_interface=temp_interface)
+    return render_template("generic/pages/zone_form.html", temp_interface=temp_interface)
 
 
 def delete(fzone_id):
@@ -91,7 +92,7 @@ def delete(fzone_id):
 
 
 def show(fzone_id):
-    """Muestra la lista de puntos de encuentro."""
+    """Muestra los datos de la zona inundable."""
     assert_permit(session, "fzone_show")
 
     fzone = FloodZone.find_by_id(fzone_id)
@@ -110,7 +111,7 @@ def show(fzone_id):
         delete_url=url_for("fzone_delete", fzone_id=fzone.id)
     )
     
-    return render_template("flood_zone/pages/item_details.html", temp_interface=temp_interface)
+    return render_template("generic/pages/zone_item_details.html", temp_interface=temp_interface)
 
 
 def allowed_file(filename):

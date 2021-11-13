@@ -1,0 +1,44 @@
+{% extends "generic/pages/base.html" %}
+
+{% block content %}
+    {% block header %}
+        {% with args={"title": "Rutas de evacuacion", "name": "Administración de rutas de evacuacion", "subtitle": "Administración, adición y eliminación de las rutas de evacuacion del sitio"} %}
+            {% include "generic/elements/headers/header.html" %}
+        {% endwith %}
+    {% endblock %}
+
+    {% block pre_list %}
+        <div class="row">
+            {% with args={"text": "+ Crear recorrido", "url": url_for('points_new')} %}
+                {% include "generic/elements/buttons/button1.html" %}
+            {% endwith %}
+    
+            {% with args={"text": "Filtrar", "data_bs_toggle": "modal", "data_bs_target": "#evroutes-filter"} %}
+                {% include "generic/elements/buttons/modal_button1.html" %}
+            {% endwith %}
+
+            {% if temp_interface.filt.has_filter() %}
+                {% with args={"text": "Limpiar filtro", "url": url_for('evroutes_index')} %}
+                    {% include "generic/elements/buttons/button1.html" %}
+                {% endwith %}
+            {% endif %}
+        </div>
+    {% endblock %}
+
+    {% block list %}
+        {% with args={"items": temp_interface.page.items, "headers": ["Nombre", "Descripción", "Coordenadas", "Público", "Acciones"], "attr_names": ["name", "description" , "coordinates", "state"]} %}
+            {% include "evacuation_routes/elements/list/list.html" %}
+        {% endwith %}
+
+        {% with args={"page": temp_interface.page, "url": "evroutes_index"} %}
+            {% include "generic/elements/pagination_row.html" %}
+        {% endwith %}
+    {% endblock %}
+
+
+    {% block filter %}
+        {% with args={"form": temp_interface.filt.form, "id": "evroutes-filter", "aria_labelledby": "evroutes-filter-label", "url": url_for('evroutes_index')} %}
+            {% include "generic/elements/filter.html" %}
+        {% endwith %}
+    {% endblock %}
+{% endblock %}

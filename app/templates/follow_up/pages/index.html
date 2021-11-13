@@ -1,0 +1,32 @@
+{% extends "generic/pages/base.html" %}
+
+{% block content %}
+    {{ super() }}
+    
+    {% block header %}
+        {% with args={"title": temp_interface.title, "name": "Lista de seguimientos", "subtitle": temp_interface.subtitle, "return_url": temp_interface.return_url} %}
+            {% include "generic/elements/headers/header_back.html" %}
+        {% endwith %}
+    {% endblock %}
+
+    {% block pre_list %}
+        <div class="row">
+            {% with args={"text": "+ Agregar seguimiento para esta denuncia", "url": url_for('follow_up_new', complaint_id=complaint_id)} %}
+                {% include "generic/elements/buttons/button1.html" %}
+            {% endwith %}
+
+            {% if not temp_interface.super_item.closure_date %}
+                {% with args={"text": "Cerrar denuncia", "url": url_for('complaint_close', complaint_id=complaint_id)} %}
+                    {% include "generic/elements/buttons/button1.html" %}
+                {% endwith %}
+            {% endif %}
+        </div>
+    {% endblock %}
+
+    {% block list %}
+        {% with args={"items": followUps, "headers": ["Autor", "Fecha de creacion", "Descripcion", "Acciones"], "attr_names": ["author", "creation_date", "description"]} %}
+            {% include "follow_up/elements/list/list.html" %}
+        {% endwith %}
+    {% endblock %}
+
+{% endblock %}

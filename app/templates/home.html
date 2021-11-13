@@ -7,7 +7,8 @@
 {% endblock %}
 
 {% block content %}
-  {% with args={"title": "Página principal", "subtitle": "Página principal"} %}
-    {% include "generic/elements/headers/header.html" %}
-  {% endwith %}
+    {{ super() }}
+    {% with args={"title": "Página principal", "subtitle": "Página principal"} %}
+      {% include "generic/elements/headers/header.html" %}
+    {% endwith %}
 {% endblock %}

@@ -63,9 +63,9 @@ def block(user_id):
 
 def delete(user_id):
     """Borra un usuario que no sea el que tiene la sesion iniciada."""
-    user = User.find_by_id(user_id)
-    
-    if user_id != session.get("user").id:
+    user = User.find_by_id_if_has_no_complaints(user_id)
+
+    if user and user_id != session.get("user").id:
         assert_permit(session, "user_delete")
         User.delete(user)
     else:

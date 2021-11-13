@@ -1,8 +1,10 @@
 {% extends "generic/pages/base.html" %}
 
 {% block content %}
+    {{ super() }}
+
     {% block header %}
-        {% with args={"title": "Administración de zonas inundables", "name": "Administración de zonas inundables", "subtitle": "Administración, adición y eliminación de las zonas inundables del sitio"} %}
+        {% with args={"title": temp_interface.title, "name": temp_interface.name, "subtitle": temp_interface.subtitle} %}
             {% include "generic/elements/headers/header.html" %}
         {% endwith %}
     {% endblock %}

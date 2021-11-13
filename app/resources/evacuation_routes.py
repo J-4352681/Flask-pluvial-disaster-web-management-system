@@ -42,8 +42,28 @@ def show(evroute_id):
     
     return render_template("evacuation_routes/pages/show.html", temp_interface=temp_interface)
 
-def create():
-    return
+def new():
+    """Devuelve el template para crear una nueva ruta de evacuacion."""
+    assert_permit(session, "evroutes_new")
+    form = EvacuationRouteForm()
+
+    if form.validate_on_submit():
+        create(form.name.data, form.description.data, form.coordinates.data, form.state.data)
+        return redirect(url_for('evroutes_index'))
+    else:
+        temp_interface = FormPage(
+            form, url_for("evroute_new"),
+            title="Creación de rutas de evacuacion", subtitle="Creando un nuevo ruta de evacuacion",
+            return_url=url_for('evroutes_index')
+        )
+
+        return render_template("generic/pages/form.html", temp_interface=temp_interface)
+
+def create(name, description, coordinates, state):
+    """Crea un ruta de evacuacion con los datos envuados por request."""
+    assert_permit(session, "evroute_create")
+
+    EvacuationRoute.create(name, description, coordinates, state)
 
 def modify(evroute_id):
     """Modifica los datos de una denuncia."""

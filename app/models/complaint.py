@@ -24,7 +24,7 @@ class Complaint(db.Model):
     category = relationship("Category", foreign_keys=category_id) # Implementacion vieja: category = Column(String(255), nullable=false) 
     
     assigned_user_id = Column(Integer, ForeignKey('users.id')) # No es obligatorio que alguien este asignado, pero solo una persona deberia estar asignada.
-    assigned_user = relationship("User", foreign_keys=assigned_user_id)
+    assigned_user = relationship("User", foreign_keys=[assigned_user_id])
 
     author_first_name = Column(String(30), nullable=false) # Autor es un usuario de la aplicacion publica
     author_last_name = Column(String(30), nullable=false) 
@@ -142,6 +142,13 @@ class Complaint(db.Model):
     def get_states(cls):
         "Retorna los estados en los que puede estar una denuncia"
         return [("Sin confirmar", "Sin confirmar"), ("En curso", "En curso"), ("Resuelta", "Resuelta"), ("Cerrada", "Cerrada")]
+
+
+    @classmethod
+    def all_by_assigned_user_id(cls, id):
+        return cls.query.filter(
+            cls.assigned_user_id == id
+        ).all()
 
 
     def __init__(self, title=None, description=None, coordinates=None, state=None, author_first_name=None, author_last_name=None, author_telephone=None, author_email=None, category_id=None):

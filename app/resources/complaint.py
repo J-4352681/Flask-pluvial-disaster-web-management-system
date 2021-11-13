@@ -10,7 +10,7 @@ from app.models.complaint import Complaint
 from app.models.user import User
 from app.models.category import Category
 
-from app.forms.complaint_forms import ComplaintForm, ComplaintModificactionForm
+from app.forms.complaint_forms import ComplaintForm
 from app.forms.filter_forms import ComplaintFilter
 
 def index(page=None):
@@ -31,7 +31,10 @@ def new():
     """Devuelve el template para crear una nueva denuncia."""
     assert_permit(session, "complaint_new")
     complaint = Complaint()
-    form = ComplaintForm(User.all(), Category.all(), obj=complaint)
+    form = ComplaintForm(obj=complaint)
+
+    form.category.choices = [("", "Ninguno seleccionado")]+[(category.id, category.name) for category in Category.all()]
+    form.assigned_user.choices = [("", "Ninguno seleccionado")]+[(user.id, user.username + " - " + user.email) for user in User.all()]
 
     if form.validate_on_submit():
         create(form, complaint)
@@ -61,7 +64,13 @@ def modify(complaint_id):
     assert_permit(session, "complaint_modify")
 
     complaint = Complaint.find_by_id(complaint_id)
-    form = ComplaintModificactionForm(User.all(), Category.all(), obj=complaint)
+    form = ComplaintForm(obj=complaint,
+        category = complaint.category.id,
+        assigned_user = complaint.assigned_user.id
+    )
+
+    form.category.choices = [("", "Ninguno seleccionado")]+[(category.id, category.name) for category in Category.all()]
+    form.assigned_user.choices = [("", "Ninguno seleccionado")]+[(user.id, user.username + " - " + user.email) for user in User.all()]
 
     if form.validate_on_submit():
         form.populate_obj(complaint)
@@ -101,7 +110,7 @@ def show(complaint_id):
           "Coordenadas": complaint.coordinates,
           "Estado": complaint.state,
           "Categoría": complaint.category.name,
-          "Usuario asignado": complaint.assigned_user.username + " - " + complaint.assigned_user.email,
+          "Usuario asignado": (complaint.assigned_user.username + " - " + complaint.assigned_user.email) if complaint.assigned_user else "No hay usuario asignado",
           "Nombre del autor": complaint.author_first_name,
           "Apellido del autor": complaint.author_last_name,
           "Teléfono del autor": complaint.author_telephone,

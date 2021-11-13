@@ -12,10 +12,10 @@
     {% endwith %}
 
     <div class="row">
-      {% with args={"action_name": "Editar", "url": url_for('points_modify', point_id=temp_interface.item.id), "title": "Editar", "icon_name": "pencil"} %}
+      {% with args={"action_name": "Editar", "url": url_for('evroutes_modify', evroute_id=temp_interface.item.id), "title": "Editar", "icon_name": "pencil"} %}
           {% include "generic/elements/buttons/action_button.html" %}
       {% endwith %}
-      {% with args={"action_name": "Borrar", "url": url_for('points_delete', point_id=temp_interface.item.id), "title": "Borrar", "icon_name": "trash", "onclick": "return confirm('¿Esta seguro que quiere eliminar a este usuario?')"} %}
+      {% with args={"action_name": "Borrar", "url": url_for('evroutes_delete', evroute_id=temp_interface.item.id), "title": "Borrar", "icon_name": "trash", "onclick": "return confirm('¿Esta seguro que quiere eliminar esta ruta?')"} %}
           {% include "generic/elements/buttons/action_button.html" %}
       {% endwith %}
     </div>

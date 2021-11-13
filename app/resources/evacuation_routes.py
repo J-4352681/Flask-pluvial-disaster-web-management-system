@@ -89,6 +89,6 @@ def modify(evroute_id):
 def delete(evroute_id):
     """Borra una ruta de evacuacion"""
     assert_permit(session, "evroutes_delete")
-    EvacuationRoute.delete_by_id(evroute_id)
+    EvacuationRoute.delete(evroute_id)
 
     return redirect(url_for("evroutes_index"))

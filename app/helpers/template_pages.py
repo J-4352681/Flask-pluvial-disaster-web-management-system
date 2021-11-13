@@ -110,3 +110,15 @@ class DBModelIndexPage(TitledPage):
     @property
     def filt(self):
         return self._filt
+
+
+class SubDBModelIndexPage(TitledBackPage):
+    """Interfaz paramétrica base de página de con título y botón de regreso de un elemento relacionado a otro de la bd"""
+    def __init__(self, super_item, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._super_item = super_item
+
+
+    @property
+    def super_item(self):
+        return self._super_item

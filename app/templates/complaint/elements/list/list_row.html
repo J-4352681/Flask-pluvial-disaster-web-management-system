@@ -1,0 +1,37 @@
+{% extends "generic/elements/list/list_row.html" %}
+
+{% block action_icons %}
+    {% with args=args.item %}
+        <td class="col">
+            {% if "complaint_modify" in session.user_permits %}
+                {% with args={"url": url_for('complaint_modify', complaint_id=args.id), "icon_name": "pencil", "title": "Editar"} %}
+                    {% include "generic/elements/action_icon.html" %}
+                {% endwith %}
+            {% endif %}
+
+            {% if "complaint_show" in session.user_permits %}
+                {% with args={"url": url_for('complaint_show', complaint_id=args.id), "icon_name": "eye", "title": "Detalle"} %}
+                    {% include "generic/elements/action_icon.html" %}
+                {% endwith %}
+            {% endif %}
+
+            {% if "complaint_delete" in session.user_permits %}
+                {% with args={"url": url_for('complaint_delete', complaint_id=args.id), "icon_name": "trash", "title": "Borrar", "onclick": "return confirm('¿Esta seguro que quiere eliminar a este elemento?')"} %}
+                    {% include "generic/elements/action_icon.html" %}
+                {% endwith %}
+            {% endif %}
+
+            {% if "follow_up_new" in session.user_permits %}
+                {% with args={"url": url_for('follow_up_new', complaint_id=args.id), "icon_name": "add", "title": "Agregar seguimiento"} %}
+                    {% include "generic/elements/action_icon.html" %}
+                {% endwith %}
+            {% endif %}
+            
+            {% if "follow_up_index" in session.user_permits %}
+                {% with args={"url": url_for("follow_up_index", complaint_id=args.id), "title": "Ver seguimientos", "icon_name": "analytics"} %}
+                    {% include "generic/elements/action_icon.html" %}
+                {% endwith %}
+            {% endif %}
+        </td>
+    {% endwith %}
+{% endblock %}

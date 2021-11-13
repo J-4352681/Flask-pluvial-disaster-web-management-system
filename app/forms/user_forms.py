@@ -8,7 +8,6 @@ from .validators import Unique
 from app.models.role import Role
 from app.forms.fields import NonValidatingSelectMultipleField
 
-
 class UserForm(FlaskForm):
     first_name = StringField("Nombre del usuario", validators=[DataRequired(), Length(1,30,'El nombre debe de ser de entre 1 y 30 caracteres')])
     last_name = StringField("Apellido del usuario", validators=[DataRequired(), Length(1,30,'El apellido debe de ser de entre 1 y 30 caracteres')])
@@ -17,6 +16,7 @@ class UserForm(FlaskForm):
     roles = NonValidatingSelectMultipleField("Roles", filters=[lambda x: Role.get_by_ids([int(i) for i in x])])
     active = BooleanField("Usuario activo")
     submit = SubmitField("Aceptar")
+
 
     def __init__(self, *args, **kwargs):
         super(UserForm, self).__init__(*args, **kwargs)

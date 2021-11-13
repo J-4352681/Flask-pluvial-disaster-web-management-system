@@ -8,10 +8,12 @@ class Category(db.Model):
     id = Column(Integer, primary_key=True)
     name = Column(String(30), nullable=false, unique=true)
 
+
     @classmethod
     def all(cls):
         """Devuelve todas las categorias que existen en el sistema."""
         return cls.query.all()
+
 
     @classmethod
     def create(cls, name):
@@ -19,7 +21,8 @@ class Category(db.Model):
         new_cat = Category(name)
         db.session.add(new_cat)
         db.session.commit()
-    
+
+
     @classmethod
     def find_by_id(cls, id):
         """Encuentra una categoria por id."""
@@ -36,6 +39,7 @@ class Category(db.Model):
             cls.name == name
         ).first()
         return cat
+
 
     def __init__(self, name=None):
         self.name = name

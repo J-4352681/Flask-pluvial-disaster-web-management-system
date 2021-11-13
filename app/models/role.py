@@ -18,20 +18,24 @@ class Role(db.Model):
     name = Column(String(30), nullable=false, unique=True)
     permits = relationship("Permit", secondary=association_table_role_has_permit)
 
+
     @classmethod
     def all(cls):
         """Devuelve todos los roles"""
         return cls.query.all()
+
 
     @classmethod
     def get_admin(cls):
         """Devuelve el rol con el trabajo del administrador. Si hay algun cambio a la reprecentacion del rol admin en la base datos solo se cambiara este metodo."""
         return cls.get_by_name("admin")
 
+
     @classmethod
     def get_operator(cls):
         """Devuelve el rol con el trabajo del operador/a. Si hay algun cambio a la reprecentacion del rol operador/a en la base datos solo se cambiara este metodo."""
         return cls.get_by_name("operator")
+
 
     @classmethod
     def get_by_name(cls, role_name):
@@ -39,11 +43,13 @@ class Role(db.Model):
         return cls.query.get(
             cls.name == role_name
         )
-    
+
+
     @classmethod
     def get_by_ids(cls, roles_id=[]):
         """Retorna todos los roles correspondientes a los id pasados por parametro"""
         return cls.query.filter(cls.id.in_(roles_id)).all()
+
 
     def __init__(self, name=None):
         self.name = name

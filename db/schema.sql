@@ -103,7 +103,7 @@ CREATE TABLE `config` (
 --
 
 INSERT INTO `config` (`id`, `elements_per_page`, `sort_users`, `sort_meeting_points`, `sort_flood_zones`, `sort_evacuation_routes`, `sort_complaints`, `palette_private_id`, `palette_public_id`) VALUES
-(1, 10, 'username', 'name', 'name', 'flood_zone_name', 'title', 31, 32);
+(1, 10, 'username', 'name', 'name', 'name', 'title', 31, 32);
 
 -- --------------------------------------------------------
 
@@ -268,7 +268,20 @@ INSERT INTO `permits` (`id`, `name`) VALUES
 (20, 'fzone_new'),
 (21, 'fzone_delete'),
 (22, 'fzone_index'),
-(23, 'fzone_importcsv');
+(23, 'fzone_importcsv'),
+(24, 'complaint_modify'),
+(25, 'complaint_show'),
+(26, 'complaint_create'),
+(27, 'complaint_new'),
+(28, 'complaint_delete'),
+(29, 'complaint_index'),
+(30, 'follow_up_modify'),
+(31, 'follow_up_create'),
+(32, 'follow_up_new'),
+(33, 'follow_up_delete'),
+(34, 'follow_up_index'),
+(35, 'evroutes_index'),
+(36, 'evroutes_show');
 
 -- --------------------------------------------------------
 
@@ -305,6 +318,12 @@ CREATE TABLE `role_has_permit` (
 --
 
 INSERT INTO `role_has_permit` (`role_id`, `permit_id`) VALUES
+(2, 4),
+(2, 8),
+(2, 5),
+(2, 9),
+(2, 6),
+(2, 7),
 (1, 1),
 (1, 2),
 (1, 3),
@@ -321,20 +340,26 @@ INSERT INTO `role_has_permit` (`role_id`, `permit_id`) VALUES
 (1, 14),
 (1, 15),
 (1, 16),
-(2, 4),
-(2, 8),
-(2, 5),
-(2, 9),
-(2, 6),
-(2, 7),
-(1, 19),
-(1, 21),
 (1, 17),
+(1, 18),
+(1, 19),
 (1, 20),
-(1, 18),
-(1, 18),
+(1, 21),
 (1, 22),
-(1, 23);
+(1, 23),
+(1, 24),
+(1, 25),
+(1, 26),
+(1, 27),
+(1, 28),
+(1, 29),
+(1, 30),
+(1, 31),
+(1, 32),
+(1, 33),
+(1, 34),
+(1, 35),
+(1, 36);
 
 -- --------------------------------------------------------
 
@@ -390,6 +415,14 @@ INSERT INTO `user_has_role` (`user_id`, `role_id`) VALUES
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Volcado de datos para la tabla `categories`
+--
+
+INSERT INTO `categories` (`id`, `name`) VALUES
+(1, 'Categoría 1'),
+(2, 'Categoría 2');
 
 --
 -- Indices de la tabla `colors`

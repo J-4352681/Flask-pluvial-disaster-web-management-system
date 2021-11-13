@@ -85,7 +85,7 @@ def create(name, direction, latitude, longitude, telephone, email, state):
     MeetingPoint.create(name, direction, latitude, longitude, telephone, email, state)# **request.form)
 
 def modify(point_id):
-    """Modifica los datos de un usuario."""
+    """Modifica los datos de un punto de encuentro."""
     assert_permit(session, "points_modify")
     point = MeetingPoint.find_by_id(point_id)
     form = MeetingPointModificationForm(obj=point,

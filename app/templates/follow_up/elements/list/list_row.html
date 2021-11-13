@@ -1,0 +1,19 @@
+
+<td class="col">{{ args.item.author.username }}</td>
+<td class="col">{{ args.item.creation_date }}</td>
+<td class="col">{{ args.item.description }}</td>
+
+
+{% block action_icons %}
+    {% with args=args.item %}
+        <td class="col">
+            {% with args={"url": url_for('follow_up_modify', follow_up_id=args.id), "icon_name": "pencil", "title": "Editar"} %}
+                {% include "generic/elements/action_icon.html" %}
+            {% endwith %}
+
+            {% with args={"url": url_for('follow_up_delete', follow_up_id=args.id), "icon_name": "trash", "title": "Borrar", "onclick": "return confirm('¿Esta seguro que quiere eliminar a este elemento?')"} %}
+                {% include "generic/elements/action_icon.html" %}
+            {% endwith %}
+        </td>
+    {% endwith %}
+{% endblock %}

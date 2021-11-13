@@ -45,3 +45,9 @@
 {% block navbar %}
     {% include "generic/elements/navbar.html" %}
 {% endblock %}
+
+{% block content %}
+  {{ super() }}
+
+  <script src="{{ url_for('static', filename='table_resize.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "generic/pages/form.html" %}
+
+{% block form %}
+    {{ super() }}
+
+    {% with args={"js_url": url_for('static', filename='map/edit_zone_map.js')} %}
+        {% include "generic/elements/imports/zone_map.html" %}
+    {% endwith %}
+{% endblock %}

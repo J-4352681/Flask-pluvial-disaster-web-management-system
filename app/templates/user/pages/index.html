@@ -1,6 +1,8 @@
 {% extends "generic/pages/base.html" %}
 
 {% block content %}
+    {{ super() }}
+    
     {% block header %}
         {% with args={"title": "Administración de usuarios", "name": "Administración de usuarios", "subtitle": "Administración, adición y eliminación de los usuarios del sitio"} %}
             {% include "generic/elements/headers/header.html" %}

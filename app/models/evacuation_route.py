@@ -7,18 +7,17 @@ class EvacuationRoute(db.Model):
     """Clase que representa los recorridos de evacuacion guardados en la aplicacion"""
     __tablename__ = "evacuation_routes"
     id = Column(Integer, primary_key=True)
-    
+
+    name = Column(String(30), unique=True, nullable=False)
     description = Column(String(255), nullable=false) 
     coordinates = Column(JSON, nullable=false) # Json
     state = Column(Boolean, default=True, nullable=false) # publicado o despublicado
 
-    fz_name = Column(String(30), ForeignKey('flood_zones.name'), unique=True, nullable=False)
-
     @classmethod
-    def create(cls, flood_zone_name, description, coordinates, state): #params
+    def create(cls, name, description, coordinates, state): #params
         """Crea un nuevo recorrido de evacuacion."""
-        new_er = EvacuationRoute(flood_zone_name, description, coordinates, state)
-        db.session.add(new_er)
+        new_evroute = EvacuationRoute(name, description, coordinates, state)
+        db.session.add(new_evroute)
         db.session.commit()
 
     @classmethod
@@ -58,11 +57,12 @@ class EvacuationRoute(db.Model):
         return res
 
     @classmethod
-    def find_by_zone_name(cls, zone_name=None):
-        """Devuelve todos los recorrido de evacuacion cuyo nombre de zona sea igual al mandado como parametro"""
+    def find_by_name(cls, name=None, excep=[]):
+        """Devuelve la ruta de evacuacion cuyo nombre sea igual al mandado por parametro"""
         res = cls.query.filter(
-            cls.flood_zone_name == zone_name
-        ).all() 
+            cls.name == name,
+            cls.id.not_in(excep)
+        ).first() 
         return res
 
     @classmethod
@@ -84,8 +84,8 @@ class EvacuationRoute(db.Model):
         """Devuelve los atributos para ordenar las listas"""
         return [("name", "Nombre"), ("state", "Estado")]
 
-    def __init__(self, flood_zone_name=None, description=None, coordinates=None, state=None):
-        self.flood_zone_name = flood_zone_name
+    def __init__(self, name=None, description=None, coordinates=None, state=None):
+        self.name = name
         self.description = description
         self.coordinates = coordinates
         self.state = state

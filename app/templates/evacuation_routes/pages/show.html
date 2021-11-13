@@ -1,0 +1,22 @@
+{% extends "generic/pages/base.html" %}
+
+{% block content %}
+    {% block header %}
+        {% with args={"title": temp_interface.title, "name": "Detalles de punto de encuentro", "subtitle": temp_interface.subtitle, "return_url": url_for("evroutes_index")} %}
+            {% include "generic/elements/headers/header_back.html" %}
+        {% endwith %}
+    {% endblock %}
+
+    {% with attributes=temp_interface.attributes %}
+        {% include "generic/elements/list/list_details.html" %}
+    {% endwith %}
+
+    <div class="row">
+      {% with args={"action_name": "Editar", "url": url_for('points_modify', point_id=temp_interface.item.id), "title": "Editar", "icon_name": "pencil"} %}
+          {% include "generic/elements/buttons/action_button.html" %}
+      {% endwith %}
+      {% with args={"action_name": "Borrar", "url": url_for('points_delete', point_id=temp_interface.item.id), "title": "Borrar", "icon_name": "trash", "onclick": "return confirm('¿Esta seguro que quiere eliminar a este usuario?')"} %}
+          {% include "generic/elements/buttons/action_button.html" %}
+      {% endwith %}
+    </div>
+{% endblock %}

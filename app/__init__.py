@@ -93,6 +93,8 @@ def create_app(environment="development"):
     # Rutas de rutas de evacuacion
     app.add_url_rule("/rutas_evacuacion", "evroutes_index", evacuation_routes.index)
     app.add_url_rule("/rutas_evacuacion/show/<int:evroute_id>", "evroutes_show", evacuation_routes.show, methods=["GET"])
+    app.add_url_rule("/rutas_evacuacion/nuevo", "evroute_new", evacuation_routes.new, methods=["GET", "POST"]) 
+    app.add_url_rule("/rutas_evacuacion", "evroute_create", evacuation_routes.create, methods=["GET", "POST"])
     app.add_url_rule("/rutas_evacuacion/modify/<int:evroute_id>", "evroute_modify", evacuation_routes.modify, methods=["GET", "POST"])
 
     # Rutas de Config

@@ -4,7 +4,7 @@
     {% for item in args['items'] %}
         <tr class="row">
             {% with args={"item": item, "attr_names": args.attr_names} %}
-                {% include "evacuation_points/elements/list/list_row.html" %}
+                {% include "evacuation_routes/elements/list/list_row.html" %}
             {% endwith %}
         </tr>
     {% endfor %}

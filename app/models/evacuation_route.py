@@ -21,6 +21,12 @@ class EvacuationRoute(db.Model):
         db.session.commit()
 
     @classmethod
+    def create_from_evacuation_route(cls, new_evacuation_route):
+        """Crea una nueva ruta de evacuacion con el objeto enviado por parámetro"""
+        db.session.add(new_evacuation_route)
+        db.session.commit()
+
+    @classmethod
     def delete(cls, id_param=None):
         """Elimina un recorrido de evacuacion cuyo id coincida con el numero mandado como parametro."""
         er_selected = EvacuationRoute.query.filter_by(id=id_param).first()

@@ -61,7 +61,7 @@ def new():
 
 def create(name, description, coordinates, state):
     """Crea un ruta de evacuacion con los datos envuados por request."""
-    assert_permit(session, "evroute_create")
+    assert_permit(session, "evroutes_create")
 
     EvacuationRoute.create(name, description, coordinates, state)
 

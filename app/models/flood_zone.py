@@ -87,7 +87,7 @@ class FloodZone(db.Model):
 
 
     @classmethod
-    def find_by_name(cls, name=None):
+    def find_by_name(cls, name=None, excep=[]):
         """Devuelve la zona inundable cuyo nombre sea igual al mandado como parametro"""
         fzone = cls.query.filter(
             cls.name == name

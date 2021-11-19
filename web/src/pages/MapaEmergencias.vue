@@ -5,6 +5,7 @@
 <script>
 export default {
   name: 'MapaEmergencias',
+  title: 'Mapa para Emergencias',
   props: {
 
   },

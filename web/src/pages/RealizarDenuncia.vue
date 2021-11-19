@@ -5,6 +5,7 @@
 <script>
 export default {
   name: 'RealizarDenuncia',
+  title: 'Realizar una Denuncia',
   props: {
 
   },

@@ -5,6 +5,7 @@
 <script>
 export default {
   name: 'MapaDenuncias',
+  title: 'Mapa de Denuncias',
   props: {
 
   },

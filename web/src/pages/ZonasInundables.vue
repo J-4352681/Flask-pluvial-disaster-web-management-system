@@ -8,6 +8,7 @@
 <script>
 export default {
   name: 'ZonasInundables',
+  title: 'Zonas Inundables',
   props: {
 
   },

@@ -90,8 +90,9 @@ class FloodZone(db.Model):
     def find_by_name(cls, name=None, excep=[]):
         """Devuelve la zona inundable cuyo nombre sea igual al mandado como parametro"""
         fzone = cls.query.filter(
-            cls.name == name
-        ).first()
+            cls.name.like(name),
+            cls.id.not_in(excep)
+        ).all()
         return fzone
 
 
@@ -109,7 +110,7 @@ class FloodZone(db.Model):
     def find_by_code(cls, code=None, excep=[]):
         """Devuelve todas las zonas inundables cuyo codigo sea igual al pasado por parametro"""
         fzone = cls.query.filter(
-            cls.code == code,
+            cls.code.like(code),
             cls.id.not_in(excep)
         ).all()
         return fzone

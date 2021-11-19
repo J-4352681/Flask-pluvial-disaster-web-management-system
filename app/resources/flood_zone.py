@@ -8,7 +8,7 @@ from app.helpers.auth import assert_permit, authenticated
 from app.helpers.filter import Filter
 from app.helpers.template_pages import FormPage, DBModelIndexPage, ItemDetailsPage
 
-from app.forms.fzone_forms import FloodZoneForm
+from app.forms.fzone_forms import FloodZoneForm, FloodZoneModificationForm
 from app.forms.filter_forms import FZoneFilter
 
 from csv import reader as csv_reader
@@ -66,7 +66,7 @@ def modify(fzone_id):
     assert_permit(session, "fzone_modify")
 
     fzone = FloodZone.find_by_id(fzone_id)
-    form = FloodZoneForm(obj=fzone)
+    form = FloodZoneModificationForm(obj=fzone)
 
     if form.validate_on_submit():
         form.populate_obj(fzone)
@@ -181,7 +181,7 @@ def csv_import():
             file.stream = StringIO(file.read().decode("utf-8"))
             reader = csv_reader(file.stream, delimiter=",")
             next(reader)
-
+ 
             for row in reader:
                 row[1] = jsonify_list_coord(from_string_coord(row[1]))
                 get_or_create_by_name(FloodZone(name=row[0], coordinates=row[1]))

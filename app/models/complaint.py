@@ -75,7 +75,9 @@ class Complaint(db.Model):
     @classmethod
     def close_complaint(cls, complaint_id):
         complaint = cls.find_by_id(complaint_id)
-        if complaint: complaint.closure_date = datetime.now()
+        if complaint: 
+            complaint.closure_date = datetime.now()
+            complaint.state = dict(Complaint.get_states())['Cerrada']
         db.session.commit()
     
 

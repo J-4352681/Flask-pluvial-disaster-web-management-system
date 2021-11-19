@@ -36,7 +36,10 @@ def show(evroute_id):
         "Descripción": evroute.description,
         "Público": evroute.state,
         }, evroute,
-        title="Recorrido de evacuación", subtitle="Detalles del recorrido " + str(evroute.name)
+        title="Recorrido de evacuación", subtitle="Detalles del recorrido " + str(evroute.name),
+        return_url=url_for('evroutes_index'),
+        edit_url=url_for("evroutes_modify", evroute_id=evroute.id),
+        delete_url=url_for("evroutes_delete", evroute_id=evroute.id)
     )
     
     return render_template("evacuation_routes/pages/show.html", temp_interface=temp_interface)

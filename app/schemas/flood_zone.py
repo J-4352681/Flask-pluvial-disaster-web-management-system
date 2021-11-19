@@ -15,6 +15,6 @@ class FloodZonePaginationSchema(Schema):
     total = fields.Function(lambda pagination: len(pagination.items))
     items = fields.Nested(FloodZoneSchema, many=True, data_key="zonas")
 
-flood_zones_schema = FloodZoneSchema(many=True)
-flood_zone_schema = FloodZoneSchema()
-flood_zone_pagination_schema = FloodZonePaginationSchema()
+# flood_zones_schema = FloodZoneSchema(many=True)
+# flood_zone_schema = FloodZoneSchema()
+# flood_zone_pagination_schema = FloodZonePaginationSchema()

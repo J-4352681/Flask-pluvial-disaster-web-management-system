@@ -12,6 +12,7 @@ from app.helpers import handler
 from app.helpers import auth as helper_auth
 from app.resources.api.flood_zone import flood_zone_api
 from app.resources.api.complaint import complaint_api
+from app.resources.api.evacuation_routes import evacuation_routes_api
 
 logging.basicConfig()
 logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
@@ -115,6 +116,7 @@ def create_app(environment="development"):
     api = Blueprint("api", __name__, url_prefix="/api")
     api.register_blueprint(flood_zone_api)
     api.register_blueprint(complaint_api)
+    api.register_blueprint(evacuation_routes_api)
     app.register_blueprint(api)
 
     # Handlers

@@ -39,6 +39,10 @@ class EvacuationRoute(db.Model):
         return cls.query.all()
     
     @classmethod
+    def all_paginated(cls, page):
+        return cls.query.paginate(page=page, per_page=20)
+    
+    @classmethod
     def allPublic(cls):
         """Devuelve todos los recorridos de evacuacion publicos"""
         res = cls.query.filter(

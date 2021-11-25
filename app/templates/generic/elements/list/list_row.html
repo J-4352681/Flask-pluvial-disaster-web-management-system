@@ -1,4 +1,8 @@
 {% for attr_name in args.attr_names %}
-    <td class="col">{{ args.item|attr(attr_name) }}</td>
+    {% if attr_name == 'coordinates' %}
+        <td class="col">{{ parsed_coordinates(args.item|attr(attr_name)) }}</td>
+    {% else %}
+        <td class="col">{{ args.item|attr(attr_name) }}</td>
+    {% endif %}
 {% endfor %}
 {% block action_icons %}{% endblock %}

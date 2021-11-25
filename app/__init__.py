@@ -36,6 +36,7 @@ def create_app(environment="development"):
     app.jinja_env.globals.update(is_authenticated=helper_auth.authenticated)
     app.jinja_env.globals.update(get_navigation_actions=helper_auth.get_navigation_actions)
     app.jinja_env.globals.update(private_theme=configObject.getPrivatePalette)
+    app.jinja_env.globals.update(parsed_coordinates=evacuation_routes.parse_coordinates)
 
     # Autenticación
     app.add_url_rule("/iniciar_sesion", "auth_login", auth.login)

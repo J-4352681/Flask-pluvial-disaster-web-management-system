@@ -1,0 +1,10 @@
+<table class="row table table-hover h-100">
+    <tbody class="col">
+        {% for key,value in attributes.items() %}
+            <tr class="row" id="{{ key }}">
+                <td class="col">{{ key }}</td>
+                <td class="col">{{ value }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

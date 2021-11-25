@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, JSON, ForeignKey
 from sqlalchemy.sql.expression import false, true
 from sqlalchemy.sql.sqltypes import Boolean
 from app.db import db
+from app.resources.config import Config
 
 class EvacuationRoute(db.Model):
     """Clase que representa los recorridos de evacuacion guardados en la aplicacion"""
@@ -40,7 +41,8 @@ class EvacuationRoute(db.Model):
     
     @classmethod
     def all_paginated(cls, page):
-        return cls.query.paginate(page=page, per_page=20)
+        per_page = Config.get().elements_per_page
+        return cls.query.paginate(page=page, per_page=per_page)
     
     @classmethod
     def allPublic(cls):

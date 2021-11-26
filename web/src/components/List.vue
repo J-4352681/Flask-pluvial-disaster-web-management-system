@@ -6,7 +6,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="item in items" :key="item.id" class="table-item">
+      <tr v-for="item in removeFields(items, headers)" :key="item.id" class="table-item">
         <td v-for="value in item" :key="value" class="table-item-field">{{ value }}</td>
         <!-- <router-link :to="{ name: 'ZonaInundable', params: { id: zona.id }}" >
         <p>{{ zona.nombre }}</p>
@@ -26,6 +26,23 @@
     },
     components: {
       
+    },
+    data() {
+      return {
+        removeFields: function(objArray, headersArray) {
+            let newArray = [];
+            let a;
+            objArray.forEach(function(obj) {
+              a = {};
+              headersArray.forEach(function(header) {
+                if(Object.keys(obj).includes(header)) a[header] = obj[header];
+                else a[header] = "";
+              });
+              newArray.push(a);
+            });
+          return newArray
+        }
+      }
     }
   }
 </script>

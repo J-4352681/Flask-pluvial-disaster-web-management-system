@@ -7,6 +7,7 @@ import ZonaInundable from './pages/ZonaInundable.vue'
 import RealizarDenuncia from './pages/RealizarDenuncia.vue'
 import MapaDenuncias from './pages/MapaDenuncias.vue'
 import Estadisticas from './pages/Estadisticas.vue'
+import MapEj from './pages/MapEj.vue'
 
 const routes = [
     {
@@ -43,6 +44,11 @@ const routes = [
         path: '/estadisticas',
         name: 'Estadisticas',
         component: Estadisticas
+    },
+    {
+        path: '/mapa_ejemplo',
+        name: 'Mapa_Ej',
+        component: MapEj
     },
 ]
 

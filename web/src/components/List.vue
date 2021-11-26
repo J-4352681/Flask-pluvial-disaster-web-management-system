@@ -1,0 +1,73 @@
+<template>
+  <table class="table">
+    <thead>
+      <tr class="table-header">
+        <th v-for="header in headers" :key="header" class="header-field">{{ header }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="item in items" :key="item.id" class="table-item">
+        <td v-for="value in item" :key="value" class="table-item-field">{{ value }}</td>
+        <!-- <router-link :to="{ name: 'ZonaInundable', params: { id: zona.id }}" >
+        <p>{{ zona.nombre }}</p>
+      </router-link> -->
+      </tr>
+    </tbody>
+  </table>
+
+</template>
+
+<script>
+  export default {
+    name: 'list',
+    props: {
+      items: Array,
+      headers: Object
+    },
+    components: {
+      
+    }
+  }
+</script>
+
+<style>
+  .table {
+    margin: 2vw 3vw;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .table-header {
+    padding: 0 1vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid gray
+  }
+
+  .header-field {
+    padding: .5vw;
+    display: flex;
+    width: 100%;
+  }
+
+  .table-item-field {
+    padding: .5vw;
+    display: flex;
+    width: 100%;
+  }
+
+  .table-item {
+    padding: .75vw;
+    margin: .25vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-radius: 5px;
+    color: gray;
+  }
+  .table-item:hover {
+    background: #e3e3e3;
+    cursor: pointer;
+  }
+</style>

@@ -22,7 +22,7 @@
     name: 'list',
     props: {
       items: Array,
-      headers: Object
+      headers: Array
     },
     components: {
       

@@ -2,7 +2,7 @@
   <div>
     <div>
         <h3>Zonas Inundables</h3>
-        <list :headers="shownHeaders" :items="zonas"/>
+        <list :headers="shownHeaders" :items="fetched_zones"/>
     </div>
     <div>
         <MapZones :zones="fetched_zones"/>
@@ -12,17 +12,20 @@
 
 <script>
 import MapZones from '../components/MapZones.vue'
+import list from '../components/List.vue'
 
 export default {
   name: 'ZonasInundables',
   title: 'Zonas Inundables',
   components: {
-      MapZones
+      MapZones,
+      list
   },
   props: {},
   data () {
     return {
-        fetched_zones: []
+        fetched_zones: [],
+        shownHeaders: ['color', 'nombre', 'Acciones']
     };
   },
   created() {

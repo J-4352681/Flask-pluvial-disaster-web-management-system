@@ -1,9 +1,8 @@
 from os import path, environ
-import logging
 
 from flask import Flask, render_template, g, Blueprint, session, redirect, url_for
 from flask_session import Session
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 from config import config
 from app import db
@@ -16,13 +15,12 @@ from app.resources.api.complaint import complaint_api
 from app.resources.api.evacuation_routes import evacuation_routes_api
 from app.resources.api.meeting_points import meeting_points_api
 
-logging.basicConfig()
-logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
 
 
 def create_app(environment="development"):
     # Configuración inicial de la app
     app = Flask(__name__)
+    CORS(app)
 
     # Configuracion de CORS (Cross Origin Resource Sharing)
     CORS(app)

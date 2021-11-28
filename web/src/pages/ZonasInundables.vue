@@ -1,8 +1,8 @@
 <template>
   <div>
     <div>
-        <p>Zonas Inundables</p>
-        <router-link :to="{ name: 'ZonaInundable', params: { id: '4' }}" > Ir a la zona de id 4</router-link>
+        <h3>Zonas Inundables</h3>
+        <list :headers="shownHeaders" :items="zonas"/>
     </div>
     <div>
         <MapZones :zones="fetched_zones"/>
@@ -44,5 +44,7 @@ export default {
 
 
 <style>
+.zona{
 
+}
 </style>

@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <l-map style="height: 800px" :zoom="zoom" :center="center" @click="onClick">
-      <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-      <l-polygon :lat-lngs="polygon.latlngs" :color="polygon.color" :fill="polygon.fill" :fillColor="polygon.fillColor"></l-polygon>
-      <l-marker :lat-lng="markerLatLng"></l-marker>
-    </l-map>
-  </div>
+      <div>
+          <l-map style="height: 800px" :zoom="zoom" :center="center" @click="onClick">
+            <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
+            <l-polygon :lat-lngs="polygon.latlngs" :color="polygon.color" :fill="polygon.fill" :fillColor="polygon.fillColor"></l-polygon>
+            <l-marker :lat-lng="markerLatLng"></l-marker>
+          </l-map>
+      </div>
 </template>
 
 <script>

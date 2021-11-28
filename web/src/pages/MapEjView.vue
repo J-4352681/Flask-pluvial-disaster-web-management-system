@@ -8,7 +8,7 @@
 import MapEj from '../components/MapEj.vue'
 
 export default {
-    name: 'MapEj',
+    name: 'MapEjVIew',
     components: {
         MapEj
     }

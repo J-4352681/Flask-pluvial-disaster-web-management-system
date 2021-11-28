@@ -5,37 +5,24 @@
         <router-link :to="{ name: 'ZonaInundable', params: { id: '4' }}" > Ir a la zona de id 4</router-link>
     </div>
     <div>
-    <l-map style="height: 600px" :zoom="zoom" :center="center">
-      <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-      <div v-for="zone in zones" :key="zone.id">
-        <l-polygon :lat-lngs="[zone.coordenadas]" :color="zone.color" :fill="true" :fillColor="zone.color"></l-polygon>
-      </div>
-    </l-map>
+        <MapZones :zones="fetched_zones"/>
     </div>
   </div>
 </template>
 
 <script>
-import {LMap, LTileLayer, LPolygon} from '@vue-leaflet/vue-leaflet';
+import MapZones from '../components/MapZones.vue'
 
 export default {
-  components: { // Componentes en: https://vue2-leaflet.netlify.app/components/
-    LMap,
-    LTileLayer,
-    LPolygon
-  },
   name: 'ZonasInundables',
   title: 'Zonas Inundables',
+  components: {
+      MapZones
+  },
   props: {},
   data () {
     return {
-      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      attribution:
-        '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      zoom: 15,
-      center: [-34.92149, -57.954597],
-      
-      zones: [],
+        fetched_zones: []
     };
   },
   created() {
@@ -45,8 +32,8 @@ export default {
       return response.json();
     }).then((json) => {
       console.log(json);
-      this.zones = json.zonas;
-      console.log(this.zones);
+      this.fetched_zones = json.zonas;
+      console.log(this.fetched_zones);
     }).catch((e) => {
       console.log('problema');
       console.log(e)

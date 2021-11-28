@@ -4,12 +4,13 @@
             <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
             <l-polygon :lat-lngs="polygon.latlngs" :color="polygon.color" :fill="polygon.fill" :fillColor="polygon.fillColor"></l-polygon>
             <l-marker :lat-lng="markerLatLng"></l-marker>
+            <l-polyline :lat-lngs="polyline.latlngs" :color="polyline.color"></l-polyline>
           </l-map>
       </div>
 </template>
 
 <script>
-import {LMap, LTileLayer, LMarker, LPolygon} from '@vue-leaflet/vue-leaflet';
+import {LMap, LTileLayer, LMarker, LPolygon, LPolyline} from '@vue-leaflet/vue-leaflet';
 
 export default {
   name: 'MapEj',
@@ -17,7 +18,8 @@ export default {
     LMap,
     LTileLayer,
     LMarker,
-    LPolygon
+    LPolygon,
+    LPolyline
   },
   data () {
     return {
@@ -34,6 +36,10 @@ export default {
         fill: true,
         fillColor: 'green'
       },
+      polyline: {
+        latlngs: [[-34.91591853170243, -57.95511211366520], [-34.9278823537, -57.95916366681926], [-34.92957122347630, -57.94010925397745]],
+        color: 'red'
+      }
     };
   },
   methods: {

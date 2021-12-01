@@ -27,3 +27,5 @@ tomli==1.2.1
 typing-extensions==3.10.0.2
 Werkzeug==2.0.2
 WTForms==2.3.3
+oauthlib==2.0.6
+requests-oauthlib==0.8.0

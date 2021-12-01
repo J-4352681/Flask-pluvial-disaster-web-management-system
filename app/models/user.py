@@ -30,6 +30,7 @@ class User(db.Model):
     active = Column(Boolean, nullable=false, default=true) # Los usuarios de rol administrador no podran ser bloqueados
     roles = relationship("Role", secondary=association_table_user_has_role)
     created_at = Column(DateTime(), default=datetime.now()) # No es necesario pero puede ser util
+    approved = Column(Boolean, nullable=false, default=true) # Necesario para el login por otras aplicaciones
 
 
     @classmethod
@@ -199,6 +200,12 @@ class User(db.Model):
             user.active = 1
             db.session.commit()
 
+    @classmethod
+    def approve_acount(cls, user=None):
+        """Aprueva una cuenta de usuario, permitiendole hacer login."""
+        if not user.approved:
+            user.approved = 1
+            db.session.commit()
 
     @classmethod
     def assign_role(cls, user=None, role=None):

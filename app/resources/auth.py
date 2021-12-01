@@ -14,6 +14,10 @@ def authenticate():
     if not user:
         flash("Usuario o clave incorrecto.")
         return redirect(url_for("auth_login"))
+    
+    if not user.approved:
+        flash("Usuario esta esperando aprovacion.")
+        return redirect(url_for("auth_login"))
 
     session["user"] = user
     session["user_permits"] = user.get_permits()

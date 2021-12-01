@@ -8,7 +8,7 @@ from app.helpers.auth import assert_permit, authenticated
 from app.helpers.filter import Filter
 from app.helpers.template_pages import FormPage, DBModelIndexPage, ItemDetailsPage
 
-from app.forms.user_forms import UserCreationForm, UserModificationForm, UserProfileModificationForm
+from app.forms.user_forms import UserCreationForm, UserModificationForm, UserProfileModificationForm, UnapprovedUserModificationForm
 from app.forms.filter_forms import UserFilter
 
 # Protected resources
@@ -47,8 +47,8 @@ def create(form, user):
     """Verifica que que quien crea el usuario tenga los permisos de modificar la BD con un alta de usuario"""
     assert_permit(session, "user_create")
 
-    form.populate_obj(flood_zone)
-    FloodZone.create_from_flood_zone(flood_zone)
+    form.populate_obj(user)
+    User.create_from_user(user)
 
 def block(user_id):
     """Cambiara el estado de un usuario de "activo" a "bloqueado". Los usuarios administradores no pueden ser bloqueados."""
@@ -104,6 +104,9 @@ def modify(user_id):
     if user_id == session.get("user").id:
         return redirect(url_for("profile_modify", user_id=user_id))
 
+    if not user.approved:
+        return redirect(url_for("modify_unapproved_user", user_id=user_id))
+
     if form.validate_on_submit():
         form.populate_obj(user)
         User.update()
@@ -116,7 +119,26 @@ def modify(user_id):
     )
     
     return render_template("generic/pages/form.html", temp_interface=temp_interface)
+
+def modify_unapproved_user(user_id):
+    """Modifica los datos de un usuario no aprovado."""
+
+    user = User.find_by_id(user_id)
+    form = UnapprovedUserModificationForm(obj=user)
+
+    if form.validate_on_submit():
+        form.populate_obj(user)
+        User.update()
+        return redirect(url_for('user_index'))
+
+    temp_interface = FormPage(
+        form, url_for("modify_unapproved_user", user_id=user.id),
+        title="Edición de usuario no aprovado", subtitle="Editando el usuario no aprovado "+str(user.first_name),
+        return_url=url_for('user_index')
+    )
     
+    return render_template("generic/pages/form.html", temp_interface=temp_interface)
+
 def profile():
     authenticated(session)
     user = session.get("user")

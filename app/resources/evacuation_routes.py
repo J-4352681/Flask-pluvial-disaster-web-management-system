@@ -44,6 +44,9 @@ def show(evroute_id):
     
     return render_template("evacuation_routes/pages/show.html", temp_interface=temp_interface)
 
+def parse_coordinates(coords):
+    return coords if type(coords[0]) is not dict else '\n'.join(list(map(lambda c: f'({c["lat"]}, {c["lng"]})', coords)))
+
 def new():
     """Devuelve el template para crear una nueva ruta de evacuacion."""
     assert_permit(session, "evroutes_new")

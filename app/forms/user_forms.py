@@ -31,6 +31,14 @@ class UserModificationForm(UserForm):
         super(UserModificationForm, self).__init__(*args, **kwargs)
         self.roles.default = [role.id for role in User.find_by_id(kwargs["obj"].id).roles]
 
+class UnapprovedUserModificationForm(UserForm):
+    id = IntegerField(widget=HiddenInput())
+    approved = BooleanField("Aprovar cuenta del usuario")
+
+    def __init__(self, *args, **kwargs):
+        super(UnapprovedUserModificationForm, self).__init__(*args, **kwargs)
+        self.roles.default = [role.id for role in User.find_by_id(kwargs["obj"].id).roles]
+
 
 class UserCreationForm(UserForm):
     password = PasswordField("Contraseña", validators=[DataRequired(), Length(1,30,'El nombre debe de ser de entre 1 y 30 caracteres')])

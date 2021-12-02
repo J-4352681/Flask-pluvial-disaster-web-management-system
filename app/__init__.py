@@ -1,8 +1,8 @@
-from os import path, environ
-import logging
+from os import path, environ, urandom
 
 from flask import Flask, render_template, g, Blueprint, session, redirect, url_for
 from flask_session import Session
+from flask_cors import CORS, cross_origin
 
 from config import config
 from app import db
@@ -12,14 +12,18 @@ from app.helpers import handler
 from app.helpers import auth as helper_auth
 from app.resources.api.flood_zone import flood_zone_api
 from app.resources.api.complaint import complaint_api
+from app.resources.api.evacuation_routes import evacuation_routes_api
+from app.resources.api.meeting_points import meeting_points_api
 
-logging.basicConfig()
-logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
 
 
 def create_app(environment="development"):
     # Configuración inicial de la app
     app = Flask(__name__)
+    CORS(app)
+
+    # Configuracion de CORS (Cross Origin Resource Sharing)
+    CORS(app)
 
     # Carga de la configuración
     env = environ.get("FLASK_ENV", environment)
@@ -32,16 +36,26 @@ def create_app(environment="development"):
     # Configure db
     db.init_app(app)
 
+    # Configuracion de OAuth
+    app.secret_key = environ.get("SECRET_KEY") or urandom(24)
+
     # Funciones que se exportan al contexto de Jinja2
     app.jinja_env.globals.update(is_authenticated=helper_auth.authenticated)
     app.jinja_env.globals.update(get_navigation_actions=helper_auth.get_navigation_actions)
     app.jinja_env.globals.update(private_theme=configObject.getPrivatePalette)
+    app.jinja_env.globals.update(parsed_coordinates=evacuation_routes.parse_coordinates)
 
     # Autenticación
     app.add_url_rule("/iniciar_sesion", "auth_login", auth.login)
     app.add_url_rule("/cerrar_sesion", "auth_logout", auth.logout)
     app.add_url_rule(
         "/autenticacion", "auth_authenticate", auth.authenticate, methods=["POST"]
+    )
+    app.add_url_rule(
+        "/autenticacion/social", "auth_authenticate_social", auth.google_login
+    )
+    app.add_url_rule(
+        "/login/callback", "auth_callback", auth.callback, methods=["GET"]
     )
 
     # Rutas de Usuarios
@@ -56,6 +70,7 @@ def create_app(environment="development"):
     app.add_url_rule("/usuarios/rol", "user_unassing_role", user.unassign_role, methods=["DELETE"])
     app.add_url_rule("/perfil", "profile_index", user.profile)
     app.add_url_rule("/perfil/edit", "profile_modify", user.profile_modify, methods=["GET", "POST"])
+    app.add_url_rule("/usuarios/approve/<int:user_id>", "user_approve", user.approve, methods=["GET", "POST"])
     
     # Rutas de Puntos de encuentro
     app.add_url_rule("/puntos_encuentro", "points_index", points.index)
@@ -114,6 +129,8 @@ def create_app(environment="development"):
     api = Blueprint("api", __name__, url_prefix="/api")
     api.register_blueprint(flood_zone_api)
     api.register_blueprint(complaint_api)
+    api.register_blueprint(evacuation_routes_api)
+    api.register_blueprint(meeting_points_api)
     app.register_blueprint(api)
 
     # Handlers

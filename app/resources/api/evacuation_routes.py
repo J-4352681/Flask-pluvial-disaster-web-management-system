@@ -1,0 +1,24 @@
+from flask import jsonify, Blueprint, request, abort
+from app.models.evacuation_route import EvacuationRoute
+from app.schemas.evacuation_routes import EvacuationRoutesPaginationSchema, EvacuationRoutesSchema
+import logging
+logger = logging.getLogger(__name__) 
+
+evacuation_routes_api = Blueprint("evacuation_routes", __name__, url_prefix="/recorridos-evacuacion")
+
+@evacuation_routes_api.get("/")
+def index():
+    page = request.args.get("page", "1")
+
+    try:
+        page = int(page)
+        evacuation_routes_page = EvacuationRoute.all_paginated(page)
+    except:
+        logger.exception("Error al traer la informacion sobre rutas de evacuacion.")
+        abort(500)
+
+    if evacuation_routes_page.items: 
+        evacuation_routes = EvacuationRoutesPaginationSchema().dump(evacuation_routes_page)
+        return jsonify(evacuation_routes)
+    else:
+        abort(404)

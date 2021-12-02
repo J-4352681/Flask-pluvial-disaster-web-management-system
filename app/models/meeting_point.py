@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, JSON
 from sqlalchemy.sql.expression import false, true
 from sqlalchemy.sql.sqltypes import Boolean
 from app.db import db
+from app.resources.config import Config
 
 class MeetingPoint(db.Model):
     """Clase que representa los puntos de encuentro en la base datos"""
@@ -49,6 +50,11 @@ class MeetingPoint(db.Model):
             cls.state == false
         ).all() 
         return res
+
+    @classmethod
+    def all_paginated(cls, page):
+        per_page = Config.get().elements_per_page
+        return cls.query.paginate(page=page, per_page=per_page)
     
     @classmethod
     def find_by_name(cls, name=None, excep=[]):

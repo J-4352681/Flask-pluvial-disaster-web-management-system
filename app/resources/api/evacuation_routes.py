@@ -22,3 +22,18 @@ def index():
         return jsonify(evacuation_routes)
     else:
         abort(404)
+
+@evacuation_routes_api.get("/all")
+def fetch_all():
+
+    try:
+        evacuation_routes_all = EvacuationRoute.all()
+    except:
+        logger.exception("Error al traer la informacion sobre rutas de evacuacion.")
+        abort(500)
+
+    if evacuation_routes_all: 
+        evacuation_routes = EvacuationRoutesSchema(many=True).dump(evacuation_routes_all)
+        return jsonify(routes = evacuation_routes)
+    else:
+        abort(404)

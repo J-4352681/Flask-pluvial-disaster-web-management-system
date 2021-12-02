@@ -7,7 +7,7 @@
         <l-polyline :lat-lngs="line.coordenadas" :color="line.color"></l-polyline>
       </div>
       <div v-for="marker in markers" :key="marker.id">
-        <l-marker :lat-lng="marker" ></l-marker>
+        <l-marker :lat-lng="marker.coordenadas" ></l-marker>
       </div>
     </l-map>
     </div>
@@ -26,8 +26,8 @@ export default {
   },
   name: 'MapLinesMarkers',
   props: { 
-    lines: [],
-    markers: []
+    lines: {},
+    markers: {}
   },
   data () {
     return {

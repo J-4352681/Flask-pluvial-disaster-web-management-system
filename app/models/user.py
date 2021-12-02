@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, Integer, String, DateTime, ForeignKey, and_
+from sqlalchemy import Table, Column, String, DateTime, ForeignKey, and_, Integer
 from sqlalchemy.sql.expression import false, true
 from sqlalchemy.sql.sqltypes import Boolean
 from sqlalchemy.orm import relationship
@@ -49,12 +49,12 @@ class User(db.Model):
 
 
     @classmethod
-    def create_social(cls, id=None, email=None, first_name=None, last_name=None):
+    def create_social(cls, email=None, first_name=None, last_name=None, username=None):
         """Crea un nuevo usuario pendiente de aprobación."""
-        new_user = User(email=email, first_name=first_name, last_name=last_name, approved=False)
-        new_user.id = id
+        new_user = User(email=email, first_name=first_name, last_name=last_name, username=username, approved=False, active=True)
         db.session.add(new_user)
         db.session.commit()
+        return new_user
 
 
     @classmethod
@@ -214,6 +214,7 @@ class User(db.Model):
         """Aprueva una cuenta de usuario, permitiendole hacer login."""
         if not user.approved:
             user.approved = 1
+            user.active = 1
             db.session.commit()
 
     @classmethod

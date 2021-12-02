@@ -19,8 +19,14 @@
     </section>
 
     <section class="container">
-        <p> --- ó --- </p>
-        <a type="button" class="btn button primary" href={{ url_for("auth_authenticate_social") }}>Iniciar sesión con Google</a>
+        <div class="row my-2">
+            <div class="col-lg-4 col-0"></div>
+            <div class="col card mx-2 p-2">
+                <p style="margin-left: auto; margin-right: auto;"> --- ó --- </p>
+                <a type="button" class="btn btn-primary" href={{ url_for("auth_authenticate_social") }}>Iniciar sesión con Google</a>
+            </div>
+            <div class="col-lg-4 col-0"></div>
+        </div>
     </section>
 
 {% endblock %}

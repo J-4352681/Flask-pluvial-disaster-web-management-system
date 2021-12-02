@@ -75,22 +75,22 @@ def callback():
     uri, headers, body = client.add_token(userinfo_endpoint)
     userinfo_response = requests.get(uri, headers=headers, data=body)
     if userinfo_response.json().get("email_verified"):
-        unique_id = userinfo_response.json()["sub"]
         users_email = userinfo_response.json()["email"]
         users_first_name = userinfo_response.json()["given_name"]
         users_last_name = userinfo_response.json()["family_name"]
+        users_username = userinfo_response.json()["name"]
     else:
         return "User email not available or not verified by Google.", 400
-        
-    user = User.find_by_id(unique_id)
-
-    # Doesn't exist? Add it to the database.
-    if not user:
-        User.create_social(
-            id=unique_id, 
+    
+    found_user = User.find_by_email_exact(users_email)
+    if found_user:
+        user = found_user.pop()
+    else:
+        user = User.create_social( 
             email=users_email, 
             first_name=users_first_name, 
-            last_name=users_last_name
+            last_name=users_last_name,
+            username=users_username
         )
 
     # Begin user session by logging the user in

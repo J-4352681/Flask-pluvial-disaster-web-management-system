@@ -3,8 +3,14 @@
 {% block action_icons %}
     {% with args=args.item %}
           <td class="col">
-            {% if "user_modify" in session.user_permits %}
+            {% if "user_modify" in session.user_permits and args.approved == 1 %}
                 {% with args={"url": url_for("user_modify", user_id=args.id), "icon_name": "pencil", "title": "Editar"} %}
+                    {% include "generic/elements/action_icon.html" %}
+                {% endwith %}
+            {% endif %}
+
+            {% if "user_approve" in session.user_permits and args.approved == 0 %}
+                {% with args={"url": url_for("user_approve", user_id=args.id), "icon_name": "checkmark", "title": "Aprobar"} %}
                     {% include "generic/elements/action_icon.html" %}
                 {% endwith %}
             {% endif %}

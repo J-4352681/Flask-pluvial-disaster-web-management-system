@@ -105,7 +105,7 @@ def modify(user_id):
         return redirect(url_for("profile_modify", user_id=user_id))
 
     if not user.approved:
-        return redirect(url_for("modify_unapproved_user", user_id=user_id))
+        return redirect(url_for("user_approve", user_id=user_id))
 
     if form.validate_on_submit():
         form.populate_obj(user)
@@ -141,8 +141,7 @@ def approve(user_id):
     return render_template("generic/pages/form.html", temp_interface=temp_interface)
 
 def profile():
-    authenticated(session)
-    user = session.get("user")
+    user = authenticated(session)
 
     temp_interface = ItemDetailsPage(
         {
@@ -153,18 +152,20 @@ def profile():
         }, user,
         title="Perfil del usuario "+ str(user.first_name), subtitle="Datos del usuario",
         return_url=url_for("user_index"),
-        edit_url=url_for("user_modify", user_id=user.id)
+        edit_url=url_for("profile_modify", user_id=user.id)
     )
     
     return render_template("generic/pages/item_details.html", temp_interface=temp_interface)
 
 def profile_modify():
     """Modifica los datos de un usuario."""
-    authenticated(session)
-
-    user_id = session.get("user").id
-    user = User.find_by_id(user_id)
+    user = authenticated(session)
+    user = User.find_by_id(user.id)
     form = UserProfileModificationForm(obj=user)
+
+    if not user.approved:
+        flash("Debes esperar a ser aprobado para poder editar tus datos.")
+        return redirect(url_for("profile_index"))
 
     if form.validate_on_submit():
         form.populate_obj(user)

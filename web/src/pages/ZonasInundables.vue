@@ -1,25 +1,27 @@
 <template>
-  <div>
+  <pageTitle title='Sección de zonas inundables' subtitle='En esta sección podrá visualizar las zonas inundables de la ciudad'/>
+  <section class="container">
     <div>
-        <h3>Zonas Inundables</h3>
         <list :headers="shownHeaders" :items="fetched_zones"/>
     </div>
     <div>
         <MapZones :zones="fetched_zones"/>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
 import MapZones from '../components/MapZones.vue'
 import list from '../components/List.vue'
+import pageTitle from '../components/PageTitle.vue'
 
 export default {
   name: 'ZonasInundables',
   title: 'Zonas Inundables',
   components: {
       MapZones,
-      list
+      list,
+      pageTitle
   },
   props: {},
   data () {

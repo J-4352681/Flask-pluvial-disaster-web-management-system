@@ -70,6 +70,7 @@ def create_app(environment="development"):
     app.add_url_rule("/usuarios/rol", "user_unassing_role", user.unassign_role, methods=["DELETE"])
     app.add_url_rule("/perfil", "profile_index", user.profile)
     app.add_url_rule("/perfil/edit", "profile_modify", user.profile_modify, methods=["GET", "POST"])
+    app.add_url_rule("/usuarios/modify_unapproved_user/<int:user_id>", "modify_unapproved_user", user.modify_unapproved_user, methods=["GET", "POST"])
     
     # Rutas de Puntos de encuentro
     app.add_url_rule("/puntos_encuentro", "points_index", points.index)

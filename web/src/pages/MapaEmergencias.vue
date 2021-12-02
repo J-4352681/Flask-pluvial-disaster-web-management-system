@@ -45,7 +45,7 @@ export default {
   },
   created() {
     //Rutas de evacuacion
-    fetch('http://localhost:5000/api/recorridos-evacuacion/all').then((response) => { 
+    fetch('https://127.0.0.1:5000/api/recorridos-evacuacion/all').then((response) => { 
       console.log('primeros');
       console.log(response);
       return response.json();
@@ -58,7 +58,7 @@ export default {
       console.log(e)
     });
     //Puntos de encuentro
-    fetch('http://localhost:5000/api/puntos-encuentro/all').then((response) => { 
+    fetch('https://127.0.0.1:5000/api/puntos-encuentro/all').then((response) => { 
       console.log('primeros');
       console.log(response);
       return response.json();

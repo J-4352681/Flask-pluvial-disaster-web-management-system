@@ -33,7 +33,7 @@ export default {
     };
   },
   created() {
-    fetch('http://localhost:5000/api/zonas_inundables/all').then((response) => { //API que devuelve todas las zonas inundables
+    fetch('https://127.0.0.1:5000/api/zonas_inundables/all').then((response) => { //API que devuelve todas las zonas inundables
       console.log('primeros');
       console.log(response);
       return response.json();

@@ -1,4 +1,4 @@
-from os import path, environ
+from os import path, environ, urandom
 
 from flask import Flask, render_template, g, Blueprint, session, redirect, url_for
 from flask_session import Session
@@ -36,6 +36,9 @@ def create_app(environment="development"):
     # Configure db
     db.init_app(app)
 
+    # Configuracion de OAuth
+    app.secret_key = environ.get("SECRET_KEY") or urandom(24)
+
     # Funciones que se exportan al contexto de Jinja2
     app.jinja_env.globals.update(is_authenticated=helper_auth.authenticated)
     app.jinja_env.globals.update(get_navigation_actions=helper_auth.get_navigation_actions)
@@ -47,6 +50,12 @@ def create_app(environment="development"):
     app.add_url_rule("/cerrar_sesion", "auth_logout", auth.logout)
     app.add_url_rule(
         "/autenticacion", "auth_authenticate", auth.authenticate, methods=["POST"]
+    )
+    app.add_url_rule(
+        "/autenticacion/social", "auth_authenticate_social", auth.google_login
+    )
+    app.add_url_rule(
+        "/login/callback", "auth_callback", auth.callback, methods=["GET"]
     )
 
     # Rutas de Usuarios
@@ -61,6 +70,7 @@ def create_app(environment="development"):
     app.add_url_rule("/usuarios/rol", "user_unassing_role", user.unassign_role, methods=["DELETE"])
     app.add_url_rule("/perfil", "profile_index", user.profile)
     app.add_url_rule("/perfil/edit", "profile_modify", user.profile_modify, methods=["GET", "POST"])
+    app.add_url_rule("/usuarios/approve/<int:user_id>", "user_approve", user.approve, methods=["GET", "POST"])
     
     # Rutas de Puntos de encuentro
     app.add_url_rule("/puntos_encuentro", "points_index", points.index)

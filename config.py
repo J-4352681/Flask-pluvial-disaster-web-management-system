@@ -11,6 +11,9 @@ class Config(object):
     DB_PASS = "db_pass"
     DB_NAME = "db_name"
     SECRET_KEY = "secret"
+    GOOGLE_DISCOVERY_URL = (
+        "https://accounts.google.com/.well-known/openid-configuration"
+    )
 
     @staticmethod
     def configure(app):
@@ -29,6 +32,10 @@ class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = (
         f"mysql+pymysql://{DB_USER}:{DB_PASS}@{DB_HOST}:3306/{DB_NAME}"
     )
+    GOOGLE_CLIENT_ID = environ.get("GOOGLE_CLIENT_ID", "807725485516-fcfop9t624v60qrlfoc52rulo5j953e0.apps.googleusercontent.com")
+    GOOGLE_CLIENT_SECRET = environ.get("GOOGLE_CLIENT_SECRET", "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")
+    GOOGLE_REDIRECT_URI = environ.get("GOOGLE_REDIRECT_URI", "https://admin-grupo38.proyecto2021.linti.unlp.edu.ar/login/callback")
+    
 
 class DevelopmentConfig(Config):
     """Development configuration."""
@@ -41,6 +48,9 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = (
         f"mysql+pymysql://{DB_USER}:{DB_PASS}@{DB_HOST}:3306/{DB_NAME}"
     )
+    GOOGLE_CLIENT_ID = environ.get("GOOGLE_CLIENT_ID", None)
+    GOOGLE_CLIENT_SECRET = environ.get("GOOGLE_CLIENT_SECRET", None)
+    GOOGLE_REDIRECT_URI = environ.get("GOOGLE_REDIRECT_URI", None)
 
 
 class TestingConfig(Config):

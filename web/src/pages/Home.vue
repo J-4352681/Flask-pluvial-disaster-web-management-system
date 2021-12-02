@@ -19,7 +19,21 @@ export default {
   },
   data() {
     return {
+      
       mosaicElements: [
+        {
+          title: 'Visualizar los puntos de encuentro cercanos',
+          description: 'Puede ver en un mapa dónde se\
+          encuentran los diferentes puntos de encuentro\
+          cercanos a su ubicación.',
+          linkName: '/'
+        },
+        {
+          title: 'Visualizar recorrido de evacuación cercano',
+          description: 'Puede ver en el mapa el recorrido de\
+          evacuación más adecuado de acuerdo a su ubicación.',
+          linkName: '/'
+        },
         {
           title: 'Visualizar zonas inundables de la ciudad',
           description: 'Puede ver en un mapa dónde se\
@@ -39,18 +53,6 @@ export default {
           description: 'Puede visualizar el mapa donde\
           se encuentran ubicadas las denuncias realizadas.',
           linkName: '/mapa-denuncias'
-        },
-        {
-          title: 'Ver el mapa de emergencias',
-          description: 'Puede ver el mapa con información\
-          sobre cómo actuar en situaciones de emergencia.',
-          linkName: '/mapa-emergencias'
-        },
-        {
-          title: 'Ver estadísticas',
-          description: 'Puede ver las estadísticas\
-          en base a la informacióno de los demás apartados.',
-          linkName: '/estadisticas'
         }
       ]
     }

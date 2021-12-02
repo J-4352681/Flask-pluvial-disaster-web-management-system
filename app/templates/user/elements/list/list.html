@@ -2,10 +2,12 @@
 
 {% block list_row %}
     {% for item in args['items'] %}
-      {% if item.active == 1 %}
-        <tr class="row">
-      {% else %}
+      {% if item.approved == 0 %}
+        <tr class="row" style="background-color: lightblue;">
+      {% elif item.active == 0 %}
         <tr class="row" style="background-color: lightcoral;">
+      {% else %}
+        <tr class="row">
       {% endif %}
         {% with args={"item": item, "attr_names": args.attr_names} %}
             {% include "user/elements/list/list_row.html" %}

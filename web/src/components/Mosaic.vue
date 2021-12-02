@@ -35,7 +35,6 @@ export default {
     display: block;
 
     text-align: justify;
-    padding: 2%;
     border-radius: 5px;
     box-shadow: 0 0 10px #e3e3e3;
   }
@@ -63,6 +62,7 @@ export default {
 
   @media (max-width: 768px) {
     .mosaic-element {
+      padding: 5%;
       margin: 3% 0 2% 0;
     }
 
@@ -79,6 +79,7 @@ export default {
     }
 
     .mosaic-element {
+      padding: 2%;
       width: 40%;
       margin: 10px;
     }

@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, Integer, String, DateTime, ForeignKey, and_
+from sqlalchemy import Table, Column, String, DateTime, ForeignKey, and_, Integer
 from sqlalchemy.sql.expression import false, true
 from sqlalchemy.sql.sqltypes import Boolean
 from sqlalchemy.orm import relationship
@@ -46,6 +46,15 @@ class User(db.Model):
         """Crea un nuevo usuario con el usuario enviado por parámetro."""
         db.session.add(new_user)
         db.session.commit()
+
+
+    @classmethod
+    def create_social(cls, email=None, first_name=None, last_name=None, username=None):
+        """Crea un nuevo usuario pendiente de aprobación."""
+        new_user = User(email=email, first_name=first_name, last_name=last_name, username=username, approved=False, active=True)
+        db.session.add(new_user)
+        db.session.commit()
+        return new_user
 
 
     @classmethod
@@ -205,6 +214,7 @@ class User(db.Model):
         """Aprueva una cuenta de usuario, permitiendole hacer login."""
         if not user.approved:
             user.approved = 1
+            user.active = 1
             db.session.commit()
 
     @classmethod
@@ -237,7 +247,7 @@ class User(db.Model):
         return [("username","Nombre de usuario"), ("first_name","Nombre"), ("last_name","Apellido"), ("email","Mail")]
 
 
-    def __init__(self, first_name=None, last_name=None, username=None, email=None, password=None, active=False, roles=[]):
+    def __init__(self, first_name=None, last_name=None, username=None, email=None, password=None, active=False, roles=[], approved=True):
         self.first_name = first_name
         self.last_name = last_name
         self.username = username
@@ -245,6 +255,7 @@ class User(db.Model):
         self.password = password #Los roles se pueden agregar a parte y el resto de atributos se agregan por defecto
         self.active = active
         self.roles = roles
+        self.approved = approved
 
 
     def is_admin(self):

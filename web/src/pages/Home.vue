@@ -1,5 +1,13 @@
 <template>
     <pageTitle title='Página principal' subtitle='Bienvenido!'/>
+    <section class="container text-justify">
+      <p class="m-2">
+        En este portal encontrará un protocolo de acción e información 
+        relevante referente a las situaciones de inundación o precipitaciones 
+        de riesgo en la cuidad de La Plata y zonas aledañas. Entre ellas se 
+        encuentran las listadas a continuación.
+      </p>
+    </section>
     <mosaic title='En la app podrá realizar las siguientes acciones' :elements="mosaicElements"/>
 </template>
 
@@ -21,6 +29,19 @@ export default {
     return {
       mosaicElements: [
         {
+          title: 'Visualizar los puntos de encuentro cercanos',
+          description: 'Puede ver en un mapa dónde se\
+          encuentran los diferentes puntos de encuentro\
+          cercanos a su ubicación.',
+          linkName: '/'
+        },
+        {
+          title: 'Visualizar recorrido de evacuación cercano',
+          description: 'Puede ver en el mapa el recorrido de\
+          evacuación más adecuado de acuerdo a su ubicación.',
+          linkName: '/'
+        },
+        {
           title: 'Visualizar zonas inundables de la ciudad',
           description: 'Puede ver en un mapa dónde se\
           encuentran las diferentes zonas inundables\
@@ -39,18 +60,6 @@ export default {
           description: 'Puede visualizar el mapa donde\
           se encuentran ubicadas las denuncias realizadas.',
           linkName: '/mapa-denuncias'
-        },
-        {
-          title: 'Ver el mapa de emergencias',
-          description: 'Puede ver el mapa con información\
-          sobre cómo actuar en situaciones de emergencia.',
-          linkName: '/mapa-emergencias'
-        },
-        {
-          title: 'Ver estadísticas',
-          description: 'Puede ver las estadísticas\
-          en base a la informacióno de los demás apartados.',
-          linkName: '/estadisticas'
         }
       ]
     }
@@ -60,5 +69,17 @@ export default {
 
 
 <style>
+  .text-justify {text-align: justify;}
 
+  @media (max-width: 768px) {
+    .m-2 {
+      margin: 10% 2%;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .m-2 {
+      margin: 35px 2% 35px 2%;
+    }
+  }
 </style>

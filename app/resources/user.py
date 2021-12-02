@@ -120,8 +120,9 @@ def modify(user_id):
     
     return render_template("generic/pages/form.html", temp_interface=temp_interface)
 
-def modify_unapproved_user(user_id):
+def approve(user_id):
     """Modifica los datos de un usuario no aprovado."""
+    assert_permit(session, "user_approve")
 
     user = User.find_by_id(user_id)
     form = UnapprovedUserModificationForm(obj=user)
@@ -132,7 +133,7 @@ def modify_unapproved_user(user_id):
         return redirect(url_for('user_index'))
 
     temp_interface = FormPage(
-        form, url_for("modify_unapproved_user", user_id=user.id),
+        form, url_for("user_approve", user_id=user.id),
         title="Edición de usuario no aprovado", subtitle="Editando el usuario no aprovado "+str(user.first_name),
         return_url=url_for('user_index')
     )

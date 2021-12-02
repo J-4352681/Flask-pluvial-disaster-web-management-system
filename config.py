@@ -34,7 +34,7 @@ class ProductionConfig(Config):
     )
     GOOGLE_CLIENT_ID = environ.get("GOOGLE_CLIENT_ID", "807725485516-fcfop9t624v60qrlfoc52rulo5j953e0.apps.googleusercontent.com")
     GOOGLE_CLIENT_SECRET = environ.get("GOOGLE_CLIENT_SECRET", "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")
-    GOOGLE_REDIRECT_URI = environ.get("GOOGLE_REDIRECT_URI", "https://admin-grupo38.proyecto2021.linti.unlp.edu.ar")
+    GOOGLE_REDIRECT_URI = environ.get("GOOGLE_REDIRECT_URI", "https://admin-grupo38.proyecto2021.linti.unlp.edu.ar/login/callback")
     
 
 class DevelopmentConfig(Config):

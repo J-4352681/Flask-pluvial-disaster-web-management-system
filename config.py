@@ -32,9 +32,15 @@ class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = (
         f"mysql+pymysql://{DB_USER}:{DB_PASS}@{DB_HOST}:3306/{DB_NAME}"
     )
+<<<<<<< HEAD
+    GOOGLE_CLIENT_ID = environ.get("GOOGLE_CLIENT_ID", "807725485516-fcfop9t624v60qrlfoc52rulo5j953e0.apps.googleusercontent.com")
+    GOOGLE_CLIENT_SECRET = environ.get("GOOGLE_CLIENT_SECRET", "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")
+    GOOGLE_REDIRECT_URI = environ.get("GOOGLE_REDIRECT_URI", "https://admin-grupo38.proyecto2021.linti.unlp.edu.ar")
+=======
     GOOGLE_CLIENT_ID = environ.get("807725485516-fcfop9t624v60qrlfoc52rulo5j953e0.apps.googleusercontent.com", None)
     GOOGLE_CLIENT_SECRET = environ.get("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", None)
     GOOGLE_REDIRECT_URI = environ.get("https://admin-grupo38.proyecto2021.linti.unlp.edu.ar", None)
+>>>>>>> master
     
 
 class DevelopmentConfig(Config):

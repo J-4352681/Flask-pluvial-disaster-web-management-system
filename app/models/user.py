@@ -49,6 +49,15 @@ class User(db.Model):
 
 
     @classmethod
+    def create_social(cls, id=None, email=None, first_name=None, last_name=None):
+        """Crea un nuevo usuario pendiente de aprobación."""
+        new_user = User(email=email, first_name=first_name, last_name=last_name, approved=False)
+        new_user.id = id
+        db.session.add(new_user)
+        db.session.commit()
+
+
+    @classmethod
     def update(cls):
         """Actualiza los datos de un usuario enviado como parametro."""
         db.session.commit()
@@ -237,7 +246,7 @@ class User(db.Model):
         return [("username","Nombre de usuario"), ("first_name","Nombre"), ("last_name","Apellido"), ("email","Mail")]
 
 
-    def __init__(self, first_name=None, last_name=None, username=None, email=None, password=None, active=False, roles=[]):
+    def __init__(self, first_name=None, last_name=None, username=None, email=None, password=None, active=False, roles=[], approved=True):
         self.first_name = first_name
         self.last_name = last_name
         self.username = username
@@ -245,6 +254,7 @@ class User(db.Model):
         self.password = password #Los roles se pueden agregar a parte y el resto de atributos se agregan por defecto
         self.active = active
         self.roles = roles
+        self.approved = approved
 
 
     def is_admin(self):

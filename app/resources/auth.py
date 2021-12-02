@@ -86,7 +86,12 @@ def callback():
 
     # Doesn't exist? Add it to the database.
     if not user:
-        User.create_social(id=unique_id, email=users_email, fist_name=users_first_name, last_name=users_last_name)
+        User.create_social(
+            id=unique_id, 
+            email=users_email, 
+            first_name=users_first_name, 
+            last_name=users_last_name
+        )
 
     # Begin user session by logging the user in
     return login_user(user)

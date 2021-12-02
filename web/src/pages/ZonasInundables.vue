@@ -1,12 +1,8 @@
 <template>
   <pageTitle title='Sección de zonas inundables' subtitle='En esta sección podrá visualizar las zonas inundables de la ciudad'/>
   <section class="container">
-    <div>
-        <list :headers="shownHeaders" :items="fetched_zones"/>
-    </div>
-    <div>
-        <MapZones :zones="fetched_zones"/>
-    </div>
+    <list :headers="shownHeaders" :items="fetched_zones"/>
+    <MapZones :zones="fetched_zones"/>
   </section>
 </template>
 

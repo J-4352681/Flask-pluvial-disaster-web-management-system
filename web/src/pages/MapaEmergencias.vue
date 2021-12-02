@@ -1,18 +1,20 @@
 <template>
-    <div>
-        <p>Mapa para Emergencias</p>
-        <MapLinesMarkers :lines="fetched_lines" :markers="fetched_points" />
-    </div>
+  <pageTitle title='Sección de mapa de emergencias' subtitle='En esta sección podrá visualizar el mapa con las acciones de emergencia'/>
+  <section class="container">
+    <MapLinesMarkers :lines="fetched_lines" :markers="fetched_points" />
+  </section>
 </template>
 
 <script>
 import MapLinesMarkers from '../components/MapLinesMarkers.vue'
+import pageTitle from '../components/PageTitle.vue'
 
 export default {
   name: 'MapaEmergencias',
   title: 'Mapa para Emergencias',
   components: {
-      MapLinesMarkers
+      MapLinesMarkers,
+      pageTitle
   },
   props: {},
   data () {

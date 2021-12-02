@@ -1,5 +1,13 @@
 <template>
     <pageTitle title='Página principal' subtitle='Bienvenido!'/>
+    <section class="container text-justify">
+      <p class="m-2">
+        En este portal encontrará un protocolo de acción e información 
+        relevante referente a las situaciones de inundación o precipitaciones 
+        de riesgo en la cuidad de La Plata y zonas aledañas. Entre ellas se 
+        encuentran las listadas a continuación.
+      </p>
+    </section>
     <mosaic title='En la app podrá realizar las siguientes acciones' :elements="mosaicElements"/>
 </template>
 
@@ -19,7 +27,6 @@ export default {
   },
   data() {
     return {
-      
       mosaicElements: [
         {
           title: 'Visualizar los puntos de encuentro cercanos',
@@ -62,5 +69,17 @@ export default {
 
 
 <style>
+  .text-justify {text-align: justify;}
 
+  @media (max-width: 768px) {
+    .m-2 {
+      margin: 10% 2%;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .m-2 {
+      margin: 35px 2% 35px 2%;
+    }
+  }
 </style>

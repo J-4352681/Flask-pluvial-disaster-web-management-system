@@ -71,6 +71,13 @@ class Complaint(db.Model):
         """Devuelve todas las quejas cargadas en el sistema"""
         return cls.query.all()
 
+    @classmethod
+    def all_confirmed(cls):
+        """Devuelve todas las quejas cargadas en el sistema"""
+        res = cls.query.filter(
+            cls.state != "Sin confirmar"
+        ).first()
+        return res
     
     @classmethod
     def close_complaint(cls, complaint_id):

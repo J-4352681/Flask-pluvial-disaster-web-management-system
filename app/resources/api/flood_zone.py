@@ -43,10 +43,6 @@ def fetch_all():
 
     try:
         flood_zone_all = FloodZone.allPublic()
-<<<<<<< HEAD
-=======
-        print(flood_zone_all)
->>>>>>> master
     except:
         logger.exception("Error al traer la informacion sobre zonas inundables.")
         abort(500)

@@ -35,7 +35,7 @@ def show(evroute_id):
         "Nombre": evroute.name,
         "Descripción": evroute.description,
         "Público": evroute.state,
-        "Coordenadas": evroute.coordinates,
+        "Coordenadas": evroute.route_points,
         }, evroute,
         title="Recorrido de evacuación", subtitle="Detalles del recorrido " + str(evroute.name),
         return_url=url_for('evroutes_index'),
@@ -71,6 +71,7 @@ def create(form, evroute):
     assert_permit(session, "evroutes_create")
 
     form.populate_obj(evroute)
+    evroute.route_points = loads(evroute.route_points)
     evroute.coordinates = loads(evroute.coordinates)
     EvacuationRoute.create_from_evacuation_route(evroute)
 
@@ -84,6 +85,8 @@ def modify(evroute_id):
     if form.validate_on_submit():
         form.populate_obj(evroute)
         evroute.coordinates = loads(evroute.coordinates)
+        print(evroute.route_points)
+        evroute.route_points = loads(evroute.route_points)
         EvacuationRoute.update()
         return redirect(url_for('evroutes_index'))
 

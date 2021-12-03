@@ -1,6 +1,9 @@
 $(document).ready(function() {
   var json_input = $('input[name="coordinates"]');
-  // json_input.hide();
+  json_input.hide();
+  var json_route_points = $('input[name="route_points"]');
+  json_route_points.hide();
+
   json_input.parent().css({'height': '500px'});
   json_input.parent().append('<div id="leaflet_map" class="col" style="height: 500px;"></div>');
 
@@ -11,7 +14,7 @@ $(document).ready(function() {
 
   control.on('routeselected', function(e) {
     var route = e.route;
-    // json_input.val(JSON.stringify(route.coordinates)); // inicializo el input que se guarda en bd
-    json_input.val(JSON.stringify(control.getWaypoints().map(point => point.latLng))); // inicializo el input que se guarda en bd
+    json_route_points.val(JSON.stringify(route.coordinates));
+    json_input.val(JSON.stringify(control.getWaypoints().map(point => point.latLng)));
   });
 });

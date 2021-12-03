@@ -8,4 +8,5 @@ class EvacuationRouteForm(FlaskForm):
     description = StringField("Descripcion", validators=[DataRequired(), Length(1,255,'La descripcion debe de contener de entre 1 y 255 caracteres')])
     state = BooleanField("Ruta de evacuación activa")
     coordinates = StringField("Área de la ruta", validators=[DataRequired()])
+    route_points = StringField("", validators=[DataRequired()])
     submit = SubmitField("Aceptar")

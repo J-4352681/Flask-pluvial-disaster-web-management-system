@@ -2,7 +2,7 @@ from os import path, environ, urandom
 
 from flask import Flask, render_template, g, Blueprint, session, redirect, url_for
 from flask_session import Session
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 
 from config import config
 from app import db
@@ -20,7 +20,6 @@ from app.resources.api.meeting_points import meeting_points_api
 def create_app(environment="development"):
     # Configuración inicial de la app
     app = Flask(__name__)
-    CORS(app)
 
     # Configuracion de CORS (Cross Origin Resource Sharing)
     CORS(app)

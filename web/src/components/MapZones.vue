@@ -13,6 +13,7 @@
 
 <script>
 import {LMap, LTileLayer, LPolygon} from '@vue-leaflet/vue-leaflet';
+import LRoutingMachine from './components/LRoutingMachine'
 
 export default {
   components: { // Componentes en: https://vue2-leaflet.netlify.app/components/

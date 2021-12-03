@@ -7,7 +7,6 @@
             <router-link to='/denuncias' active-class='active'>Realizar una Denuncia</router-link>
             <router-link to='/mapa-denuncias' active-class='active'>Mapa de Denuncias</router-link>
             <router-link to='/estadisticas' active-class='active'>Estadisticas</router-link>
-            <router-link to='/mapa_ejemplo' active-class='active'>MapaEj</router-link>
             <a href="javascript:void(0);" class="icon" v-on:click="toggleNavBar"> <!--Fix para responsive sacado de: https://www.w3schools.com/howto/howto_js_topnav_responsive.asp --> 
                 <b>+</b>
             </a>

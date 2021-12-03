@@ -7,7 +7,6 @@ $( document ).ready(function() {
   table[0].parentNode.insertBefore(map_div[0], table[0].nextSibling);
 
   map = leaflet_init();
-  control = routingmachine_init(map, false);
-
-  if(row_text != '') control.setWaypoints(JSON.parse(row_text.replaceAll("'", '"')));
+  
+  L.polyline(JSON.parse(row_text.replaceAll("'", '"')), {color: '#000000'}).addTo(map);
 });

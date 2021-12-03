@@ -34,19 +34,9 @@ export default {
   },
   created() {
     fetch('https://127.0.0.1:5000/api/zonas_inundables/all').then((response) => { //API que devuelve todas las zonas inundables
-<<<<<<< HEAD
       return response.json();
     }).then((json) => {
       this.fetched_zones = json.zones;
-=======
-      console.log('primeros');
-      console.log(response);
-      return response.json();
-    }).then((json) => {
-      console.log(json);
-      this.fetched_zones = json.zones;
-      console.log(this.fetched_zones);
->>>>>>> master
     }).catch((e) => {
       console.log(e)
     })

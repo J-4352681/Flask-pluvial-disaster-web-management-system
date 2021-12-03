@@ -39,11 +39,7 @@ export default {
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       zoom: 15,
       center: [-34.92149, -57.954597],
-<<<<<<< HEAD
       randomColor: function() {return '#000000'.replaceAll('0', function(){return Math.floor(Math.random()*16).toString(16)});}
-=======
-      info: 'algoalgo'
->>>>>>> master
     };
   },
 }

@@ -11,7 +11,8 @@ class Filter():
         self._model = model
         self._filter_form_class = filter_form_class
         self._request_args = request_args
-        self._form_query_fields = {k: v for k, v in request_args.items() if v != '' and k not in ["csrf_token", "submit", "page"]}
+        self._form_query_fields = {k: v for k, v in request_args.items() if v != '' and k not in ["csrf_token", "submit", "page", "first_date", "last_date"]}
+        self._creation_date_query_fields = {k: v for k, v in request_args.items() if v != '' and k in ["first_date", "last_date"]}
         self._config = config_get()
     
     @property
@@ -30,11 +31,20 @@ class Filter():
     def form_query_fields(self):
         return self._form_query_fields
 
+    @property
+    def creation_date_query_fields(self):
+        return self._creation_date_query_fields
+
     def get_query(self, page):
         if self.form_query_fields:
             query = self.model.query.order_by(self.get_default_sort_criteria()).filter_by(**self.form_query_fields)
         else:
             query = self.model.query.order_by(self.get_default_sort_criteria())
+
+        if "first_date" in self.creation_date_query_fields:
+            query = query.filter(self.creation_date_query_fields["first_date"] <= self.model.creation_date)
+        if "last_date" in self.creation_date_query_fields:
+            query = query.filter(self.creation_date_query_fields["last_date"] >= self.model.creation_date)
 
         return query.paginate(page=page, per_page=self.config.elements_per_page)
 
@@ -53,4 +63,4 @@ class Filter():
         return criteria
 
     def has_filter(self):
-        return bool(self.form_query_fields)
+        return bool(self.form_query_fields or self.creation_date_query_fields)

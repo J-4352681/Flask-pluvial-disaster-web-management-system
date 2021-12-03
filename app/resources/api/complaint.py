@@ -34,6 +34,10 @@ def fetch_all():
 
     try:
         complaint_all = Complaint.all_confirmed()
+<<<<<<< HEAD
+=======
+        print(complaint_all)
+>>>>>>> master
     except:
         logger.exception("Error al traer la informacion sobre zonas inundables.")
         abort(500)

@@ -45,6 +45,7 @@ export default {
   },
   created() {
     //Rutas de evacuacion
+<<<<<<< HEAD
     fetch('https://127.0.0.1:5000/api/recorridos-evacuacion/all').then((response) => {
       return response.json();
     }).then((json) => {
@@ -59,9 +60,35 @@ export default {
     }).then((json) => {
       console.log(json);
       this.fetched_points = json.points;
+=======
+    fetch('https://127.0.0.1:5000/api/recorridos-evacuacion/all').then((response) => { 
+      console.log('primeros');
+      console.log(response);
+      return response.json();
+    }).then((json) => {
+      console.log(json);
+      this.fetched_lines = json.routes;
+      console.log(this.fetched_lines);
+>>>>>>> master
     }).catch((e) => {
       console.log(e)
     });
+<<<<<<< HEAD
+=======
+    //Puntos de encuentro
+    fetch('https://127.0.0.1:5000/api/puntos-encuentro/all').then((response) => { 
+      console.log('primeros');
+      console.log(response);
+      return response.json();
+    }).then((json) => {
+      console.log(json);
+      this.fetched_points = json.points;
+      console.log(this.fetched_points);
+    }).catch((e) => {
+      console.log('problema');
+      console.log(e)
+    });
+>>>>>>> master
   }
 }
 </script>

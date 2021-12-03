@@ -1,0 +1,11 @@
+{% include "generic/elements/imports/leaflet_map.html" %}
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+
+<script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+
+<script src="{{ url_for('static', filename='map/routingmachine_init.js') }}"></script>
+
+{% if args.js_url %}
+    <script src="{{ args.js_url }}"></script>
+{% endif %}

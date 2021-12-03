@@ -22,3 +22,18 @@ def index():
         return jsonify(meeting_points)
     else:
         abort(404)
+
+@meeting_points_api.get("/all")
+def fetch_all():
+
+    try:
+        meeting_points_all = MeetingPoint.all()
+    except:
+        logger.exception("Error al traer la informacion sobre puntos de encuentro.")
+        abort(500)
+
+    if meeting_points_all: 
+        meeting_points = MeetingPointsSchema(many=True).dump(meeting_points_all)
+        return jsonify(points = meeting_points)
+    else:
+        abort(404)

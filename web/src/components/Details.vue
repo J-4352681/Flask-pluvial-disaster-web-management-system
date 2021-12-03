@@ -7,10 +7,7 @@
     </thead>
     <tbody>
       <tr v-for="item in removeFields(items, headers)" :key="item.id" class="table-item">
-        <td v-for="value in item" :key="value" @click="onClick(item)" class="table-item-field">{{ value }}</td>
-        <!-- <router-link :to="{ name: 'ZonaInundable', params: { id: zona.id }}" >
-        <p>{{ zona.nombre }}</p>
-      </router-link> -->
+        <td v-for="value in item" :key="value" class="table-item-field">{{ value }}</td>
       </tr>
     </tbody>
   </table>
@@ -44,15 +41,6 @@
         }
       }
     },
-    methods: {
-      onClick(e) {
-        console.log(e)
-        if ( e.id ){
-          var url = '/zonas-inundables/' + e.id
-          this.$router.push(url);
-        }
-      }
-    }
   }
 </script>
 

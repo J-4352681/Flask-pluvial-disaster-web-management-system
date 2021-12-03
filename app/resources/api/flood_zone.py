@@ -37,3 +37,19 @@ def fetch_by_id(id):
         return jsonify(atributos=FloodZoneSchema().dump(flood_zone))
     else:
         abort(404)
+
+@flood_zone_api.get("/all")
+def fetch_all():
+
+    try:
+        flood_zone_all = FloodZone.all()
+        print(flood_zone_all)
+    except:
+        logger.exception("Error al traer la informacion sobre zonas inundables.")
+        abort(500)
+
+    if flood_zone_all: 
+        flood_zones = FloodZoneSchema(many=True).dump(flood_zone_all)
+        return jsonify(zones=flood_zones)
+    else:
+        abort(404)

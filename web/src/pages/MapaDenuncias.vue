@@ -19,16 +19,11 @@ export default {
   },
   created() {
     //Denuncias
-    fetch('https://127.0.0.1:5000/api/denuncias/all').then((response) => { 
-      console.log('primeros');
-      console.log(response);
+    fetch('https://127.0.0.1:5000/api/denuncias/all').then((response) => {
       return response.json();
     }).then((json) => {
-      console.log(json);
       this.fetched_complaints = json.denuncias;
-      console.log(this.fetched_complaints);
     }).catch((e) => {
-      console.log('problema');
       console.log(e)
     });
   }

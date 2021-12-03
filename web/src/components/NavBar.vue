@@ -5,7 +5,6 @@
             <router-link to='/mapa-emergencias' active-class='active'>Mapa para Emergencias</router-link>
             <router-link to='/zonas-inundables' active-class='active'>Zonas Inundables</router-link>
             <router-link to='/denuncias' active-class='active'>Realizar una Denuncia</router-link>
-            <router-link to='/estadisticas' active-class='active'>Estadisticas</router-link>
             <a href="javascript:void(0);" class="icon" v-on:click="toggleNavBar"> <!--Fix para responsive sacado de: https://www.w3schools.com/howto/howto_js_topnav_responsive.asp --> 
                 <b>+</b>
             </a>

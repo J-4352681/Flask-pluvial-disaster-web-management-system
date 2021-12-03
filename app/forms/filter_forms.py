@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 
 from wtforms import StringField, SubmitField, SelectField, IntegerField
+from wtforms.fields.html5 import DateField
 from wtforms.validators import DataRequired
 
 from app.models.complaint import Complaint
@@ -34,5 +35,5 @@ class EvRouteFilter(FlaskForm):
 class ComplaintFilter(FlaskForm):
     title = StringField("Título de la denuncia")
     state = SelectField("Estado", choices=[("", "Todos")]+Complaint.get_states())
-    creation_date = StringField("Fecha de creacion (dd/mm/aaaa hh:mm)")
-    closure_date = StringField("Fecha de cierre (dd/mm/aaaa hh:mm)")
+    first_date = DateField("Rango: Fecha de inicio")
+    last_date = DateField("Rango: Fecha de fin")

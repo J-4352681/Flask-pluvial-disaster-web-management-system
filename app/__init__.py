@@ -20,7 +20,7 @@ from app.resources.api.meeting_points import meeting_points_api
 def create_app(environment="development"):
     # Configuración inicial de la app
     app = Flask(__name__)
-    CORS(app)
+    #CORS(app)
 
     # Configuracion de CORS (Cross Origin Resource Sharing)
     CORS(app)

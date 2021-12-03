@@ -3,7 +3,7 @@ from flask import jsonify, Blueprint, request, abort
 from marshmallow import ValidationError
 
 from app.models.complaint import Complaint
-from app.schemas.complaint import ComplaintSchema
+from app.schemas.complaint import ComplaintSchema, ComplaintFetchSchema
 
 import logging
 logger = logging. getLogger(__name__) # Nos permite devolver mas informacion sobre una excepcion en el servidor.
@@ -28,3 +28,19 @@ def create():
     response = ComplaintSchema().dump(new_complaint)
     
     return jsonify(atributos=response), 201
+
+@complaint_api.get("/all")
+def fetch_all():
+
+    try:
+        complaint_all = Complaint.all_confirmed()
+        print(complaint_all)
+    except:
+        logger.exception("Error al traer la informacion sobre zonas inundables.")
+        abort(500)
+
+    if complaint_all: 
+        complaints = ComplaintFetchSchema(many=True).dump(complaint_all)
+        return jsonify(denuncias=complaints)
+    else:
+        abort(404)

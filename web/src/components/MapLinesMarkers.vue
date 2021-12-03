@@ -7,7 +7,9 @@
         <l-polyline :lat-lngs="line.coordenadas" :color="line.color"></l-polyline>
       </div>
       <div v-for="marker in markers" :key="marker.id">
-        <l-marker :lat-lng="marker" ></l-marker>
+        <l-marker :lat-lng="marker.coordenadas" >
+          <l-popup>{{marker.nombre}}</l-popup>
+        </l-marker>
       </div>
     </l-map>
     </div>
@@ -15,19 +17,20 @@
 </template>
 
 <script>
-import {LMap, LTileLayer, LMarker, LPolyline} from '@vue-leaflet/vue-leaflet';
+import {LMap, LTileLayer, LMarker, LPolyline, LPopup} from '@vue-leaflet/vue-leaflet';
 
 export default {
   components: { // Componentes en: https://vue2-leaflet.netlify.app/components/
     LMap,
     LTileLayer,
     LPolyline,
-    LMarker
+    LMarker,
+    LPopup
   },
   name: 'MapLinesMarkers',
   props: { 
-    lines: [],
-    markers: []
+    lines: {},
+    markers: {}
   },
   data () {
     return {
@@ -36,6 +39,7 @@ export default {
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       zoom: 15,
       center: [-34.92149, -57.954597],
+      info: 'algoalgo'
     };
   },
 }

@@ -22,7 +22,7 @@ export default {
   },
   name: 'MapZones',
   props: { 
-    zones: [] 
+    zones: {}
   },
   data () {
     return {

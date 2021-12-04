@@ -35,9 +35,10 @@ class FloodZone(db.Model):
 
     
     @classmethod
-    def create_from_flood_zone(cls, new_flood_zone):
+    def create_from_flood_zone(cls, incoming_floodzone):
         """Crea una nueva zona inundable con el objeto enviado por parámetro"""
-        db.session.add(new_flood_zone)
+        new_fz = FloodZone(incoming_floodzone.code, incoming_floodzone.name, incoming_floodzone.coordinates, incoming_floodzone.state, incoming_floodzone.color)
+        db.session.add(new_fz)
         db.session.commit()
 
 

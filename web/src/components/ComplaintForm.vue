@@ -163,7 +163,6 @@ export default {
   },
   methods: {
     markerDrag(e) {
-      console.log(e.latlng);
       this.coordinates = JSON.stringify(e.latlng);
     },
     zoomUpdated(zoom) {

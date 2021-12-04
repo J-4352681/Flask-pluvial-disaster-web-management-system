@@ -4,6 +4,8 @@ from marshmallow import ValidationError
 
 from app.models.complaint import Complaint
 from app.schemas.complaint import ComplaintSchema, ComplaintFetchSchema
+from app.schemas.category import CategoryFetchSchema
+from app.models.category import Category
 
 import logging
 logger = logging. getLogger(__name__) # Nos permite devolver mas informacion sobre una excepcion en el servidor.
@@ -44,3 +46,19 @@ def fetch_all():
         return jsonify(denuncias=complaints)
     else:
         abort(404)
+
+@complaint_api.get("/categorias")
+def fetch_categorias():
+
+    try:
+        categories = Category.all()
+    except:
+        logger.exception("Error al traer la informacion de categorías.")
+        abort(500)
+    
+    if categories:
+        categories = CategoryFetchSchema(many=True).dump(categories)
+        return jsonify(categorias=categories)
+    else:
+        abort(404)
+    

@@ -12,12 +12,13 @@ class EvacuationRoute(db.Model):
     name = Column(String(30), unique=True, nullable=False)
     description = Column(String(255), nullable=false) 
     coordinates = Column(JSON, nullable=false) # Json
+    route_points = Column(JSON, nullable=false)
     state = Column(Boolean, default=True, nullable=false) # publicado o despublicado
 
     @classmethod
-    def create(cls, name, description, coordinates, state): #params
+    def create(cls, name, description, coordinates, route_points, state): #params
         """Crea un nuevo recorrido de evacuacion."""
-        new_evroute = EvacuationRoute(name, description, coordinates, state)
+        new_evroute = EvacuationRoute(name, description, coordinates, route_points, state)
         db.session.add(new_evroute)
         db.session.commit()
 
@@ -96,8 +97,9 @@ class EvacuationRoute(db.Model):
         """Devuelve los atributos para ordenar las listas"""
         return [("name", "Nombre"), ("state", "Estado")]
 
-    def __init__(self, name=None, description=None, coordinates=None, state=None):
+    def __init__(self, name=None, description=None, coordinates=None, route_points=None, state=None):
         self.name = name
         self.description = description
         self.coordinates = coordinates
+        self.route_points = route_points
         self.state = state

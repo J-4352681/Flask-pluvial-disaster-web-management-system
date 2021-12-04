@@ -42,8 +42,7 @@ def fetch_by_id(id):
 def fetch_all():
 
     try:
-        flood_zone_all = FloodZone.all()
-        print(flood_zone_all)
+        flood_zone_all = FloodZone.allPublic()
     except:
         logger.exception("Error al traer la informacion sobre zonas inundables.")
         abort(500)

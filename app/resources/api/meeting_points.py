@@ -27,7 +27,7 @@ def index():
 def fetch_all():
 
     try:
-        meeting_points_all = MeetingPoint.all()
+        meeting_points_all = MeetingPoint.all_public()
     except:
         logger.exception("Error al traer la informacion sobre puntos de encuentro.")
         abort(500)

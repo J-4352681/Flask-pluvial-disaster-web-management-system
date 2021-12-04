@@ -41,19 +41,19 @@ class Config(db.Model):
         return configExists
 
     @classmethod
-    def modifyElementsPerPage(cls, config, cant):
+    def modify_elements_per_page(cls, config, cant):
         """actualiza la cantidad de elementos por pagina."""
         config.elements_per_page = cant
         db.session.commit()
 
     @classmethod
-    def modifySortCriterionUser(cls, config, criteria):
+    def modify_sort_criterion_user(cls, config, criteria):
         """actualiza el criterio por defecto de ordenamiento de los usuarios"""
         config.sort_users = criteria
         db.session.commit()
 
     @classmethod
-    def modifySortCriterionMeetingPoints(cls, config, criteria):
+    def modify_sort_criterion_meeting_points(cls, config, criteria):
         """actualiza el criterio por defecto de ordenamiento de los puntos de encuentro"""
         config.sort_meeting_points = criteria
         db.session.commit()
@@ -71,7 +71,7 @@ class Config(db.Model):
         db.session.commit()
 
     @classmethod
-    def newPrivatePalette(cls, config, newPalette):
+    def new_private_palette(cls, config, newPalette):
         """reemplaza la paleta de colores privada por otra. Recibe una lista de objeto Color."""
         palette.Palette.newColor1(config.palette_private, newPalette[0])
         palette.Palette.newColor2(config.palette_private, newPalette[1])
@@ -79,7 +79,7 @@ class Config(db.Model):
         db.session.commit()
     
     @classmethod
-    def newPublicPalette(cls, config, newPalette):
+    def new_public_palette(cls, config, newPalette):
         """reemplaza la paleta de colores publica por otra. Recibe una lista de objeto Color."""
         palette.Palette.newColor1(config.palette_public, newPalette[0])
         palette.Palette.newColor2(config.palette_public, newPalette[1])
@@ -92,7 +92,7 @@ class Config(db.Model):
         db.session.commit()
 
     @classmethod
-    def translateCriteria(*criteria):
+    def translate_criteria(*criteria):
         """Traduce los campos de la base de datos a etiquetas en español"""
         names={"name":"Nombre","last_name":"Apellido","email":"Mail","username":"Nombre de usuario", "direction":"Direccion",
         "coordinates": "Coordenadas","state":"Estado","telephone": "Telefono", "title":"Titulo"}

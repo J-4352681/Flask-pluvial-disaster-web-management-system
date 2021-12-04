@@ -1,0 +1,9 @@
+{% extends "generic/pages/item_details.html" %}
+
+{% block content %}
+    {{ super() }}
+
+    {% with args={"js_url": url_for('static', filename='map/show_route_map.js')} %}
+        {% include "generic/elements/imports/route_map.html" %}
+    {% endwith %}
+{% endblock %}

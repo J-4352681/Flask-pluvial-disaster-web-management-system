@@ -45,29 +45,21 @@ export default {
   },
   created() {
     //Rutas de evacuacion
-    fetch('https://127.0.0.1:5000/api/recorridos-evacuacion/all').then((response) => { 
-      console.log('primeros');
-      console.log(response);
+    fetch('https://127.0.0.1:5000/api/recorridos-evacuacion/all').then((response) => {
       return response.json();
     }).then((json) => {
-      console.log(json);
       this.fetched_lines = json.routes;
-      console.log(this.fetched_lines);
     }).catch((e) => {
-      console.log('problema');
       console.log(e)
     });
+
     //Puntos de encuentro
-    fetch('https://127.0.0.1:5000/api/puntos-encuentro/all').then((response) => { 
-      console.log('primeros');
-      console.log(response);
+    fetch('https://127.0.0.1:5000/api/puntos-encuentro/all').then((response) => {
       return response.json();
     }).then((json) => {
       console.log(json);
       this.fetched_points = json.points;
-      console.log(this.fetched_points);
     }).catch((e) => {
-      console.log('problema');
       console.log(e)
     });
   }

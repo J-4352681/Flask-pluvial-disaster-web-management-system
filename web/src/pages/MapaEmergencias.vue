@@ -45,7 +45,7 @@ export default {
   },
   created() {
     //Rutas de evacuacion
-    fetch(process.env.EVROUTES_URL).then((response) => {
+    fetch(process.env.VUE_APP_EVROUTES_URL).then((response) => {
       return response.json();
     }).then((json) => {
       this.fetched_lines = json.routes;
@@ -54,7 +54,7 @@ export default {
     });
 
     //Puntos de encuentro
-    fetch(process.env.MEETING_POINTS_URL).then((response) => {
+    fetch(process.env.VUE_APP_MEETING_POINTS_URL).then((response) => {
       return response.json();
     }).then((json) => {
       console.log(json);

@@ -33,7 +33,7 @@ export default {
     };
   },
   created() {
-    fetch(process.env.FLOOD_ZONES_URL).then((response) => { //API que devuelve todas las zonas inundables
+    fetch(process.env.VUE_APP_FLOOD_ZONES_URL).then((response) => { //API que devuelve todas las zonas inundables
       return response.json();
     }).then((json) => {
       this.fetched_zones = json.zones;

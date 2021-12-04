@@ -3,16 +3,11 @@
     <div class="column-map">
       <div style="height: 350px">
         
-        <MapLinesMarkers
-          style="height: 80%; width: 100%"
-          :zoom="zoom"
-          :center="center"
-          @update:zoom="zoomUpdated"
-          @update:center="centerUpdated"
-          @update:bounds="boundsUpdated"
-        >
-         
-        </MapLinesMarkers>
+        <l-map style="height: 600px" :zoom="zoom" :center="center">
+          <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
+          <l-marker :lat-lng="marker" :draggable="true" @drag="markerDrag">
+          </l-marker>
+        </l-map>
       </div>
     </div>
     <div class="column-form">
@@ -33,7 +28,7 @@
           <label for="category">Categoría</label>
           <select v-model="category" required :disabled="loading">
             <option disabled value="">Elija una categoría</option>
-            <template v-for="cat in categoryList">
+            <template v-for="cat in categoryList" :key="cat.id">
               <option :value="cat.id">{{ cat.name }}</option>
             </template>
           </select>
@@ -126,12 +121,15 @@
 </template>
 
 <script>
-import MapLinesMarkers from "../components/MapLinesMarkers.vue";
+import {LMap, LTileLayer, LMarker} from '@vue-leaflet/vue-leaflet';
+
 export default {
   name: "FormularioDenuncia",
   title: "Formulario de una Denuncia",
   components: {
-    MapLinesMarkers,
+    LMap,
+    LTileLayer,
+    LMarker
   },
   data() {
     return {
@@ -149,9 +147,10 @@ export default {
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution:
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      zoom: 3,
-      center: [47.41322, -1.219482],
+      zoom: 15,
+      center: [-34.92149, -57.954597],
       bounds: null,
+      marker: {lat:-34.92149, lng: -57.954597}
     };
   },
   created() {
@@ -163,6 +162,10 @@ export default {
       .finally(() => (this.loading = false));
   },
   methods: {
+    markerDrag(e) {
+      console.log(e.latlng);
+      this.coordinates = JSON.stringify(e.latlng);
+    },
     zoomUpdated(zoom) {
       this.zoom = zoom;
     },

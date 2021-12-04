@@ -155,7 +155,7 @@ export default {
   },
   created() {
     this.loading = true;
-    fetch("http://localhost:5000/api/denuncias/categorias")
+    fetch(process.env.VUE_APP_COMPLAINT_CATEGORY_URL)
       .then((res) => res.json())
       .then((res) => (this.categoryList = res.categorias))
       .catch((reason) => console.error(reason))
@@ -179,7 +179,7 @@ export default {
       this.loading = true;
       e.preventDefault();
       fetch(
-        "https://admin-grupo38.proyecto2021.linti.unlp.edu.ar/api/denuncias",
+        process.env.VUE_APP_COMPLAINT_POST_URL,
         {
           // Adding method type
           method: "POST",

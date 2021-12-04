@@ -37,7 +37,7 @@ export default {
     };
   },
   created() {
-    var url = 'https://127.0.0.1:5000/api/zonas_inundables/' + this.$route.params.id
+    var url = process.env.FLOOD_ZONE_SINGLE_URL + this.$route.params.id
     fetch(url).then((response) => { //CAMBIAR por una api que devuelva todos los elementos
       console.log('primeros');
       console.log(response);

@@ -7,6 +7,7 @@ from app.models.flood_zone import FloodZone
 from app.helpers.auth import assert_permit, authenticated
 from app.helpers.filter import Filter
 from app.helpers.template_pages import FormPage, DBModelIndexPage, ItemDetailsPage
+from app.helpers.controllers_redirect import url_or_home
 
 from app.forms.fzone_forms import FloodZoneForm, FloodZoneModificationForm
 from app.forms.filter_forms import FZoneFilter
@@ -40,12 +41,12 @@ def new():
 
     if form.validate_on_submit():
         create(form, fzone)
-        return redirect(url_for("fzone_index"))
+        return redirect(url_or_home("fzone_index"))
     else:
         temp_interface = FormPage(
             form, url_for("fzone_new"),
             title="Creación de zona inundable", subtitle="Creando una nueva zona inundable",
-            return_url=url_for('fzone_index')
+            return_url=url_or_home('fzone_index')
         )
 
         return render_template("generic/pages/zone_form.html", temp_interface=temp_interface)
@@ -72,12 +73,12 @@ def modify(fzone_id):
         form.populate_obj(fzone)
         fzone.coordinates = loads(fzone.coordinates)
         FloodZone.update()
-        return redirect(url_for('fzone_index'))
+        return redirect(url_or_home('fzone_index'))
 
     temp_interface = FormPage(
         form, url_for("fzone_modify", fzone_id=fzone.id),
         title="Edición de zona inundable", subtitle="Editando la zona "+str(fzone.name),
-        return_url=url_for('fzone_index')
+        return_url=url_or_home('fzone_index')
     )
     
     return render_template("generic/pages/zone_form.html", temp_interface=temp_interface)
@@ -88,7 +89,7 @@ def delete(fzone_id):
     assert_permit(session, "fzone_delete")
     FloodZone.delete_by_id(fzone_id)
 
-    return redirect(url_for("fzone_index"))
+    return redirect(url_or_home("fzone_index"))
 
 
 def show(fzone_id):
@@ -106,7 +107,7 @@ def show(fzone_id):
           "Coordenadas": fzone.coordinates
         }, fzone,
         title="Zonas inundables", subtitle="Detalles del zona " + str(fzone.name),
-        return_url=url_for("fzone_index"),
+        return_url=url_or_home("fzone_index"),
         edit_url=url_for("fzone_modify", fzone_id=fzone.id),
         delete_url=url_for("fzone_delete", fzone_id=fzone.id)
     )
@@ -155,6 +156,7 @@ def get_or_create_by_name(fzone):
     saved_fzone = FloodZone.find_by_name(fzone.name)
 
     if (saved_fzone):
+        saved_fzone = saved_fzone[0]
         for i in filter(lambda x: x[1] != None and x[0][0] != "_", vars(fzone).items()):
             setattr(saved_fzone, i[0], i[1])
         FloodZone.update()
@@ -168,13 +170,13 @@ def csv_import():
     if request.method == 'POST':
         if "file_import" not in request.files:
             flash('Sin archivo')
-            return redirect(url_for("fzone_index"))
+            return redirect(url_or_home("fzone_index"))
         
         file = request.files["file_import"]
         
         if file.filename == '':
             flash("No se seleccionó archivo")
-            return redirect(url_for("fzone_index"))
+            return redirect(url_or_home("fzone_index"))
 
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
@@ -185,8 +187,8 @@ def csv_import():
             for row in reader:
                 row[1] = jsonify_list_coord(from_string_coord(row[1]))
                 get_or_create_by_name(FloodZone(name=row[0], coordinates=row[1]))
-            return redirect(url_for("fzone_index"))
+            return redirect(url_or_home("fzone_index"))
 
     else: flash("No se seleccionó archivo")
     
-    return redirect(url_for("fzone_index"))
+    return redirect(url_or_home("fzone_index"))

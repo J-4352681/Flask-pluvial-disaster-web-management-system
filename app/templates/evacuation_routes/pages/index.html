@@ -1,6 +1,8 @@
 {% extends "generic/pages/base.html" %}
 
 {% block content %}
+    {{ super() }}
+
     {% block header %}
         {% with args={"title": "Rutas de evacuacion", "name": "Administración de rutas de evacuacion", "subtitle": "Administración, adición y eliminación de las rutas de evacuacion del sitio"} %}
             {% include "generic/elements/headers/header.html" %}

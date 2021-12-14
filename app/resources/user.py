@@ -7,6 +7,7 @@ from app.models.role import Role
 from app.helpers.auth import assert_permit, authenticated
 from app.helpers.filter import Filter
 from app.helpers.template_pages import FormPage, DBModelIndexPage, ItemDetailsPage
+from app.helpers.controllers_redirect import url_or_home
 
 from app.forms.user_forms import UserCreationForm, UserModificationForm, UserProfileModificationForm, UnapprovedUserModificationForm
 from app.forms.filter_forms import UserFilter
@@ -33,12 +34,12 @@ def new():
 
     if form.validate_on_submit():
         create(form, user)
-        return redirect(url_for("user_index"))
+        return redirect(url_or_home("user_index"))
     else:
         temp_interface = FormPage(
             form, url_for("user_new"),
             title="Creación de usuario", subtitle="Creando un nuevo usuario",
-            return_url=url_for('user_index')
+            return_url=url_or_home("user_index")
         )
 
         return render_template("generic/pages/form.html", temp_interface=temp_interface)
@@ -59,7 +60,7 @@ def block(user_id):
     else:
         flash("El usuario seleccionado no puede ser bloqueado.")
     
-    return redirect(url_for("user_index"))
+    return redirect(url_or_home("user_index"))
 
 def delete(user_id):
     """Borra un usuario que no sea el que tiene la sesion iniciada."""
@@ -71,28 +72,28 @@ def delete(user_id):
     else:
         flash("El usuario seleccionado no puede ser borrado.")
 
-    return redirect(url_for("user_index"))
+    return redirect(url_or_home("user_index"))
 
 def unblock(user_id):
     """Cambiara el estado de un usuario de "bloqueado" a "activo". Los usuarios administradores no pueden ser bloqueados."""
     assert_permit(session, "user_unblock")
     user = User.find_by_id(user_id)
     User.unblock(user)
-    return redirect(url_for("user_index"))
+    return redirect(url_or_home("user_index"))
 
 def assign_role(user, role):
     """Le otorgara un nuevo rol a un usuario existente, determinado por su user."""
     assert_permit(session, "user_assign_role")
     User.assign_role(user, role)
     session["user_permits"] = user.get_permits()
-    return redirect(url_for("user_index"))
+    return redirect(url_or_home("user_index"))
 
 def unassign_role(user, role):
     """Le quita un rol a un usuario existente."""
     assert_permit(session, "user_unassign_role")
     User.unassign_role(user, role)
     session["user_permits"] = user.get_permits()
-    return redirect(url_for("user_index"))
+    return redirect(url_or_home("user_index"))
 
 def modify(user_id):
     """Modifica los datos de un usuario."""
@@ -110,12 +111,12 @@ def modify(user_id):
     if form.validate_on_submit():
         form.populate_obj(user)
         User.update()
-        return redirect(url_for('user_index'))
+        return redirect(url_or_home("user_index"))
 
     temp_interface = FormPage(
         form, url_for("user_modify", user_id=user.id),
         title="Edición de usuario", subtitle="Editando el usuario "+str(user.first_name),
-        return_url=url_for('user_index')
+        return_url=url_or_home("user_index")
     )
     
     return render_template("generic/pages/form.html", temp_interface=temp_interface)
@@ -130,12 +131,12 @@ def approve(user_id):
     if form.validate_on_submit():
         form.populate_obj(user)
         User.update()
-        return redirect(url_for('user_index'))
+        return redirect(url_or_home("user_index"))
 
     temp_interface = FormPage(
         form, url_for("user_approve", user_id=user.id),
         title="Edición de usuario no aprovado", subtitle="Editando el usuario no aprovado "+str(user.first_name),
-        return_url=url_for('user_index')
+        return_url=url_or_home("user_index")
     )
     
     return render_template("generic/pages/form.html", temp_interface=temp_interface)
@@ -151,7 +152,7 @@ def profile():
           "Username": user.username
         }, user,
         title="Perfil del usuario "+ str(user.first_name), subtitle="Datos del usuario",
-        return_url=url_for("user_index"),
+        return_url=url_or_home("user_index"),
         edit_url=url_for("profile_modify", user_id=user.id)
     )
     
@@ -170,13 +171,13 @@ def profile_modify():
     if form.validate_on_submit():
         form.populate_obj(user)
         User.update()
-        session["user"] = User.find_by_id(user_id)
-        return redirect(url_for('profile_index'))
+        session["user"] = User.find_by_id(user.id)
+        return redirect(url_for("profile_index"))
     
     temp_interface = FormPage(
         form, url_for("profile_modify"),
         title="Perfil del usuario "+ str(user.first_name), subtitle="Editando datos personales",
-        return_url=url_for('profile_index')
+        return_url=url_for("profile_index")
     )
     
     return render_template("generic/pages/form.html", temp_interface=temp_interface)

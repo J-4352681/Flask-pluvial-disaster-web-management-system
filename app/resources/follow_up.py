@@ -9,6 +9,7 @@ from app.models.role import Role
 from app.helpers.auth import assert_permit, authenticated
 from app.helpers.filter import Filter
 from app.helpers.template_pages import FormPage, DBModelIndexPage, ItemDetailsPage, SubDBModelIndexPage
+from app.helpers.controllers_redirect import url_or_home
 
 from app.forms.follow_up_forms import FollowUpForm
 
@@ -47,12 +48,12 @@ def new(complaint_id=None):
 
     if form.validate_on_submit():
         create(form, fup)
-        return redirect(url_for("follow_up_index", complaint_id=fup.complaint_id))
+        return redirect(url_or_home("follow_up_index", complaint_id=fup.complaint_id))
     else:
         temp_interface = FormPage(
             form, url_for("follow_up_new", complaint_id=fup.complaint_id),
             title="Creación de seguimiento", subtitle="Creando un nuevo seguimiento",
-            return_url=url_for('follow_up_index', complaint_id=fup.complaint_id)
+            return_url=url_or_home("follow_up_index", complaint_id=fup.complaint_id)
         )
 
         return render_template("generic/pages/form.html", temp_interface=temp_interface)
@@ -71,7 +72,7 @@ def delete(follow_up_id):
     fup = Follow_up.find_by_id(follow_up_id)
     Follow_up.delete(fup.id)
 
-    return redirect(url_for("follow_up_index", complaint_id=fup.complaint_id))
+    return redirect(url_or_home("follow_up_index", complaint_id=fup.complaint_id))
 
 def modify(follow_up_id):
     """Modifica los datos de un seguimiento."""
@@ -83,12 +84,12 @@ def modify(follow_up_id):
     if form.validate_on_submit():
         form.populate_obj(fup)
         Follow_up.update()
-        return redirect(url_for('follow_up_index', complaint_id=fup.complaint_id))
+        return redirect(url_or_home("follow_up_index", complaint_id=fup.complaint_id))
 
     temp_interface = FormPage(
         form, url_for("follow_up_modify", follow_up_id=fup.id),
         title="Edición de seguimiento", subtitle="Editando seguimiento",
-        return_url=url_for('follow_up_index', complaint_id=fup.complaint_id)
+        return_url=url_or_home("follow_up_index", complaint_id=fup.complaint_id)
     )
     
     return render_template("generic/pages/form.html", temp_interface=temp_interface)

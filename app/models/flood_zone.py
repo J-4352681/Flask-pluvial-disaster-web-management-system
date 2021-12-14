@@ -61,7 +61,7 @@ class FloodZone(db.Model):
         return cls.query.paginate(page=page, per_page=per_page)
     
     @classmethod
-    def allPublic(cls):
+    def all_public(cls):
         """Devuelve todas las zonas inundables publicas"""
         res = cls.query.filter(
             cls.state == True
@@ -70,7 +70,7 @@ class FloodZone(db.Model):
 
 
     @classmethod
-    def allNotPublic(cls):
+    def all_not_public(cls):
         """Devuelve todas las zonas inundables no publicas"""
         res = cls.query.filter(
             cls.state == False

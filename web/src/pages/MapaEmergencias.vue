@@ -45,23 +45,16 @@ export default {
   },
   created() {
     //Rutas de evacuacion
-    fetch(process.env.VUE_APP_EVROUTES_URL).then((response) => {
-      return response.json();
-    }).then((json) => {
-      this.fetched_lines = json.routes;
-    }).catch((e) => {
-      console.log(e)
-    });
+    fetch(process.env.VUE_APP_EVROUTES_URL)
+    .then((response) => response.json())
+    .then((json) => this.fetched_lines = json.routes)
+    .catch((e) => console.log(e));
 
     //Puntos de encuentro
-    fetch(process.env.VUE_APP_MEETING_POINTS_URL).then((response) => {
-      return response.json();
-    }).then((json) => {
-      console.log(json);
-      this.fetched_points = json.points;
-    }).catch((e) => {
-      console.log(e)
-    });
+    fetch(process.env.VUE_APP_MEETING_POINTS_URL)
+    .then((response) => response.json())
+    .then((json) => this.fetched_points = json.points)
+    .catch((e) => console.log(e));
   }
 }
 </script>

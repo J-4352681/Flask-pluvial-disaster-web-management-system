@@ -19,7 +19,7 @@ def all():
 
     return Color.all()
 
-def allValues():
+def all_values():
     """Devuelve todos los colores que hay cargados en el sistema."""
     # assert_permit(session, "colors_all")
 
@@ -35,6 +35,6 @@ def get(name):
     # assert_permit(session, "colors_get")
     return Color.find_by_value(name)
 
-def getById(name):
+def get_by_id(name):
     # assert_permit(session, "colors_get")
     return Color.find_by_id(name)

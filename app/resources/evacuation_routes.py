@@ -6,6 +6,7 @@ from app.models.evacuation_route import EvacuationRoute
 from app.helpers.auth import assert_permit
 from app.helpers.filter import Filter
 from app.helpers.template_pages import FormPage, DBModelIndexPage, ItemDetailsPage
+from app.helpers.controllers_redirect import url_or_home
 from app.forms.filter_forms import EvRouteFilter
 from app.forms.evroutes_forms import EvacuationRouteForm
 
@@ -38,7 +39,7 @@ def show(evroute_id):
         "Coordenadas": evroute.route_points,
         }, evroute,
         title="Recorrido de evacuación", subtitle="Detalles del recorrido " + str(evroute.name),
-        return_url=url_for('evroutes_index'),
+        return_url=url_or_home('evroutes_index'),
         edit_url=url_for("evroutes_modify", evroute_id=evroute.id),
         delete_url=url_for("evroutes_delete", evroute_id=evroute.id)
     )
@@ -56,12 +57,12 @@ def new():
 
     if form.validate_on_submit():
         create(form, evroute)
-        return redirect(url_for('evroutes_index'))
+        return redirect(url_or_home('evroutes_index'))
     else:
         temp_interface = FormPage(
             form, url_for("evroutes_new"),
             title="Creación de rutas de evacuacion", subtitle="Creando un nuevo ruta de evacuacion",
-            return_url=url_for('evroutes_index')
+            return_url=url_or_home('evroutes_index')
         )
 
         return render_template("generic/pages/route_form.html", temp_interface=temp_interface)
@@ -88,12 +89,12 @@ def modify(evroute_id):
         print(evroute.route_points)
         evroute.route_points = loads(evroute.route_points)
         EvacuationRoute.update()
-        return redirect(url_for('evroutes_index'))
+        return redirect(url_or_home('evroutes_index'))
 
     temp_interface = FormPage(
         form, url_for("evroutes_modify", evroute_id=evroute.id),
         title="Edición de ruta de evacuación", subtitle="Editando la ruta de evacuación "+str(evroute.name),
-        return_url=url_for('evroutes_index')
+        return_url=url_or_home('evroutes_index')
     )
     
     return render_template("generic/pages/route_form.html", temp_interface=temp_interface)
@@ -103,4 +104,4 @@ def delete(evroute_id):
     assert_permit(session, "evroutes_delete")
     EvacuationRoute.delete(evroute_id)
 
-    return redirect(url_for("evroutes_index"))
+    return redirect(url_or_home("evroutes_index"))

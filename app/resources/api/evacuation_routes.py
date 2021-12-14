@@ -27,7 +27,7 @@ def index():
 def fetch_all():
 
     try:
-        evacuation_routes_all = EvacuationRoute.allPublic()
+        evacuation_routes_all = EvacuationRoute.all_public()
     except:
         logger.exception("Error al traer la informacion sobre rutas de evacuacion.")
         abort(500)

@@ -4,7 +4,7 @@
     <l-map style="height: 600px" :zoom="zoom" :center="center">
       <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
       <div v-for="line in lines" :key="line.id">
-        <l-polyline :lat-lngs="line.puntos_ruta" :color="randomColor()"></l-polyline>
+        <l-polyline :lat-lngs="line.puntos_ruta" :color="randomColor()" :weight="7"></l-polyline>
       </div>
       <div v-for="marker in markers" :key="marker.id">
         <l-marker :lat-lng="marker.coordenadas" >

@@ -3,7 +3,7 @@ from sqlalchemy.sql.expression import false, true
 
 from app.models.config import Config
 
-from app.resources.colors import getById as getColorById, all as allColors
+from app.resources.colors import get_by_id as getColorById, all as allColors
 from app.resources.colors import new as newColor
 from app.resources.colors import get as getColor
 

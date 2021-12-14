@@ -54,7 +54,7 @@ def fetch_categorias():
     except:
         logger.exception("Error al traer la informacion de categorías.")
         abort(500)
-    
+    print(categories)
     if categories:
         categories = CategoryFetchSchema(many=True).dump(categories)
         return jsonify(categorias=categories)

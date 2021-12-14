@@ -142,8 +142,9 @@ export default {
       name: "",
       telephone: "",
       email: "",
-      loading: false,
+      loading: true,
       categoryList: [],
+
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution:
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
@@ -154,16 +155,15 @@ export default {
     };
   },
   created() {
-    this.loading = true;
     fetch(process.env.VUE_APP_COMPLAINT_CATEGORY_URL)
       .then((res) => res.json())
-      .then((res) => (this.categoryList = res.categorias))
+      .then((res) => this.categoryList = res.categorias)
       .catch((reason) => console.error(reason))
-      .finally(() => (this.loading = false));
+      .finally(() => this.loading = false);
   },
   methods: {
     markerDrag(e) {
-      this.coordinates = JSON.stringify(e.latlng);
+      this.coordinates = '[' + JSON.stringify(e.latlng) + ']';
     },
     zoomUpdated(zoom) {
       this.zoom = zoom;
@@ -175,7 +175,6 @@ export default {
       this.bounds = bounds;
     },
     submitForm(e) {
-      console.log("submt form");
       this.loading = true;
       e.preventDefault();
       fetch(
@@ -204,7 +203,7 @@ export default {
         category: this.category,
         title: this.title,
         description: this.description,
-        coordinates: this.coordinates,
+        coordinates: this.coordinates.replaceAll("'", '"'),
         surname: this.surname,
         name: this.name,
         telephone: this.telephone,

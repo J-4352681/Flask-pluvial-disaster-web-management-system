@@ -5,6 +5,7 @@ from json import loads
 from app.helpers.auth import assert_permit, authenticated
 from app.helpers.filter import Filter
 from app.helpers.template_pages import FormPage, DBModelIndexPage, ItemDetailsPage
+from app.helpers.controllers_redirect import url_or_home
 
 from app.models.complaint import Complaint
 from app.models.user import User
@@ -38,12 +39,12 @@ def new():
 
     if form.validate_on_submit():
         create(form, complaint)
-        return redirect(url_for("complaint_index"))
+        return redirect(url_or_home("complaint_index"))
     else:
         temp_interface = FormPage(
             form, url_for("complaint_new"),
             title="Creación de denuncia", subtitle="Creando una nueva denuncia",
-            return_url=url_for('complaint_index')
+            return_url=url_or_home('complaint_index')
         )
 
         return render_template("generic/pages/zone_form.html", temp_interface=temp_interface)
@@ -76,12 +77,12 @@ def modify(complaint_id):
         form.populate_obj(complaint)
         complaint.coordinates = loads(complaint.coordinates)
         Complaint.update()
-        return redirect(url_for('complaint_index'))
+        return redirect(url_or_home('complaint_index'))
 
     temp_interface = FormPage(
         form, url_for("complaint_modify", complaint_id=complaint.id),
         title="Edición de denuncia", subtitle="Editando la denuncia "+str(complaint.title),
-        return_url=url_for('complaint_index')
+        return_url=url_or_home('complaint_index')
     )
     
     return render_template("generic/pages/zone_form.html", temp_interface=temp_interface)
@@ -92,7 +93,7 @@ def delete(complaint_id):
     assert_permit(session, "complaint_delete")
     Complaint.delete_by_id(complaint_id)
 
-    return redirect(url_for("complaint_index"))
+    return redirect(url_or_home("complaint_index"))
 
 
 def show(complaint_id):
@@ -117,7 +118,7 @@ def show(complaint_id):
           "Email del autor": complaint.author_email,
         }, complaint,
         title="Denuncias", subtitle="Detalles de la denuncia " + str(complaint.title),
-        return_url=url_for("complaint_index"),
+        return_url=url_or_home("complaint_index"),
         edit_url=url_for("complaint_modify", complaint_id=complaint.id),
         delete_url=url_for("complaint_delete", complaint_id=complaint.id)
     )
@@ -127,4 +128,4 @@ def show(complaint_id):
 
 def close_complaint(complaint_id):
     Complaint.close_complaint(complaint_id)
-    return redirect(url_for("follow_up_index", complaint_id=complaint_id))
+    return redirect(url_or_home("follow_up_index", complaint_id=complaint_id))

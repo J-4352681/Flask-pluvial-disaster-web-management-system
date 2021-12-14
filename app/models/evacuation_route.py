@@ -46,7 +46,7 @@ class EvacuationRoute(db.Model):
         return cls.query.paginate(page=page, per_page=per_page)
     
     @classmethod
-    def allPublic(cls):
+    def all_public(cls):
         """Devuelve todos los recorridos de evacuacion publicos"""
         res = cls.query.filter(
             cls.state == True
@@ -54,7 +54,7 @@ class EvacuationRoute(db.Model):
         return res
     
     @classmethod
-    def allNotPublic(cls):
+    def all_not_public(cls):
         """Devuelve todos los recorridos de evacuacion no publicos"""
         res = cls.query.filter(
             cls.state == False

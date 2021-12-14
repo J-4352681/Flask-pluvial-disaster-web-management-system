@@ -38,18 +38,9 @@ export default {
   },
   created() {
     var url = process.env.VUE_APP_FLOOD_ZONE_SINGLE_URL + this.$route.params.id
-    fetch(url).then((response) => { //CAMBIAR por una api que devuelva todos los elementos
-      console.log('primeros');
-      console.log(response);
-      return response.json();
-    }).then((json) => {
-      console.log(json);
-      this.fetched_zone.push(json.atributos);
-      console.log(this.fetched_zone);
-    }).catch((e) => {
-      console.log('problema');
-      console.log(e)
-    })
+    fetch(url).then((response) => response.json())
+    .then((json) => this.fetched_zone.push(json.atributos))
+    .catch((e) => console.log(e));
   }
 }
 </script>

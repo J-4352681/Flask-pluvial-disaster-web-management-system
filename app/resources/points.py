@@ -95,7 +95,7 @@ def modify(point_id):
 
     if form.validate_on_submit():
         form.populate_obj(point)
-        MeetingPoint.updateCoordinates(point, form.latitude.data,form.longitude.data) #Agregado por Tomi
+        MeetingPoint.update_coordinates(point, form.latitude.data,form.longitude.data)
         MeetingPoint.update()
         return redirect(url_or_home("points_index"))
     

@@ -67,7 +67,7 @@ def modify(complaint_id):
     complaint = Complaint.find_by_id(complaint_id)
     form = ComplaintForm(obj=complaint,
         category = complaint.category.id,
-        assigned_user = complaint.assigned_user.id
+        assigned_user = (complaint.assigned_user.id if complaint.assigned_user else None)
     )
 
     form.category.choices = [("", "Ninguno seleccionado")]+[(category.id, category.name) for category in Category.all()]

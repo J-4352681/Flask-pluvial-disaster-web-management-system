@@ -36,80 +36,37 @@
 
         <div class="form-input">
           <label for="title">Título</label>
-          <input
-            id="title"
-            v-model="title"
-            name="title"
-            required
-            :disabled="loading"
-          />
+          <input id="title" v-model="title" name="title" required :disabled="loading" />
         </div>
 
         <div class="form-input">
           <label for="description">Descripción</label>
-          <input
-            id="description"
-            v-model="description"
-            name="description"
-            required
-            :disabled="loading"
-          />
+          <input id="description" v-model="description" name="description" required :disabled="loading" />
         </div>
 
         <div class="form-input d-none">
           <label for="coordinates">Coordenadas</label>
-          <input
-            id="coordinates"
-            v-model="coordinates"
-            name="coordinates"
-            required
-            :disabled="loading"
-          />
+          <input id="coordinates" v-model="coordinates" name="coordinates" required :disabled="loading" />
         </div>
 
         <div class="form-input">
           <label for="surname">Apellido</label>
-          <input
-            id="surname"
-            v-model="surname"
-            name="surname"
-            required
-            :disabled="loading"
-          />
+          <input id="surname" v-model="surname" name="surname" required :disabled="loading" />
         </div>
 
         <div class="form-input">
           <label for="name">Nombre</label>
-          <input
-            id="name"
-            v-model="name"
-            name="name"
-            required
-            :disabled="loading"
-          />
+          <input id="name" v-model="name" name="name" required :disabled="loading" />
         </div>
 
         <div class="form-input">
           <label for="telephone">Teléfono</label>
-          <input
-            id="telephone"
-            v-model="telephone"
-            name="telephone"
-            required
-            :disabled="loading"
-          />
+          <input id="telephone" v-model="telephone" name="telephone" required :disabled="loading" />
         </div>
 
         <div class="form-input">
           <label for="email">Correo de contacto</label>
-          <input
-            id="email"
-            v-model="email"
-            name="email"
-            type="email"
-            required
-            :disabled="loading"
-          />
+          <input id="email" v-model="email" name="email" type="email" required :disabled="loading" />
         </div>
 
         <div class="form-button">
@@ -132,26 +89,27 @@ export default {
     LMarker
   },
   data() {
+    let marker_init_value = [{lat:-34.92149, lng: -57.954597}];
     return {
-      place: "",
-      category: "",
-      title: "",
-      description: "",
-      coordinates: "",
-      surname: "",
-      name: "",
-      telephone: "",
-      email: "",
-      loading: true,
-      categoryList: [],
-
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution:
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       zoom: 15,
       center: [-34.92149, -57.954597],
       bounds: null,
-      marker: {lat:-34.92149, lng: -57.954597}
+      marker: marker_init_value[0],
+
+      place: "",
+      category: "",
+      title: "",
+      description: "",
+      coordinates: JSON.stringify(marker_init_value),
+      surname: "",
+      name: "",
+      telephone: "",
+      email: "",
+      loading: true,
+      categoryList: [],
     };
   },
   created() {

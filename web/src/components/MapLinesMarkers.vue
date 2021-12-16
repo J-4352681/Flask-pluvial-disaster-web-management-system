@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-    <l-map style="height: 600px" :zoom="zoom" :center="center">
+    <l-map style="height: 50vh" :zoom="zoom" :center="center">
       <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
       <div v-for="line in lines" :key="line.id">
         <l-polyline :lat-lngs="line.puntos_ruta" :color="randomColor()" :weight="7"></l-polyline>

@@ -1,77 +1,62 @@
 <template>
-  <div class="denuncias-form">
-    <div class="column-map">
-      <div style="height: 350px">
-        
-        <l-map style="height: 600px" :zoom="zoom" :center="center">
-          <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-          <l-marker :lat-lng="marker" :draggable="true" @drag="markerDrag">
-          </l-marker>
-        </l-map>
-      </div>
-    </div>
-    <div class="column-form">
-      <form id="app" @submit="submitForm">
-
-        <div class="form-input">
-          <label for="categoria_id">Categoría</label>
-          <select v-model="categoria_id" required :disabled="loading">
-            <option disabled value="">Elija una categoría</option>
-            <template v-for="cat in categoryList" :key="cat.id">
-              <option :value="cat.id">{{ cat.name }}</option>
-            </template>
-          </select>
-        </div>
-
-        <div class="form-input">
-          <label for="titulo">Título</label>
-          <input id="titulo" v-model="titulo" name="titulo" required :disabled="loading" />
-        </div>
-
-        <div class="form-input">
-          <label for="descripcion">Descripción</label>
-          <input id="descripcion" v-model="descripcion" name="descripcion" required :disabled="loading" />
-        </div>
-
-        <div class="form-input d-none">
-          <label for="coordenadas">Coordenadas</label>
-          <input id="coordenadas" v-model="coordenadas" name="coordenadas" required :disabled="loading" />
-        </div>
-
-        <div class="form-input">
-          <label for="apellido_denunciante">Apellido</label>
-          <input id="apellido_denunciante" v-model="apellido_denunciante" name="apellido_denunciante" required :disabled="loading" />
-        </div>
-
-        <div class="form-input">
-          <label for="nombre_denunciante">Nombre</label>
-          <input id="nombre_denunciante" v-model="nombre_denunciante" name="nombre_denunciante" required :disabled="loading" />
-        </div>
-
-        <div class="form-input">
-          <label for="telcel_denunciante">Teléfono</label>
-          <input id="telcel_denunciante" v-model="telcel_denunciante" name="telcel_denunciante" required :disabled="loading" />
-        </div>
-
-        <div class="form-input">
-          <label for="email_denunciante">Correo de contacto</label>
-          <input id="email_denunciante" v-model="email_denunciante" name="email_denunciante" type="email_denunciante" required :disabled="loading" />
-        </div>
-
-        <div class="form-button">
-          <button type="submit" :disabled="loading">Enviar</button>
-        </div>
-      </form>
-    </div>
+  <div class='container'>
+    <l-map style='height: 50vh' :zoom='zoom' :center='center'>
+      <l-tile-layer :url='url' :attribution='attribution'></l-tile-layer>
+      <l-marker :lat-lng='marker' :draggable='true' @drag='markerDrag'>
+      </l-marker>
+    </l-map>
   </div>
+
+  <form id='app' @submit='submitForm' class='container'>
+    <div class='form-input'>
+      <label for='categoria_id'>Categoría</label>
+      <select v-model='categoria_id' required :disabled='loading'>
+        <option disabled value=''>Elija una categoría</option>
+        <template v-for='cat in categoryList' :key='cat.id'>
+          <option :value='cat.id'>{{ cat.name }}</option>
+        </template>
+      </select>
+    </div>
+    <div class='form-input'>
+      <label for='titulo'>Título</label>
+      <input id='titulo' v-model='titulo' name='titulo' required :disabled='loading' />
+    </div>
+    <div class='form-input'>
+      <label for='descripcion'>Descripción</label>
+      <input id='descripcion' v-model='descripcion' name='descripcion' required :disabled='loading' />
+    </div>
+    <div class='form-input d-none'>
+      <label for='coordenadas'>Coordenadas</label>
+      <input id='coordenadas' v-model='coordenadas' name='coordenadas' required :disabled='loading' />
+    </div>
+    <div class='form-input'>
+      <label for='apellido_denunciante'>Apellido</label>
+      <input id='apellido_denunciante' v-model='apellido_denunciante' name='apellido_denunciante' required :disabled='loading' />
+    </div>
+    <div class='form-input'>
+      <label for='nombre_denunciante'>Nombre</label>
+      <input id='nombre_denunciante' v-model='nombre_denunciante' name='nombre_denunciante' required :disabled='loading' />
+    </div>
+    <div class='form-input'>
+      <label for='telcel_denunciante'>Teléfono</label>
+      <input id='telcel_denunciante' v-model='telcel_denunciante' name='telcel_denunciante' required :disabled='loading' />
+    </div>
+    <div class='form-input'>
+      <label for='email_denunciante'>Correo de contacto</label>
+      <input id='email_denunciante' v-model='email_denunciante' name='email_denunciante' type='email_denunciante' required :disabled='loading' />
+    </div>
+    <div class='form-button'>
+      <button type='submit' :disabled='loading'>Enviar</button>
+    </div>
+  </form>
 </template>
 
 <script>
 import {LMap, LTileLayer, LMarker} from '@vue-leaflet/vue-leaflet';
 
 export default {
-  name: "FormularioDenuncia",
-  titulo: "Formulario de una Denuncia",
+  name: 'FormularioDenuncia',
+  titulo: 'Formulario de una Denuncia',
   components: {
     LMap,
     LTileLayer,
@@ -80,7 +65,7 @@ export default {
   data() {
     let marker_init_value = [{lat:-34.92149, lng: -57.954597}];
     return {
-      url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       attribution:
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       zoom: 15,
@@ -88,14 +73,14 @@ export default {
       bounds: null,
       marker: marker_init_value[0],
       
-      categoria_id: "",
-      titulo: "",
-      descripcion: "",
+      categoria_id: '',
+      titulo: '',
+      descripcion: '',
       coordenadas: JSON.stringify(marker_init_value),
-      apellido_denunciante: "",
-      nombre_denunciante: "",
-      telcel_denunciante: "",
-      email_denunciante: "",
+      apellido_denunciante: '',
+      nombre_denunciante: '',
+      telcel_denunciante: '',
+      email_denunciante: '',
       loading: true,
       categoryList: [],
     };
@@ -127,14 +112,14 @@ export default {
         process.env.VUE_APP_COMPLAINT_POST_URL,
         {
           // Adding method type
-          method: "POST",
+          method: 'POST',
 
           // Adding body or contents to send
           body: JSON.stringify(this.getFormData()),
 
           // Adding headers to the request
           headers: {
-            "Content-Type": "application/json; charset=UTF-8",
+            'Content-Type': 'application/json; charset=UTF-8',
           },
         }
       )
@@ -174,7 +159,24 @@ export default {
   width: 50%;
 }
 
-.denuncias-form .form-input {
+label, input, select {
+  padding: 0 10px;
+}
+.form-input, .form-button {
+  padding: 10px 10% 10px 0;
+}
+form {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+}
+button {
+  padding: 3px 15px;
+  margin: auto;
+  cursor: pointer;
+}
+
+.denuncias-form /*.form-input*/ {
   display: flex;
   width: 350px;
   justify-content: space-between;
@@ -192,4 +194,5 @@ export default {
 }
 
 .d-none {display: none !important}
+.map {height: 400px}
 </style>

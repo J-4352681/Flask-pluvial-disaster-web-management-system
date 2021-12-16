@@ -40,18 +40,18 @@ body {
 }
 
 @media (max-width: 360px) {
-    .container {
-      padding: 0 1%;
-    }
+  .container {
+    padding: 0 1%;
   }
-  @media (min-width: 360px) and (max-width: 768px) {
-    .container {
-      padding: 0 3%;
-    }
+}
+@media (min-width: 360px) and (max-width: 768px) {
+  .container {
+    padding: 0 3%;
   }
-  @media (min-width: 768px) {
-    .container {
-      padding: 0 15%;
-    }
+}
+@media (min-width: 768px) {
+  .container {
+    padding: 0 15%;
   }
+}
 </style>

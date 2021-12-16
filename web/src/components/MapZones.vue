@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-    <l-map style="height: 600px" :zoom="zoom" :center="center">
+    <l-map style="height: 50vh" :zoom="zoom" :center="center">
       <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
       <div v-for="zone in zones" :key="zone.id">
         <l-polygon :lat-lngs="[zone.coordenadas]" :color="zone.color" :fill="true" :fillColor="zone.color"></l-polygon>

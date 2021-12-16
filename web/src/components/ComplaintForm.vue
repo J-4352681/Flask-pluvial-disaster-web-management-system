@@ -56,7 +56,7 @@
           />
         </div>
 
-        <div class="form-input">
+        <div class="form-input d-none">
           <label for="coordinates">Coordenadas</label>
           <input
             id="coordinates"
@@ -245,4 +245,6 @@ export default {
 .denuncias-form .form-button {
   margin-top: 15px;
 }
+
+.d-none {display: none !important}
 </style>

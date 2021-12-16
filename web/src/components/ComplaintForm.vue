@@ -12,21 +12,10 @@
     </div>
     <div class="column-form">
       <form id="app" @submit="submitForm">
-        <div class="form-input">
-          <label for="place">Lugar</label>
-          <input
-            id="place"
-            v-model="place"
-            type="text"
-            place="place"
-            required
-            :disabled="loading"
-          />
-        </div>
 
         <div class="form-input">
-          <label for="category">Categoría</label>
-          <select v-model="category" required :disabled="loading">
+          <label for="categoria_id">Categoría</label>
+          <select v-model="categoria_id" required :disabled="loading">
             <option disabled value="">Elija una categoría</option>
             <template v-for="cat in categoryList" :key="cat.id">
               <option :value="cat.id">{{ cat.name }}</option>
@@ -35,38 +24,38 @@
         </div>
 
         <div class="form-input">
-          <label for="title">Título</label>
-          <input id="title" v-model="title" name="title" required :disabled="loading" />
+          <label for="titulo">Título</label>
+          <input id="titulo" v-model="titulo" name="titulo" required :disabled="loading" />
         </div>
 
         <div class="form-input">
-          <label for="description">Descripción</label>
-          <input id="description" v-model="description" name="description" required :disabled="loading" />
+          <label for="descripcion">Descripción</label>
+          <input id="descripcion" v-model="descripcion" name="descripcion" required :disabled="loading" />
         </div>
 
         <div class="form-input d-none">
-          <label for="coordinates">Coordenadas</label>
-          <input id="coordinates" v-model="coordinates" name="coordinates" required :disabled="loading" />
+          <label for="coordenadas">Coordenadas</label>
+          <input id="coordenadas" v-model="coordenadas" name="coordenadas" required :disabled="loading" />
         </div>
 
         <div class="form-input">
-          <label for="surname">Apellido</label>
-          <input id="surname" v-model="surname" name="surname" required :disabled="loading" />
+          <label for="apellido_denunciante">Apellido</label>
+          <input id="apellido_denunciante" v-model="apellido_denunciante" name="apellido_denunciante" required :disabled="loading" />
         </div>
 
         <div class="form-input">
-          <label for="name">Nombre</label>
-          <input id="name" v-model="name" name="name" required :disabled="loading" />
+          <label for="nombre_denunciante">Nombre</label>
+          <input id="nombre_denunciante" v-model="nombre_denunciante" name="nombre_denunciante" required :disabled="loading" />
         </div>
 
         <div class="form-input">
-          <label for="telephone">Teléfono</label>
-          <input id="telephone" v-model="telephone" name="telephone" required :disabled="loading" />
+          <label for="telcel_denunciante">Teléfono</label>
+          <input id="telcel_denunciante" v-model="telcel_denunciante" name="telcel_denunciante" required :disabled="loading" />
         </div>
 
         <div class="form-input">
-          <label for="email">Correo de contacto</label>
-          <input id="email" v-model="email" name="email" type="email" required :disabled="loading" />
+          <label for="email_denunciante">Correo de contacto</label>
+          <input id="email_denunciante" v-model="email_denunciante" name="email_denunciante" type="email_denunciante" required :disabled="loading" />
         </div>
 
         <div class="form-button">
@@ -82,7 +71,7 @@ import {LMap, LTileLayer, LMarker} from '@vue-leaflet/vue-leaflet';
 
 export default {
   name: "FormularioDenuncia",
-  title: "Formulario de una Denuncia",
+  titulo: "Formulario de una Denuncia",
   components: {
     LMap,
     LTileLayer,
@@ -98,16 +87,15 @@ export default {
       center: [-34.92149, -57.954597],
       bounds: null,
       marker: marker_init_value[0],
-
-      place: "",
-      category: "",
-      title: "",
-      description: "",
-      coordinates: JSON.stringify(marker_init_value),
-      surname: "",
-      name: "",
-      telephone: "",
-      email: "",
+      
+      categoria_id: "",
+      titulo: "",
+      descripcion: "",
+      coordenadas: JSON.stringify(marker_init_value),
+      apellido_denunciante: "",
+      nombre_denunciante: "",
+      telcel_denunciante: "",
+      email_denunciante: "",
       loading: true,
       categoryList: [],
     };
@@ -121,7 +109,7 @@ export default {
   },
   methods: {
     markerDrag(e) {
-      this.coordinates = '[' + JSON.stringify(e.latlng) + ']';
+      this.coordenadas = '[' + JSON.stringify(e.latlng) + ']';
     },
     zoomUpdated(zoom) {
       this.zoom = zoom;
@@ -146,7 +134,7 @@ export default {
 
           // Adding headers to the request
           headers: {
-            "Content-type": "application/json; charset=UTF-8",
+            "Content-Type": "application/json; charset=UTF-8",
           },
         }
       )
@@ -157,15 +145,14 @@ export default {
     },
     getFormData() {
       return {
-        place: this.place,
-        category: this.category,
-        title: this.title,
-        description: this.description,
-        coordinates: this.coordinates.replaceAll("'", '"'),
-        surname: this.surname,
-        name: this.name,
-        telephone: this.telephone,
-        email: this.email,
+        categoria_id: this.categoria_id,
+        titulo: this.titulo,
+        descripcion: this.descripcion,
+        coordenadas: JSON.parse(this.coordenadas),
+        apellido_denunciante: this.apellido_denunciante,
+        nombre_denunciante: this.nombre_denunciante,
+        telcel_denunciante: this.telcel_denunciante,
+        email_denunciante: this.email_denunciante,
       };
     },
   },

@@ -52,7 +52,7 @@ class Complaint(db.Model):
     @classmethod
     def create_public(cls, title, description, coordinates, author_first_name, author_last_name, author_telephone, author_email, category_id): #params
         """Crea una nueva queja en base a los datos dados."""
-        new_c = Complaint(title, description, coordinates, "Sin confirmar", author_first_name, author_last_name, author_telephone, author_email, category_id)
+        new_c = Complaint(title, description, coordinates, cls.get_states()[0][0], author_first_name, author_last_name, author_telephone, author_email, category_id)
         db.session.add(new_c)
         db.session.commit()
         return new_c

@@ -8,11 +8,11 @@ from app.schemas.category import CategoryFetchSchema
 from app.models.category import Category
 
 import logging
-logger = logging. getLogger(__name__) # Nos permite devolver mas informacion sobre una excepcion en el servidor.
+logger = logging.getLogger(__name__) # Nos permite devolver mas informacion sobre una excepcion en el servidor.
 
 complaint_api = Blueprint("denuncias", __name__, url_prefix="/denuncias")
 
-@complaint_api.post("/")
+@complaint_api.post("")
 def create():
     
     try:
@@ -54,7 +54,7 @@ def fetch_categorias():
     except:
         logger.exception("Error al traer la informacion de categorías.")
         abort(500)
-    print(categories)
+    
     if categories:
         categories = CategoryFetchSchema(many=True).dump(categories)
         return jsonify(categorias=categories)

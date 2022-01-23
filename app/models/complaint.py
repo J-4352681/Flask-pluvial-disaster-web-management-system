@@ -1,3 +1,4 @@
+from flask import session
 from sqlalchemy import Column, Integer, String, JSON, ForeignKey, DateTime
 from sqlalchemy.sql.expression import false, true
 from sqlalchemy.sql.sqltypes import Boolean
@@ -158,6 +159,14 @@ class Complaint(db.Model):
         return cls.query.filter(
             cls.assigned_user_id == id
         ).all()
+
+    @classmethod
+    def find_by_category(cls, id): # probar si funciona
+        """Retorna las denuncias cuya categoria es pasada por parametro"""
+        return cls.query.filter(
+            cls.category_id == id
+        ).all()
+
 
 
     def __init__(self, title=None, description=None, coordinates=None, state=None, author_first_name=None, author_last_name=None, author_telephone=None, author_email=None, category_id=None):

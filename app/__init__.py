@@ -14,7 +14,7 @@ from app.resources.api.flood_zone import flood_zone_api
 from app.resources.api.complaint import complaint_api
 from app.resources.api.evacuation_routes import evacuation_routes_api
 from app.resources.api.meeting_points import meeting_points_api
-
+from app.resources.api.statistics import statistics_api
 
 
 def create_app(environment="development"):
@@ -130,6 +130,8 @@ def create_app(environment="development"):
     api.register_blueprint(complaint_api)
     api.register_blueprint(evacuation_routes_api)
     api.register_blueprint(meeting_points_api)
+    api.register_blueprint(statistics_api)
+    
     app.register_blueprint(api)
 
     # Handlers

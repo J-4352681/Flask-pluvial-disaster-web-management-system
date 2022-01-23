@@ -1,12 +1,15 @@
 from app.models.complaint import Complaint
 from app.models.category import Category
+from app.db import db
 
-@classmethod
-def count(cls):
-    """Cuenta denuncias por categoria"""
-    cats = Category.all()
-    dic = {}
-    for c in cats:
-        cant_denuncias = len((Complaint.find_by_category(c.id)))
-        dic[c.name] = {"denuncias": cant_denuncias }
-    return dic
+class Statistics(db.Model):
+
+    @classmethod
+    def count(cls):
+        """Cuenta denuncias por categoria"""
+        cats = Category.all()
+        dic = {}
+        for c in cats:
+            cant_denuncias = len((Complaint.find_by_category(c.id)))
+            dic[c.name] = {"denuncias": cant_denuncias }
+        return dic

@@ -1,13 +1,13 @@
 <template>
   <div>
     <p>Cantidad de denuncias por categoria</p>
-    <canvas id="c-chart" height="300px" width="300px"></canvas>
+    <canvas id="c-chart"></canvas>
   </div>
 </template>
 
 <script>
 import Chart from "chart.js";
-import complaintsChartData from "../complaints-data.js";
+import {complaintsChartData} from "../complaints-data.js";
 import randomColor from 'randomcolor';
 
 export default {

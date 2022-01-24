@@ -22,3 +22,19 @@ def fetch_all():
         return jsonify(stats = statistics)
     else:
         abort(404)
+
+@statistics_api.get("/by-user")
+@cross_origin()
+def fetch_all_users():
+
+    try:
+        statistics = Statistics.count_by_user()
+        print(statistics)
+    except:
+        logger.exception("Error al traer la informacion sobre las estadisticas.")
+        abort(500)
+
+    if statistics: 
+        return jsonify(stats = statistics)
+    else:
+        abort(404)

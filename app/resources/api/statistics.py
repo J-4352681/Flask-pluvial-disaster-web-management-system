@@ -13,7 +13,7 @@ statistics_api = Blueprint("estadisticas", __name__, url_prefix="/estadisticas")
 def fetch_all():
 
     try:
-        statistics = Statistics.count(Category)
+        statistics = Statistics.count()
     except:
         logger.exception("Error al traer la informacion sobre las estadisticas.")
         abort(500)

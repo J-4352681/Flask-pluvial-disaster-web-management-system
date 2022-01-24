@@ -1,5 +1,6 @@
 from pstats import Stats
 from flask import jsonify, Blueprint, request, abort
+from flask_cors import cross_origin
 from app.models.statistics import Statistics, Complaint
 from app.schemas.statistics import StatisticsFetchSchema
 import logging
@@ -8,6 +9,7 @@ logger = logging.getLogger(__name__)
 statistics_api = Blueprint("estadisticas", __name__, url_prefix="/estadisticas")
 
 @statistics_api.get("/by-category")
+@cross_origin()
 def fetch_all():
 
     try:

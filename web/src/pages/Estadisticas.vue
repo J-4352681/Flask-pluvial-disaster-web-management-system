@@ -1,22 +1,19 @@
 <template>
 <div>
-    <p>Estadisticas</p>
-    <div> 
-    <PlanetChart/>
+    <div>
+    <PageTitle title='Estadisticas' subtitle='Estadisticas recolectadas por nuestra aplicacion'/>
     </div>
+    <DoughnutChart> </DoughnutChart>
 </div>
 </template>
 
 <script>
-import PlanetChart from '../components/DoughnutChart'
+import DoughnutChart from '../components/DoughnutChart'
+import PageTitle from '../components/PageTitle.vue'
+
 
 export default {
   name: 'Estadisticas',
-  components: { PlanetChart },
+  components: { DoughnutChart, PageTitle },
 };
 </script>
-
-
-<style>
-
-</style>

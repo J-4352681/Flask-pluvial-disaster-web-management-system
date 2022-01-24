@@ -1,8 +1,10 @@
+from sqlalchemy import Column, Integer, true
 from app.models.complaint import Complaint
 from app.models.category import Category
 from app.db import db
 
 class Statistics(db.Model):
+    __abstract__ = true
 
     @classmethod
     def count(cls):

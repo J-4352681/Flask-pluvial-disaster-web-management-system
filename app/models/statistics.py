@@ -3,15 +3,19 @@ from app.models.complaint import Complaint
 from app.models.category import Category
 from app.db import db
 
+
 class Statistics(db.Model):
     __abstract__ = true
 
     @classmethod
-    def count(cls):
-        """Cuenta denuncias por categoria"""
-        cats = Category.all()
+    def count(cls, model):
+        """Cuenta denuncias por el atributo del modelo enviado por parametro"""
+        collection = model.all()
+        # si model es Category, Category.__name__.lower() = category
+        method_name = f'find_by_{model.__name__.lower()}'
+        method = getattr(Complaint, method_name)
         dic = {}
-        for c in cats:
-            cant_denuncias = len((Complaint.find_by_category(c.id)))
-            dic[c.name] = {"denuncias": cant_denuncias }
+        for c in collection:
+            cant_denuncias = len(method(c.id))  # aca ejecuto el metodo
+            dic[c.name] = {"denuncias": cant_denuncias}
         return dic

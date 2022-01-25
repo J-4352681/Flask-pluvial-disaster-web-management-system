@@ -49,6 +49,12 @@ export default {
           caso de que presencie o conozca alguna\
           situación que deba ser tenida en cuenta.',
           linkName: '/denuncias'
+        },
+        {
+          title: 'Estadisticas',
+          description: 'Puede ver las diferentes estadisticas\
+          de nuestro servicio representadas mediante graficos',
+          linkName: '/estadisticas'
         }
       ]
     }

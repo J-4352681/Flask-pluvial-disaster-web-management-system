@@ -38,3 +38,19 @@ def fetch_all_users():
         return jsonify(stats = statistics)
     else:
         abort(404)
+
+@statistics_api.get("/by-week")
+@cross_origin()
+def fetch_week():
+
+    try:
+        statistics = Statistics.count_by_week()
+        print(statistics)
+    except:
+        logger.exception("Error al traer la informacion sobre las estadisticas.")
+        abort(500)
+
+    if statistics: 
+        return jsonify(stats = statistics)
+    else:
+        abort(404)

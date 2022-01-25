@@ -28,3 +28,5 @@ class Statistics(db.Model):
             cant_denuncias = len(Complaint.all_by_assigned_user_id(u.id))  
             dic[u.username] = {"denuncias": cant_denuncias}
         return dic
+
+    

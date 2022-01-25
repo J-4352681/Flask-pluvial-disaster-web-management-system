@@ -161,10 +161,17 @@ class Complaint(db.Model):
         ).all()
 
     @classmethod
-    def find_by_category(cls, id): # probar si funciona
+    def find_by_category(cls, id):
         """Retorna las denuncias cuya categoria es pasada por parametro"""
         return cls.query.filter(
             cls.category_id == id
+        ).all()
+    
+    @classmethod
+    def find_by_date(cls, date): 
+        """Retorna las denuncias cuya fecha de creacion es pasada por parametro"""
+        return cls.query.filter(
+            cls.creation_date.like(date)
         ).all()
 
 

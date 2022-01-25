@@ -3,7 +3,7 @@
     <div>
       <PageTitle title='Estadisticas' subtitle='Estadisticas recolectadas por nuestra aplicacion'/>
     </div>
-    <div class="container">
+    <div class="chartcontainer">
       <div class="chart1"><DoughnutChart></DoughnutChart></div>
       <div class="chart2"><UserChart></UserChart></div>
     </div>
@@ -23,12 +23,11 @@ export default {
 </script>
 
 <style>
-
-.container {
+.chartcontainer {
   display: flex;
   width: 100%;
-  height: 100%px;
-  align-self: center;
+  height: 150%;
+  margin-left: 150px;
 }
 .chart1,
 .chart2 {

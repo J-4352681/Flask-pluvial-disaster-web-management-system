@@ -4,21 +4,21 @@
       <PageTitle title='Estadisticas' subtitle='Estadisticas recolectadas por nuestra aplicacion'/>
     </div>
     <div class="chartcontainer">
-      <div class="chart1"><DoughnutChart></DoughnutChart></div>
+      <div class="chart1"><ComplaintChart></ComplaintChart></div>
       <div class="chart2"><UserChart></UserChart></div>
     </div>
 </div>
 </template>
 
 <script>
-import DoughnutChart from '../components/DoughnutChart'
+import ComplaintChart from '../components/ComplaintChart'
 import UserChart from '../components/UserChart'
 import PageTitle from '../components/PageTitle.vue'
 
 
 export default {
   name: 'Estadisticas',
-  components: { DoughnutChart, PageTitle, UserChart },
+  components: { ComplaintChart, PageTitle, UserChart },
 };
 </script>
 

@@ -7,8 +7,8 @@
 
 <script>
 import Chart from "chart.js";
-import {complaintsChartData} from "../complaints-data.js";
-import randomColor from 'randomcolor';
+import { complaintsChartData } from "../complaints-data.js";
+import randomColor from "randomcolor";
 
 export default {
   name: "ComplaintsChart",
@@ -22,7 +22,7 @@ export default {
         datasets: [
           {
             data: Object.values(a).map((denuncias) => denuncias.denuncias),
-            backgroundColor: Object.values(a).map(val=>randomColor(val)),
+            backgroundColor: Object.values(a).map((val) => randomColor(val)),
             borderColor: "Gray",
             borderWidth: 3,
           },
@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style>
-    #c-chart{
-      box-shadow: 0 0 10px #e3e3e3;
-    }
+#c-chart {
+  box-shadow: 0 0 10px #e3e3e3;
+}
 </style>

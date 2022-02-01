@@ -7,7 +7,7 @@
 
 <script>
 import Chart from "chart.js";
-import {userChartData} from "../complaints-data.js";
+import { userChartData } from "../complaints-data.js";
 import randomColor from "randomcolor";
 
 export default {
@@ -21,13 +21,24 @@ export default {
         labels: Object.keys(a),
         datasets: [
           {
-            label: 'Denuncias',
+            label: "Denuncias",
             data: Object.values(a).map((denuncias) => denuncias.denuncias),
             backgroundColor: Object.values(a).map((val) => randomColor(val)),
             borderColor: "Gray",
             borderWidth: 3,
           },
         ],
+      },
+      options: {
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+              },
+            },
+          ],
+        },
       },
     });
   },
@@ -36,6 +47,6 @@ export default {
 
 <style>
 #u-chart {
-    box-shadow: 0 0 10px #e3e3e3;
+  box-shadow: 0 0 10px #e3e3e3;
 }
 </style>

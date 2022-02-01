@@ -1,9 +1,15 @@
 const axios = require('axios')
 
+const axios_instace = axios.create({
+  baseURL: process.env.VUE_APP_BASE_URL
+});
+
 export const complaintsChartData =
   async function() {
     try {
-      let response = await axios.get('http://127.0.0.1:5000/api/estadisticas/by-category')
+      console.log('PITO1')
+      console.log(process.env.VUE_APP_BASE_URL)
+      let response = await axios_instace.get('/estadisticas/by-category')
       return response.data.stats
     }
     catch(error) {
@@ -15,7 +21,8 @@ export const complaintsChartData =
 export const userChartData =
   async function() {
     try {
-      let response = await axios.get('http://127.0.0.1:5000/api/estadisticas/by-user')
+      console.log('PITO2')
+      let response = await axios_instace.get('/estadisticas/by-user')
       return response.data.stats
     }
     catch(error) {

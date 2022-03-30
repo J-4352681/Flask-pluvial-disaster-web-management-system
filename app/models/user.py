@@ -74,6 +74,11 @@ class User(db.Model):
     def all(cls):
         """Devuelve todos los usuarios"""
         return cls.query.all()
+    
+    @classmethod
+    def all_actives(cls):
+        """Devuelve todos los usuarios activos"""
+        return cls.query.filter(cls.active==1).all()
 
 
     @classmethod

@@ -44,4 +44,4 @@ def make_response(data, status):
     if request.path.startswith("/api/"):
         return jsonify(data), status
     else:
-        return render_template("error.html", **data), status
+        return render_template("generic/pages/error.html", **data), status

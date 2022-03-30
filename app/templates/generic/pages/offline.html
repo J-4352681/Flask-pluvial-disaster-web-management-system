@@ -1,0 +1,21 @@
+{% extends "generic/pages/not_auth_base.html" %}
+
+{% block title %}{{"Offline"}}{% endblock %}
+
+{% block content %}
+  {{ super() }}
+
+  {% with args={"title": "Sin conexión", "subtitle": "Está sin conexión a internet", "return_url": url_for('home')} %}
+    {% include "generic/elements/headers/header_back.html" %}
+  {% endwith %}
+
+  <div class="row mt-3">
+    <p class="col">Entre las páginas almacenadas localmente no se encuentra la que solicita</p>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-4"></div>
+    <img class="col-4" src="{{ url_for('static', filename='icons/cloud-offline.svg') }}" alt="offline">
+    <div class="col-4"></div>
+  </div>
+{% endblock %}

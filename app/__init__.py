@@ -1,6 +1,7 @@
 from os import path, environ, urandom
+from json import dumps as json_dumps
 
-from flask import Flask, render_template, g, Blueprint, session, redirect, url_for
+from flask import Flask, render_template, g, Blueprint, session, redirect, url_for, make_response, send_from_directory
 from flask_session import Session
 from flask_cors import CORS
 
@@ -116,13 +117,38 @@ def create_app(environment="development"):
     app.add_url_rule("/config", "config_index", configObject.index)
     app.add_url_rule("/config/modify", "config_modify", configObject.modify, methods=["GET", "POST"])
 
-    # Ruta para el Home (usando decorator)
+    # Ruta para el Home (usando decorador)
     @app.route("/")
     def home():
         if not helper_auth.authenticated(session):
             return redirect(url_for("auth_login"))
 
-        return render_template("home.html")
+        return render_template("generic/pages/home.html")
+
+
+    @app.route("/sw.js", methods=["GET"])
+    def sw():
+        return app.send_static_file("sw.js")
+
+
+    @app.route("/manifest.webmanifest", methods=["GET"])
+    def manifest():
+        return app.send_static_file("manifest.webmanifest")
+    
+
+    @app.route("/_allowed_pages", methods=["GET"])
+    def allowed_pages():
+        nav_actions = helper_auth.get_navigation_actions(session)
+        actions_url = [x["url"] for x in nav_actions] if nav_actions else nav_actions
+        response = make_response(json_dumps(actions_url, indent=4, ensure_ascii=False))
+        response.headers['Content-Type'] = 'application/json'
+        return response
+    
+
+    @app.route("/offline", methods=["GET"])
+    def offline():
+        return render_template("generic/pages/offline.html")
+
 
     # Rutas de la API
     api = Blueprint("api", __name__, url_prefix="/api")

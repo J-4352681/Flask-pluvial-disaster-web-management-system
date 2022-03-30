@@ -53,3 +53,13 @@ a:link {
 ion-icon {
     pointer-events: none;
 }
+
+.icon {
+    width: 17px;
+    height: 17px;
+}
+
+.navbar-icon {
+    width: 27px;
+    height: 27px;
+}

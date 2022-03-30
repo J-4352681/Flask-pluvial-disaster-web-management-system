@@ -1,8 +1,8 @@
 {% for attr_name in args.attr_names %}
     {% if attr_name == 'coordinates' %}
-        <td class="col">{{ parsed_coordinates(args.item|attr(attr_name)) }}</td>
+        <td class="col text-truncate">{{ parsed_coordinates(args.item|attr(attr_name)) }}</td>
     {% else %}
-        <td class="col">{{ args.item|attr(attr_name) }}</td>
+        <td class="col text-truncate">{{ args.item|attr(attr_name) }}</td>
     {% endif %}
 {% endfor %}
 {% block action_icons %}{% endblock %}

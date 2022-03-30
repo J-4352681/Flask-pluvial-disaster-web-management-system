@@ -1,12 +1,16 @@
 <nav id="navbar" class="navbar position-fixed top-0 w-100 navbar-expand-lg navbar-light">
     <div class="container">
-        <a id="page-icon" class="navbar-brand mx-3 p-0 col-auto m-auto text-decoration-none" href="{{ url_for('home') }}"><ion-icon class="nav-icon nav-coloricon" name="water"></ion-icon></a>
+        <a id="page-icon" class="navbar-brand mx-3 p-0 col-auto m-auto text-decoration-none" href="{{ url_for('home') }}">
+            <img class="navbar-icon" src="{{ url_for('static', filename='icons/water.svg') }}" alt="water">
+        </a>
         
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNavbar" aria-controls="menuNavbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div id="nav-user-icon" class="mx-3 p-0 col-auto m-auto text-decoration-none"><ion-icon class="nav-icon nav-coloricon" name="person"></ion-icon></div>
+        <div id="nav-user-icon" class="mx-3 p-0 col-auto m-auto text-decoration-none">
+            <img class="navbar-icon" src="{{ url_for('static', filename='icons/person.svg') }}" alt="person">
+        </div>
         
         <div class="collapse navbar-collapse" id="menuNavbar">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">

@@ -1,0 +1,23 @@
+{% extends "generic/pages/not_auth_base.html" %}
+
+{% block title %}{{"Error"}}{% endblock %}
+
+{% block content %}
+  {{ super() }}
+
+  <header class="row mt-5">
+    <h2 class="col">{{ error_name }}</h1>
+  </header>
+
+  <div class="row mt-3">
+    <h4 class="col"><b>Error!</b> {{ error_description }}</h3>
+  </div>
+
+  <div class="row mt-2">
+      <div class="col">
+        {% with args={"text": "Página principal", "url": url_for('home')} %}
+          {% include "generic/elements/buttons/button1.html" %}
+        {% endwith %}
+      </div>
+  </div>
+{% endblock %}

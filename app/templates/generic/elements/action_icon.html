@@ -1,1 +1,3 @@
-<a onclick="{{ args.onclick }}" href="{{ args.url }}" title="{{args.title}}"> <ion-icon name="{{ args.icon_name }}"></ion-icon> </a>
+<a class="px-1" onclick="{{ args.onclick }}" href="{{ args.url }}" title="{{args.title}}">
+  <img class="icon" src="{{ url_for('static', filename='icons/'+args.icon_name+'.svg') }}" alt="{{ args.icon_name }}">
+</a>

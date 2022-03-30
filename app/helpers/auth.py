@@ -16,7 +16,7 @@ def authenticated(session):
 def has_permit(session, permit_name):
     """Devuelve true si tiene el permiso enviado como parametro. De otra manera devolvera false."""
     permits = session.get("user_permits")
-    if permit_name in permits: 
+    if permits and permit_name in permits: 
         return True
     return False
 

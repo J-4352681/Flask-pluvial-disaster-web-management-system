@@ -1,14 +1,14 @@
 <template>
-    <pageTitle title='Página principal' subtitle='Bienvenido!'/>
-    <section class="container text-justify">
-      <p class="m-2">
-        En este portal encontrará un protocolo de acción e información 
-        relevante referente a las situaciones de inundación o precipitaciones 
-        de riesgo en la cuidad de La Plata y zonas aledañas. Entre ellas se 
-        encuentran las listadas a continuación.
-      </p>
-    </section>
-    <mosaic title='En la app podrá realizar las siguientes acciones' :elements="mosaicElements"/>
+  <pageTitle title='Página principal' subtitle='Bienvenido!'/>
+  <section class="container text-justify">
+    <p class="m-2">
+      En este portal encontrará un protocolo de acción e información 
+      relevante referente a las situaciones de inundación o precipitaciones 
+      de riesgo en la cuidad de La Plata y zonas aledañas. Entre ellas se 
+      encuentran las listadas a continuación.
+    </p>
+  </section>
+  <mosaic title='En la app podrá realizar las siguientes acciones' :elements="mosaicElements"/>
 </template>
 
 <script>

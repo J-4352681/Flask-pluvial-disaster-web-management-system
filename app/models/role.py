@@ -20,6 +20,15 @@ class Role(db.Model):
 
 
     @classmethod
+    def create(cls, *args):
+        """Crea un nuevo rol"""
+        role = cls(*args)
+        db.session.add(role)
+        db.session.commit()
+        return role
+
+
+    @classmethod
     def all(cls):
         """Devuelve todos los roles"""
         return cls.query.all()
@@ -40,9 +49,9 @@ class Role(db.Model):
     @classmethod
     def get_by_name(cls, role_name):
         """Retorna el rol con nombre role_name"""
-        return cls.query.get(
-            cls.name == role_name
-        )
+        return cls.query.filter(
+            cls.name.like(role_name)
+        ).all()
 
 
     @classmethod
@@ -51,5 +60,6 @@ class Role(db.Model):
         return cls.query.filter(cls.id.in_(roles_id)).all()
 
 
-    def __init__(self, name=None):
+    def __init__(self, name=None, permits=[]):
         self.name = name
+        if permits: self.permits = permits

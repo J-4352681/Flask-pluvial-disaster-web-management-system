@@ -60,7 +60,14 @@ class TestingConfig(Config):
     DB_HOST = environ.get("DB_HOST", "localhost")
     DB_USER = environ.get("DB_USER", "MY_DB_USER")
     DB_PASS = environ.get("DB_PASS", "MY_DB_PASS")
-    DB_NAME = environ.get("DB_NAME", "MY_DB_NAME")
+    DB_NAME = "test"
+    SQLALCHEMY_TRACK_MODIFICATIONS = false
+    SQLALCHEMY_DATABASE_URI = (
+        f"mysql+pymysql://{DB_USER}:{DB_PASS}@{DB_HOST}:3306/{DB_NAME}"
+    )
+    GOOGLE_CLIENT_ID = environ.get("GOOGLE_CLIENT_ID", None)
+    GOOGLE_CLIENT_SECRET = environ.get("GOOGLE_CLIENT_SECRET", None)
+    GOOGLE_REDIRECT_URI = environ.get("GOOGLE_REDIRECT_URI", None)
 
 
 config = dict(

@@ -22,6 +22,7 @@ class MeetingPoint(db.Model):
         new_mp = cls(name, direction, coordinates, telephone, email, state)
         db.session.add(new_mp)
         db.session.commit()
+        return new_mp
 
     @classmethod
     def delete(cls, id_param=None):

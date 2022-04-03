@@ -48,7 +48,7 @@ class MeetingPoint(db.Model):
     def all_not_public(cls):
         """Devuelve todos los puntos de encuentro publicos"""
         res = cls.query.filter(
-            cls.state == false
+            cls.state == False
         ).all() 
         return res
 

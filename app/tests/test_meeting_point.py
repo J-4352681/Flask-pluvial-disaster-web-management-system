@@ -14,8 +14,18 @@ class MeetingPointTest(BaseTestModel):
   def on_setup_data(self):
     """Inicializa los datos a utilizar en el test"""
     self.points = [
-      MeetingPoint.create("punto1", "direccion1", 13, 12, 111222333, "email1@email.com", True),
-      MeetingPoint.create("punto2", "direccion2", 23, 10, 222111333, "email2@email.com", False)
+      MeetingPoint.create(
+        "punto1", "direccion1", 13, 12, 111222333, "email1@email.com", True
+      ),
+      MeetingPoint.create(
+        "punto2", "direccion2", 23, 10, 222111333, "email2@email.com", False
+      ),
+      MeetingPoint.create(
+        "punto3", "direccion3", 2, 2, 333222111, "email3@email.com", True
+      ),
+      MeetingPoint.create(
+        "punto1", "direccion4", 13, 14, 333111222, "email4@email.com", True
+      )
     ]
   
 
@@ -30,7 +40,7 @@ class MeetingPointTest(BaseTestModel):
     Cuando se consulta el tamaño de la tabla
     Se obtiene tamaño 2
     """
-    self.assertEqual(len(MeetingPoint.all()), 2)
+    self.assertEqual(len(MeetingPoint.all()), 4)
 
 
   def test_all_public(self):
@@ -40,7 +50,7 @@ class MeetingPointTest(BaseTestModel):
     Entonces se retorna "punto1"
     """
     public_points = MeetingPoint.all_public()
-    self.assertEqual(len(public_points), 1)
+    self.assertEqual(len(public_points), 3)
     self.assertEqual(public_points[0].name, "punto1")
 
 
@@ -53,17 +63,6 @@ class MeetingPointTest(BaseTestModel):
     non_public_points = MeetingPoint.all_not_public()
     self.assertEqual(len(non_public_points), 1)
     self.assertEqual(non_public_points[0].name, "punto2")
-
-
-  def extra_points(self):
-    self.points += [
-      MeetingPoint.create(
-        "punto3", "direccion3", 2, 2, 333222111, "email3@email.com", True
-      ),
-      MeetingPoint.create(
-        "punto1", "direccion4", 13, 12, 333111222, "email4@email.com", True
-      )
-    ]
 
 
   def test_all_paginated(self):
@@ -99,7 +98,6 @@ class MeetingPointTest(BaseTestModel):
       )
 
 
-    self.extra_points()
     test_find_by_name1()
     test_find_by_name2()
 
@@ -131,7 +129,6 @@ class MeetingPointTest(BaseTestModel):
       )
 
 
-    self.extra_points()
     test_find_by_state1()
     test_find_by_state2()
 
@@ -142,7 +139,6 @@ class MeetingPointTest(BaseTestModel):
     Cuando se solicitan los puntos con id 1 y 2
     Entonces se devuelven los punto con nombre "punto1" y "punto3" respectivamente
     """
-    self.extra_points()
     self.assertEqual(MeetingPoint.find_by_id(1).name, "punto1")
     self.assertEqual(MeetingPoint.find_by_id(3).name, "punto3")
 

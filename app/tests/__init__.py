@@ -10,16 +10,13 @@ class BaseTestModel(unittest.TestCase):
     """Inicializa el contexto en el que se prueban los modelos"""
     self.app = create_app()
     self.app.app_context().push()
-
-    with self.app.app_context():
-      self.on_setup()
+    self.on_setup()
 
 
   def tearDown(self):
     """Elimina el contexto en el que se prueban los modelos"""
-    with self.app.app_context():
-      db.session.remove()
-      self.on_teardown_tables()
+    db.session.remove()
+    self.on_teardown_tables()
 
 
   def on_setup(self):

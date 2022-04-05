@@ -19,17 +19,17 @@ class RoleTest(BaseTestModel):
     """Inicializa los datos a utilizar en el test"""
     permiso1 = "permiso1"
     permiso2 = "permiso2"
-    self.permisos = {
-      permiso1: Permit.create(permiso1),
-      permiso2: Permit.create(permiso2)
-    }
+    self.permisos = [
+      Permit.create(permiso1),
+      Permit.create(permiso2)
+    ]
     
     role1 = "role1"
     role2 = "role2"
-    self.roles = {
-      role1: Role.create(role1, list(self.permisos.values())),
-      role2: Role.create(role2, list(self.permisos.values()))
-    }
+    self.roles = [
+      Role.create(role1, self.permisos),
+      Role.create(role2, self.permisos)
+    ]
 
 
   def on_teardown_tables(self):
@@ -58,10 +58,9 @@ class RoleTest(BaseTestModel):
       Cuando se inserta el rol en la bd
       Se obtiene tamaño 2 y los dos nombres de los roles insertados
       """
-      role3 = "role3"
-      self.roles[role3] = Role.create(role3)
+      self.roles += [Role.create("role3")]
       self.assertEqual(len(Role.all()), 3)
-      self.assertEqual(set([role.name for role in Role.all()]), set(self.roles.keys()))
+      self.assertEqual(len(Role.all()), len(self.roles))
 
 
     test_all1()
@@ -86,8 +85,7 @@ class RoleTest(BaseTestModel):
       Cuando se solicita por nombre el rol "admin"
       Entonces no se encuentra ningún elemento
       """
-      admin = "admin"
-      self.roles[admin] = Role.create(admin)
+      self.roles += [Role.create("admin")]
       self.assertTrue(Role.get_admin())
 
 
@@ -113,8 +111,7 @@ class RoleTest(BaseTestModel):
       Cuando se solicita por nombre el rol "rol10"
       Entonces se encuentra y retorna el elemento
       """
-      admin = "role10"
-      self.roles[admin] = Role.create(admin)
+      self.roles += [Role.create("role10")]
       self.assertTrue(Role.get_by_name("role10"))
 
 
@@ -140,8 +137,7 @@ class RoleTest(BaseTestModel):
       Cuando se solicita por nombre el rol "operator"
       Entonces se encuentra y retorna el elemento
       """
-      operator = "operator"
-      self.roles[operator] = Role.create(operator)
+      self.roles += [Role.create("operator")]
       self.assertTrue(Role.get_operator())
 
 

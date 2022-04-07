@@ -9,10 +9,10 @@
 import NavBar from './components/NavBar.vue'
 
 export default {
-    name: 'App',
-    components: {
-        NavBar,
-    }
+  name: 'App',
+  components: {
+      NavBar,
+  }
 }
 </script>
 
@@ -53,5 +53,11 @@ body {
   .container {
     padding: 0 15%;
   }
+}
+
+.text-truncate {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 </style>

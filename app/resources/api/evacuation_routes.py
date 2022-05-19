@@ -32,7 +32,7 @@ def fetch_all():
         logger.exception("Error al traer la informacion sobre rutas de evacuacion.")
         abort(500)
 
-    if evacuation_routes_all: 
+    if evacuation_routes_all or evacuation_routes_all == []: 
         evacuation_routes = EvacuationRoutesSchema(many=True).dump(evacuation_routes_all)
         return jsonify(routes = evacuation_routes)
     else:

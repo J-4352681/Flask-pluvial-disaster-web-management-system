@@ -1,5 +1,12 @@
 self.__precacheManifest = [].concat(__precacheManifest || []);
 
+// let regex;
+// if (process.env.NODE_ENV === 'production') {
+//   regex = /https:\/\/admin-grupo38\.proyecto2021\.linti\.unlp\.edu\.ar\/api\/.*/
+// } else {
+//   regex = /https:\/\/127\.0\.0\.1:5000\/api\/.*/
+// }
+
 workbox.core.clientsClaim();
 workbox.core.skipWaiting();
 

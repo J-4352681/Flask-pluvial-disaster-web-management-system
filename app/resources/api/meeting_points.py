@@ -28,11 +28,12 @@ def fetch_all():
 
     try:
         meeting_points_all = MeetingPoint.all_public()
+        print (meeting_points_all)
     except:
         logger.exception("Error al traer la informacion sobre puntos de encuentro.")
         abort(500)
 
-    if meeting_points_all: 
+    if meeting_points_all or meeting_points_all == []: 
         meeting_points = MeetingPointsSchema(many=True).dump(meeting_points_all)
         return jsonify(points = meeting_points)
     else:

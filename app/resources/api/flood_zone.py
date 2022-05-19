@@ -47,7 +47,7 @@ def fetch_all():
         logger.exception("Error al traer la informacion sobre zonas inundables.")
         abort(500)
 
-    if flood_zone_all: 
+    if flood_zone_all or flood_zone_all == []: 
         flood_zones = FloodZoneSchema(many=True).dump(flood_zone_all)
         return jsonify(zones=flood_zones)
     else:

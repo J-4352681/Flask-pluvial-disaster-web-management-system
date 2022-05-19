@@ -37,7 +37,7 @@ const routes = [
         path: '/estadisticas',
         name: 'Estadisticas',
         component: Estadisticas
-    },
+    }
 ]
 
 const router = createRouter({

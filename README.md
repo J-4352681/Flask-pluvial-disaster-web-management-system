@@ -28,3 +28,7 @@ templates         # Módulo con los templates
 db.py             # Instancia de base de datos
 __init__.py       # Instancia de la aplicación y ruteo
 ```
+
+## Presentación
+
+https://docs.google.com/presentation/d/1aFAosWo4my8o5I5M878grAt5-RT364j1PCuqUHT4He8/edit?usp=sharing

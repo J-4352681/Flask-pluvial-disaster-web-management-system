@@ -28,7 +28,7 @@ def fetch_all():
 
     try:
         meeting_points_all = MeetingPoint.all_public()
-        print (meeting_points_all)
+        # print (meeting_points_all)
     except:
         logger.exception("Error al traer la informacion sobre puntos de encuentro.")
         abort(500)

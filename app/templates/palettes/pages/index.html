@@ -1,0 +1,46 @@
+{% extends "generic/pages/base.html" %}
+
+{% block content %}
+    {{ super() }}
+
+    {% block header %}
+        {% with args={"title": temp_interface.title, "name": temp_interface.name, "subtitle": temp_interface.subtitle, "return_url": url_for("config_index")} %}
+            {% include "generic/elements/headers/header_back.html" %}
+        {% endwith %}
+    {% endblock %}
+
+    {% block pre_list %}
+        <div class="row">
+            {% with args={"text": "+ Crear paleta", "url": url_for('palettes_new')} %}
+                {% include "generic/elements/buttons/button1.html" %}
+            {% endwith %}
+
+            {% with args={"text": "Filtrar", "data_bs_toggle": "modal", "data_bs_target": "#palettes-filter"} %}
+                {% include "generic/elements/buttons/modal_button1.html" %}
+            {% endwith %}
+
+            {% if temp_interface.filt.has_filter() %}
+                {% with args={"text": "Limpiar filtro", "url": url_for('palettes_index')} %}
+                    {% include "generic/elements/buttons/button1.html" %}
+                {% endwith %}
+            {% endif %}
+        </div>
+    {% endblock %}
+
+    {% block list %}
+        {% with args={"items": temp_interface.page.items, "headers": ["Nombre", "Color primario", "Color secundario", "Color acento", "Acciones"], "attr_names": ["name", "color1" , "color2", "color3"]} %}
+            {% include "palettes/elements/list/list.html" %}
+        {% endwith %}
+
+        {% with args={"page": temp_interface.page, "url": "palettes_index"} %}
+            {% include "generic/elements/pagination_row.html" %}
+        {% endwith %}
+    {% endblock %}
+
+
+    {% block filter %}
+        {% with args={"form": temp_interface.filt.form, "id": "palettes-filter", "aria_labelledby": "palettes-filter-label", "url": url_for('palettes_index')} %}
+            {% include "generic/elements/filter.html" %}
+        {% endwith %}
+    {% endblock %}
+{% endblock %}

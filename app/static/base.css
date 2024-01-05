@@ -63,3 +63,9 @@ ion-icon {
     width: 27px;
     height: 27px;
 }
+
+.btn {cursor: pointer; border-radius: 0;}
+
+input, select {border-radius: 0 !important; border: 0 !important;}
+
+.bg-hover:hover{background: rgba(50%, 50%, 50%, 10%)}

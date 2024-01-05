@@ -1,7 +1,6 @@
 <form class="row mx-1 mb-5" action="{{ args.action_url }}" method="{{ args.method }}">
     {{ args.form.hidden_tag() }}
-    <div class="col-lg-2 col-sm-auto"></div>
-    <div class="col-lg-8 col-sm">
+    <div class="col-lg-8 mx-auto text-start col-sm">
         {% for error in args.form.errors.values() %}
             <div class="row alert alert-error bg-danger text-white">
                 <div class="col m-0 p-0">
@@ -18,12 +17,12 @@
                     {{ field.label(class="col mx-3 p-0") }}
                     {{ field(class="col m-0 p-0 card") }}
                 </div>
-                
+
             {% else %}
                 <div class="row">
                 {{ field.label(class="col my-2 p-0") }}
                 </div>
-    
+
                 {% if field.choices %}
                     {% if field.choices is mapping %}
                         <select class="row" name="{{ field.name }}" multiple>
@@ -42,16 +41,15 @@
                     </div>
                 {% endif %}
             {% endif %}
-            
+
         {% endif %}
         {% endfor %}
-        
+
         <div class="row my-2">
             {% with args={"text": "Aceptar"} %} {% include "generic/elements/buttons/submit_button1.html" %} {% endwith %}
-            
+
         </div>
     </div>
-    <div class="col-lg-2 col-sm-auto"></div>
 </form>
 
 <script src="{{ url_for('static', filename='checkbox.js') }}"></script>

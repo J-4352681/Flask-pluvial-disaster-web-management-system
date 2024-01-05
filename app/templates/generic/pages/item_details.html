@@ -2,7 +2,7 @@
 
 {% block content %}
     {{ super() }}
-    
+
     {% block header %}
         {% if temp_interface.return_url %}
             {% with args={"title": temp_interface.title, "subtitle": temp_interface.subtitle, "return_url": temp_interface.return_url} %}
@@ -26,11 +26,16 @@
             {% include "generic/elements/buttons/button2.html" %}
         {% endwith %}
         {% endif %}
-        
+
         {% if temp_interface.delete_url %}
-        {% with args={"text": "Borrar", "url": temp_interface.delete_url, "title": "Borrar", "icon_name": "trash", "onclick": "return confirm('¿Esta seguro que quiere eliminar a este usuario?')"} %}
-            {% include "generic/elements/buttons/button2.html" %}
-        {% endwith %}
+        <a
+        class="col-auto mx-2 btn btn-danger"
+        href="{{ temp_interface.delete_url }}"
+        type="button"
+        onclick="return confirm('¿Esta seguro que quiere eliminar a este elemento?')">
+        <object class="icon" fill="{{ private_theme()[2] }}" data="{{ url_for('static', filename='icons/trash.svg') }}" alt="delete"></object>
+        Borrar
+        </a>
         {% endif %}
 
         {% block extra_buttons %}{% endblock %}

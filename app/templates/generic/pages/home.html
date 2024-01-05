@@ -1,14 +1,38 @@
-{% extends "generic/pages/base.html"%}
+{% extends "generic/pages/not_auth_base.html"%}
 
 {% block title %}Home{% endblock %}
 
-{% block navbar %}
-    {% include "generic/elements/navbar.html" %}
-{% endblock %}
-
 {% block content %}
     {{ super() }}
-    {% with args={"title": "Página principal", "subtitle": "Página principal"} %}
-      {% include "generic/elements/headers/header.html" %}
+    {% with args={"title": "Página principal", "subtitle": "Bienvenido a la página de administración de catástrofes pluviales"} %}
+      {% include "generic/elements/headers/no_preblock_header.html" %}
     {% endwith %}
+
+    <p>En este sitio podrá gestionar políticas de acción de sitios en los cuales pueden ocurrir desastres pluviales, así como también añadir, ver, cruzar y eliminar información relativa a ello.</p>
+
+    <hr>
+
+    <h5>Apartados del sistema</h5>
+
+    <ul class="row px-0" style="list-style-type: none;">
+        {% for apartado in get_navigation_actions(session) %}
+            <li class="col-lg-4 col-md-6 px-auto my-2">
+                <a class="bg-hover btn py-4 w-100 btn-success" href="{{ apartado.url }}">{{ apartado.nombre }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <hr>
+
+    <h5>Sesión</h5>
+
+    <div class="row px-2">
+      <a class="col-lg col-md-12 m-1 btn btn-primary" href="{{ url_for('profile_index') }}">
+        <p class="my-1">Perfil</p>
+      </a>
+
+      <a class="col-lg col-md-12 m-1 btn btn-danger" href="{{ url_for('auth_logout') }}">
+        <p class="my-1">Cerrar sesión</p>
+      </a>
+    </div>
 {% endblock %}

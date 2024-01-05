@@ -29,7 +29,7 @@ def fetch_all_users():
 
     try:
         statistics = Statistics.count_by_user()
-        print(statistics)
+        # print(statistics)
     except:
         logger.exception("Error al traer la informacion sobre las estadisticas.")
         abort(500)
@@ -45,7 +45,7 @@ def fetch_week():
 
     try:
         statistics = Statistics.count_by_week()
-        print(statistics)
+        # print(statistics)
     except:
         logger.exception("Error al traer la informacion sobre las estadisticas.")
         abort(500)

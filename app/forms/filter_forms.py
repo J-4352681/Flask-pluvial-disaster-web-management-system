@@ -37,3 +37,7 @@ class ComplaintFilter(FlaskForm):
     state = SelectField("Estado", choices=[("", "Todos")]+Complaint.get_states())
     first_date = DateField("Rango: Fecha de inicio")
     last_date = DateField("Rango: Fecha de fin")
+
+class PaletteFilter(FlaskForm):
+    name = StringField("Nombre")
+    submit = SubmitField("Aceptar")

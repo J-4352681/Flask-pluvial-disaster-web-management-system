@@ -10,15 +10,14 @@ class EvacuationRoute(db.Model):
     id = Column(Integer, primary_key=True)
 
     name = Column(String(30), unique=True, nullable=False)
-    description = Column(String(255), nullable=false) 
+    description = Column(String(255), nullable=false)
     coordinates = Column(JSON, nullable=false) # Json
-    route_points = Column(JSON, nullable=false)
     state = Column(Boolean, default=True, nullable=false) # publicado o despublicado
 
     @classmethod
-    def create(cls, name, description, coordinates, route_points, state): #params
+    def create(cls, name, description, coordinates, state): #params
         """Crea un nuevo recorrido de evacuacion."""
-        new_evroute = EvacuationRoute(name, description, coordinates, route_points, state)
+        new_evroute = EvacuationRoute(name, description, coordinates, state)
         db.session.add(new_evroute)
         db.session.commit()
 
@@ -39,28 +38,28 @@ class EvacuationRoute(db.Model):
     def all(cls):
         """Devuelve todos los recorridos de evacuacion cargados en el sistema"""
         return cls.query.all()
-    
+
     @classmethod
     def all_paginated(cls, page):
         per_page = Config.get().elements_per_page
         return cls.query.paginate(page=page, per_page=per_page)
-    
+
     @classmethod
     def all_public(cls):
         """Devuelve todos los recorridos de evacuacion publicos"""
         res = cls.query.filter(
             cls.state == True
-        ).all() 
+        ).all()
         return res
-    
+
     @classmethod
     def all_not_public(cls):
         """Devuelve todos los recorridos de evacuacion no publicos"""
         res = cls.query.filter(
             cls.state == False
-        ).all() 
+        ).all()
         return res
-    
+
     @classmethod
     def find_by_id(cls, id=None):
         """Devuelve el primer recorrido de evacuacion id cuyo id es igual al que se mando como parametros"""
@@ -75,7 +74,7 @@ class EvacuationRoute(db.Model):
         res = cls.query.filter(
             cls.name == name,
             cls.id.not_in(excep)
-        ).first() 
+        ).first()
         return res
 
     @classmethod
@@ -86,7 +85,7 @@ class EvacuationRoute(db.Model):
             cls.id.not_in(excep)
         ).all()
         return res
-    
+
     @classmethod
     def update(cls):
         """Actualiza la base de datos"""
@@ -97,9 +96,8 @@ class EvacuationRoute(db.Model):
         """Devuelve los atributos para ordenar las listas"""
         return [("name", "Nombre"), ("state", "Estado")]
 
-    def __init__(self, name=None, description=None, coordinates=None, route_points=None, state=None):
+    def __init__(self, name=None, description=None, coordinates=None, state=None):
         self.name = name
         self.description = description
         self.coordinates = coordinates
-        self.route_points = route_points
         self.state = state

@@ -14,24 +14,24 @@ class Complaint(db.Model):
     __tablename__ = "complaints"
     id = Column(Integer, primary_key=True)
 
-    title = Column(String(255), nullable=false) 
+    title = Column(String(255), nullable=false)
     creation_date = Column(DateTime(), default=datetime.now())
     closure_date = Column(DateTime())
-    description = Column(String(255), nullable=false) 
+    description = Column(String(255), nullable=false)
     coordinates = Column(JSON) # Json # Puede estar definida por una coordenada o un poligono # El PDF no indica que se aun dato necesario, aunque probablemente, funcionalmente termine siendolo
     state = Column(String(30)) # Opciones: Sin confirmar, En curso, Resuelta, Cerrada
 
     category_id = Column(Integer, ForeignKey('categories.id'))
-    category = relationship("Category", foreign_keys=category_id) # Implementacion vieja: category = Column(String(255), nullable=false) 
-    
+    category = relationship("Category", foreign_keys=category_id) # Implementacion vieja: category = Column(String(255), nullable=false)
+
     assigned_user_id = Column(Integer, ForeignKey('users.id')) # No es obligatorio que alguien este asignado, pero solo una persona deberia estar asignada.
     assigned_user = relationship("User", foreign_keys=[assigned_user_id])
 
     author_first_name = Column(String(30), nullable=false) # Autor es un usuario de la aplicacion publica
-    author_last_name = Column(String(30), nullable=false) 
+    author_last_name = Column(String(30), nullable=false)
     author_telephone = Column(String(30), nullable=false)
-    author_email = Column(String(100), nullable=false)     
-    
+    author_email = Column(String(100), nullable=false)
+
     follow_ups = relationship("Follow_up") # Literalmente seguimientos. Basicamente comentarios que recompilan mas informacion sobre la investigacion sobre la queja.
 
 
@@ -42,7 +42,7 @@ class Complaint(db.Model):
         db.session.add(new_c)
         db.session.commit()
 
-    
+
     @classmethod
     def create_from_complaint(cls, new_complaint):
         """Crea una nueva denuncia desde la pasada por parámetro"""
@@ -79,15 +79,15 @@ class Complaint(db.Model):
             cls.state != "Sin confirmar"
         ).first()
         return res
-    
+
     @classmethod
     def close_complaint(cls, complaint_id):
         complaint = cls.find_by_id(complaint_id)
-        if complaint: 
+        if complaint:
             complaint.closure_date = datetime.now()
             complaint.state = dict(Complaint.get_states())['Cerrada']
         db.session.commit()
-    
+
 
     @classmethod
     def find_by_id(cls, id=None):
@@ -116,7 +116,7 @@ class Complaint(db.Model):
             cls.id.not_in(excep)
         ).all()
         return res
-    
+
 
     @classmethod
     def find_by_date_range(cls, first_date=None, last_date=None):
@@ -126,7 +126,7 @@ class Complaint(db.Model):
             cls.creation_date <= last_date
         ).all()
         return res
-    
+
 
     @classmethod
     def update(cls):
@@ -146,7 +146,7 @@ class Complaint(db.Model):
     def get_sorting_atributes(cls):
         """Devuelve los atributos para ordenar las listas"""
         return [("title", "Código"), ("creation_date", "Fecha de creación"), ("state", "Estado de la denuncia")]
-    
+
 
     @classmethod
     def get_states(cls):
@@ -166,9 +166,9 @@ class Complaint(db.Model):
         return cls.query.filter(
             cls.category_id == id
         ).all()
-    
+
     @classmethod
-    def find_by_date(cls, date): 
+    def find_by_date(cls, date):
         """Retorna las denuncias cuya fecha de creacion es pasada por parametro"""
         return cls.query.filter(
             cls.creation_date.like(date)

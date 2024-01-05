@@ -1,45 +1,5 @@
 {% extends "generic/pages/not_auth_base.html" %}
 
-{% block import %}
-    <!-- CSS propio -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
-
-    <style>
-      body {
-        background: {{ private_theme()[1] }}
-      }
-    
-      button {
-        background: {{ private_theme()[2] }}
-      }
-  
-      .btn {
-        background: {{ private_theme()[2] }}
-      }
-  
-      #navbar {
-        background: {{ private_theme()[0] }}
-      }
-  
-      input[type="submit"] {
-        background:{{ private_theme()[2] }};
-      }
-  
-      .asd {
-      font-weight:640;
-      color: rgba(0, 0, 0, 0.849)!important;
-      }
-  
-      .asd:hover{
-      color:{{private_theme()[2]}}!important;
-      }
-  
-      .nav-coloricon {
-        color:{{private_theme()[2]}};
-      }
-    </style>
-{% endblock %}
-
 {% block title %}{{temp_interface.item_type}}{% endblock %}
 
 {% block navbar %}

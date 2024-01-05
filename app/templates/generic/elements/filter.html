@@ -3,8 +3,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="col">Filtros</h4>
-                <button type="button" class="col-auto btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </button>
+                <div class="col-auto btn btn-danger" data-bs-dismiss="modal" aria-label="Close">
+                    <object class="navbar-icon" fill="{{ private_theme()[2] }}" data="{{ url_for('static', filename='icons/close.svg') }}" alt="Close filters"></object>
+                </div>
             </div>
             <div class="modal-body">
                 {% include "generic/elements/forms/form.html" %}

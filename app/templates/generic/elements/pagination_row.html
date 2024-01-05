@@ -1,7 +1,7 @@
 <div class="pagination row">
     {% if args.page.has_prev %}
         <div class="col mx-auto">
-            <a href="{{ url_for(args.url, page=args.page.prev_num) }}">Anterior</a>
+            <a class="btn btn-primary" href="{{ url_for(args.url, page=args.page.prev_num) }}">< Anterior</a>
         </div>
     {% endif %}
     <div class="col mx-auto">
@@ -13,7 +13,7 @@
     </div>
     {% if args.page.has_next %}
         <div class="col mx-auto">
-            <a href="{{ url_for(args.url, page=args.page.next_num) }}">Siguiente</a>
+            <a class="btn btn-primary" href="{{ url_for(args.url, page=args.page.next_num) }}">Siguiente ></a>
         </div>
     {% endif %}
 </div>

@@ -8,7 +8,8 @@ from flask_cors import CORS
 from config import config
 from app import db
 from app.resources import user, auth, points, flood_zone, complaint, evacuation_routes, config as configObject
-from app.resources import follow_up
+from app.resources import follow_up, palettes
+from app.resources.config import Config
 from app.helpers import handler
 from app.helpers import auth as helper_auth
 from app.resources.api.flood_zone import flood_zone_api
@@ -42,7 +43,8 @@ def create_app(environment="development"):
     # Funciones que se exportan al contexto de Jinja2
     app.jinja_env.globals.update(is_authenticated=helper_auth.authenticated)
     app.jinja_env.globals.update(get_navigation_actions=helper_auth.get_navigation_actions)
-    app.jinja_env.globals.update(private_theme=configObject.get_private_palette)
+    # app.jinja_env.globals.update(private_theme=configObject.get_private_palette)
+    app.jinja_env.globals.update(private_theme=Config.get_private_palette)
     app.jinja_env.globals.update(parsed_coordinates=evacuation_routes.parse_coordinates)
 
     # Autenticación
@@ -60,7 +62,7 @@ def create_app(environment="development"):
 
     # Rutas de Usuarios
     app.add_url_rule("/usuarios", "user_index", user.index)
-    app.add_url_rule("/usuarios/nuevo", "user_new", user.new, methods=["GET", "POST"]) 
+    app.add_url_rule("/usuarios/nuevo", "user_new", user.new, methods=["GET", "POST"])
     app.add_url_rule("/usuarios", "user_create", user.create, methods=["POST"])
     app.add_url_rule("/usuarios/modify/<int:user_id>", "user_modify", user.modify, methods=["GET", "POST"])
     app.add_url_rule("/usuarios/borrar/<int:user_id>", "user_delete", user.delete, methods=["GET", "POST"])
@@ -71,12 +73,12 @@ def create_app(environment="development"):
     app.add_url_rule("/perfil", "profile_index", user.profile)
     app.add_url_rule("/perfil/edit", "profile_modify", user.profile_modify, methods=["GET", "POST"])
     app.add_url_rule("/usuarios/approve/<int:user_id>", "user_approve", user.approve, methods=["GET", "POST"])
-    
+
     # Rutas de Puntos de encuentro
     app.add_url_rule("/puntos_encuentro", "points_index", points.index)
     app.add_url_rule("/puntos_encuentro/show/<int:point_id>", "points_show", points.show, methods=["GET"])
     app.add_url_rule("/puntos_encuentro/modify/<int:point_id>", "points_modify", points.modify, methods=["GET", "POST"])
-    app.add_url_rule("/puntos_encuentro/nuevo", "points_new", points.new, methods=["GET", "POST"]) 
+    app.add_url_rule("/puntos_encuentro/nuevo", "points_new", points.new, methods=["GET", "POST"])
     app.add_url_rule("/puntos_encuentro", "points_create", points.create, methods=["GET", "POST"])
     app.add_url_rule("/puntos_encuentro/delete/<int:point_id>", "points_delete", points.delete, methods=["GET", "POST"])
 
@@ -88,12 +90,12 @@ def create_app(environment="development"):
     app.add_url_rule("/zonas_inundables/", "fzone_create", flood_zone.create, methods=["GET", "POST"])
     app.add_url_rule("/zonas_inundables/delete/<int:fzone_id>", "fzone_delete", flood_zone.delete, methods=["GET", "POST"])
     app.add_url_rule("/zonas_inundables/csvimport", "fzone_csvimport", flood_zone.csv_import, methods=["GET", "POST"])
-    
+
     # Rutas de denuncias
     app.add_url_rule("/denuncias", "complaint_index", complaint.index)
     app.add_url_rule("/denuncias/show/<int:complaint_id>", "complaint_show", complaint.show, methods=["GET"])
     app.add_url_rule("/denuncias/modify/<int:complaint_id>", "complaint_modify", complaint.modify, methods=["GET", "POST"])
-    app.add_url_rule("/denuncias/nuevo", "complaint_new", complaint.new, methods=["GET", "POST"]) 
+    app.add_url_rule("/denuncias/nuevo", "complaint_new", complaint.new, methods=["GET", "POST"])
     app.add_url_rule("/denuncias", "complaint_create", complaint.create, methods=["GET", "POST"])
     app.add_url_rule("/denuncias/delete/<int:complaint_id>", "complaint_delete", complaint.delete, methods=["GET", "POST"])
     app.add_url_rule("/denuncias/close/<int:complaint_id>", "complaint_close", complaint.close_complaint, methods=["GET", "POST"])
@@ -108,7 +110,7 @@ def create_app(environment="development"):
     # Rutas de rutas de evacuacion
     app.add_url_rule("/rutas_evacuacion", "evroutes_index", evacuation_routes.index)
     app.add_url_rule("/rutas_evacuacion/show/<int:evroute_id>", "evroutes_show", evacuation_routes.show, methods=["GET"])
-    app.add_url_rule("/rutas_evacuacion/nuevo", "evroutes_new", evacuation_routes.new, methods=["GET", "POST"]) 
+    app.add_url_rule("/rutas_evacuacion/nuevo", "evroutes_new", evacuation_routes.new, methods=["GET", "POST"])
     app.add_url_rule("/rutas_evacuacion", "evroutes_create", evacuation_routes.create, methods=["GET", "POST"])
     app.add_url_rule("/rutas_evacuacion/modify/<int:evroute_id>", "evroutes_modify", evacuation_routes.modify, methods=["GET", "POST"])
     app.add_url_rule("/rutas_evacuacion/delete/<int:evroute_id>", "evroutes_delete", evacuation_routes.delete, methods=["GET", "POST"])
@@ -116,6 +118,15 @@ def create_app(environment="development"):
     # Rutas de Config
     app.add_url_rule("/config", "config_index", configObject.index)
     app.add_url_rule("/config/modify", "config_modify", configObject.modify, methods=["GET", "POST"])
+
+    # Rutas de Puntos de encuentro
+    app.add_url_rule("/paletas", "palettes_index", palettes.index)
+    app.add_url_rule("/paletas/show/<int:palette_id>", "palettes_show", palettes.show, methods=["GET"])
+    app.add_url_rule("/paletas/modify/<int:palette_id>", "palettes_modify", palettes.modify, methods=["GET", "POST"])
+    app.add_url_rule("/paletas/nuevo", "palettes_new", palettes.new, methods=["GET", "POST"])
+    app.add_url_rule("/paletas", "palettes_create", palettes.create, methods=["GET", "POST"])
+    app.add_url_rule("/paletas/delete/<int:palette_id>", "palettes_delete", palettes.delete, methods=["GET", "POST"])
+
 
     # Ruta para el Home (usando decorador)
     @app.route("/")
@@ -134,7 +145,7 @@ def create_app(environment="development"):
     @app.route("/manifest.webmanifest", methods=["GET"])
     def manifest():
         return app.send_static_file("manifest.webmanifest")
-    
+
 
     @app.route("/_allowed_pages", methods=["GET"])
     def allowed_pages():
@@ -143,7 +154,7 @@ def create_app(environment="development"):
         response = make_response(json_dumps(actions_url, indent=4, ensure_ascii=False))
         response.headers['Content-Type'] = 'application/json'
         return response
-    
+
 
     @app.route("/offline", methods=["GET"])
     def offline():
@@ -157,7 +168,7 @@ def create_app(environment="development"):
     api.register_blueprint(evacuation_routes_api)
     api.register_blueprint(meeting_points_api)
     api.register_blueprint(statistics_api)
-    
+
     app.register_blueprint(api)
 
     # Handlers

@@ -5,15 +5,15 @@
     {{ super() }}
 
     <section class="container">
-        <div class="row mt-5 mb-4">
+        <div class="row mt-5 mb-4 text-center">
         <h1 class="col">Iniciar sesión</h1>
         </div>
 
         <form class="row my-2" action="{{ url_for('auth_authenticate') }}" method="POST">
         <div class="col">
-            <div class="row my-2"><div class="col-lg-3 col-0"></div><input class="col card mx-2 p-2" name="email" placeholder="Correo" required/><div class="col-lg-3 col-0"></div></div>
-            <div class="row my-2"><div class="col-lg-3 col-0"></div><input class="col card mx-2 p-2" type="password" name="password" placeholder="Clave" required/><div class="col-lg-3 col-0"></div></div>
-            <div class="row my-2"><div class="col-lg-3 col-0"></div><input class="col card mx-2 p-2 bg-success text-light border-0" type="submit" value="Login"><div class="col-lg-3 col-0"></div></div>
+            <div class="row my-2"><div class="col-lg-3 col-0"></div><input class="col mx-2 p-2" name="email" placeholder="Correo" required/><div class="col-lg-3 col-0"></div></div>
+            <div class="row my-2"><div class="col-lg-3 col-0"></div><input class="col mx-2 p-2" type="password" name="password" placeholder="Clave" required/><div class="col-lg-3 col-0"></div></div>
+            <div class="row my-2"><div class="col-lg-3 col-0"></div><input class="col mx-2 p-2 bg-success text-light border-0" type="submit" value="Login"><div class="col-lg-3 col-0"></div></div>
         </div>
         </form>
     </section>

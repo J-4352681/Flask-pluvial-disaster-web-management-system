@@ -1,0 +1,7 @@
+{% extends "generic/pages/item_details.html" %}
+
+{% block extra_buttons %}
+{% with args={"text": "Paletas de color", "url": url_for("palettes_index"), "title": "Paletas de color", "icon_name": "trash", "onclick": "return confirm('¿Esta seguro que quiere eliminar a este usuario?')"} %}
+    {% include "generic/elements/buttons/button2.html" %}
+{% endwith %}
+{% endblock %}

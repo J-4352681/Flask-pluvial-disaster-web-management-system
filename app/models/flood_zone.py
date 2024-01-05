@@ -4,8 +4,7 @@ from sqlalchemy.sql.sqltypes import Boolean
 from sqlalchemy.orm import relationship
 from app.db import db
 
-from app.models.color import Color
-from app.resources.config import get as config_get
+from app.resources.config import Config
 
 class FloodZone(db.Model):
     """Clase que representa las zonas inundables en la base datos"""
@@ -16,8 +15,6 @@ class FloodZone(db.Model):
     coordinates = Column(JSON, nullable=false)
     state = Column(Boolean, default=True, nullable=false) # publicado o despublicado
     color = Column(String(7), nullable=false, default='#000000')
-    # color_id = Column(Integer, ForeignKey('colors.id'))
-    # color = relationship("Color", foreign_keys=color_id)
 
 
     @classmethod
@@ -33,7 +30,7 @@ class FloodZone(db.Model):
         db.session.add(new_fz)
         db.session.commit()
 
-    
+
     @classmethod
     def create_from_flood_zone(cls, incoming_floodzone):
         """Crea una nueva zona inundable con el objeto enviado por parámetro"""
@@ -57,15 +54,15 @@ class FloodZone(db.Model):
 
     @classmethod
     def all_paginated(cls, page):
-        per_page = config_get().elements_per_page
+        per_page = Config.get_current_config().elements_per_page
         return cls.query.paginate(page=page, per_page=per_page)
-    
+
     @classmethod
     def all_public(cls):
         """Devuelve todas las zonas inundables publicas"""
         res = cls.query.filter(
             cls.state == True
-        ).all() 
+        ).all()
         return res
 
 
@@ -74,7 +71,7 @@ class FloodZone(db.Model):
         """Devuelve todas las zonas inundables no publicas"""
         res = cls.query.filter(
             cls.state == False
-        ).all() 
+        ).all()
         return res
 
 

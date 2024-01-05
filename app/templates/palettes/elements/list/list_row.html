@@ -1,0 +1,19 @@
+{% extends "generic/elements/list/list_row.html" %}
+
+{% block action_icons %}
+    {% with args=args.item %}
+        <td class="col">
+            {% with args={"url": url_for('palettes_modify', palette_id=args.id), "icon_name": "pencil", "title": "Editar"} %}
+                {% include "generic/elements/action_icon.html" %}
+            {% endwith %}
+
+            {% with args={"url": url_for('palettes_delete', palette_id=args.id), "icon_name": "trash", "title": "Borrar", "onclick": "return confirm('¿Esta seguro que quiere eliminar este elemento?')"} %}
+                {% include "generic/elements/action_icon.html" %}
+            {% endwith %}
+
+            {% with args={"url": url_for('palettes_show', palette_id=args.id), "icon_name": "eye", "title": "Detalle"} %}
+                {% include "generic/elements/action_icon.html" %}
+            {% endwith %}
+        </td>
+    {% endwith %}
+{% endblock %}

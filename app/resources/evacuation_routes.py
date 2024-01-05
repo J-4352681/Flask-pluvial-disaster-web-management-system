@@ -22,7 +22,7 @@ def index(page=None):
         title="Administración de recorridos de evacuación",
         subtitle="Administración, adición y eliminación de los recorridos de evacuación del sitio"
     )
-    
+
     return render_template("evacuation_routes/pages/index.html", temp_interface=temp_interface)
 
 def show(evroute_id):
@@ -30,20 +30,20 @@ def show(evroute_id):
     assert_permit(session, "evroutes_show")
 
     evroute = EvacuationRoute.find_by_id(evroute_id)
-    
+
     temp_interface = ItemDetailsPage(
         {
         "Nombre": evroute.name,
         "Descripción": evroute.description,
         "Público": evroute.state,
-        "Coordenadas": evroute.route_points,
+        "Coordenadas": evroute.coordinates,
         }, evroute,
         title="Recorrido de evacuación", subtitle="Detalles del recorrido " + str(evroute.name),
         return_url=url_or_home('evroutes_index'),
         edit_url=url_for("evroutes_modify", evroute_id=evroute.id),
         delete_url=url_for("evroutes_delete", evroute_id=evroute.id)
     )
-    
+
     return render_template("generic/pages/route_item_details.html", temp_interface=temp_interface)
 
 def parse_coordinates(coords):
@@ -72,7 +72,6 @@ def create(form, evroute):
     assert_permit(session, "evroutes_create")
 
     form.populate_obj(evroute)
-    evroute.route_points = loads(evroute.route_points)
     evroute.coordinates = loads(evroute.coordinates)
     EvacuationRoute.create_from_evacuation_route(evroute)
 
@@ -86,8 +85,6 @@ def modify(evroute_id):
     if form.validate_on_submit():
         form.populate_obj(evroute)
         evroute.coordinates = loads(evroute.coordinates)
-        print(evroute.route_points)
-        evroute.route_points = loads(evroute.route_points)
         EvacuationRoute.update()
         return redirect(url_or_home('evroutes_index'))
 
@@ -96,7 +93,7 @@ def modify(evroute_id):
         title="Edición de ruta de evacuación", subtitle="Editando la ruta de evacuación "+str(evroute.name),
         return_url=url_or_home('evroutes_index')
     )
-    
+
     return render_template("generic/pages/route_form.html", temp_interface=temp_interface)
 
 def delete(evroute_id):

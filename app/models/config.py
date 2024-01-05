@@ -3,8 +3,6 @@ from sqlalchemy.sql.expression import false, true
 from sqlalchemy.orm import relationship
 from app.db import db
 
-from app.models import palette, color
-
 """Este modulo incluye todo la informacion relacionada al modelado de la configuracion de la app en base de datos."""
 
 class Config(db.Model):
@@ -17,11 +15,83 @@ class Config(db.Model):
     sort_flood_zones = Column(String(30), nullable=false) # Criterio de ordenamiento por defecto de zoans inundables
     sort_evacuation_routes = Column(String(30), nullable=false) # Criterio de ordenamiento por defecto de las rutas de evacuacion
     sort_complaints = Column(String(30), nullable=false) # Criterio de ordenamiento por defecto de las denuncias
-    
+    sort_palettes = Column(String(30), nullable=false) # Criterio de ordenamiento por defecto de las paletas
+
     palette_private_id = Column(Integer, ForeignKey("palettes.id"))
     palette_private = relationship("Palette", foreign_keys=[palette_private_id])
     palette_public_id = Column(Integer, ForeignKey("palettes.id"))
     palette_public = relationship("Palette", foreign_keys=[palette_public_id])
+
+
+    @classmethod
+    def get_current_config(cls):
+        """Devuelve la configuracion del sistema. Si no existe una configuracion crea una nueva."""
+        configExists = Config.get()
+        if ( not configExists ):
+            configExists = Config.create()
+
+        return configExists
+
+    @classmethod
+    def get_elements_per_page(cls):
+        """Devuelve la cantidad de elementos que se podran tener en una pagina de un listado en la app."""
+        configExists = cls.get_current_config()
+        return configExists.elements_per_page
+
+    @classmethod
+    def get_sort_criterion_users(cls):
+        """Devuelve el criterio de ordenacion por defecto para los listados de usuarios."""
+        configExists = cls.get_current_config()
+        return configExists.sort_users
+
+    def get_sort_criterion_meeting_points(cls):
+        """Devuelve el criterio de ordenacion por defecto para los listados de puntos de encuentro."""
+        configExists = cls.get_current_config()
+        return configExists.sort_meeting_points
+
+    def get_sort_criterion_flood_zones(cls):
+        """Devuelve el criterio de ordenacion por defecto para los listados de zonas inundables."""
+        configExists = cls.get_current_config()
+        return configExists.sort_flood_zones
+
+    def get_sort_criterion_palettes(cls):
+        """Devuelve el criterio de ordenacion por defecto para los listados de zonas inundables."""
+        configExists = cls.get_current_config()
+        return configExists.sort_palettes
+
+    @classmethod
+    def get_private_palette(cls):
+        """Devuelve una lista de nombres de colores reconocidos por HTML. [0] color primario, [1] secundario y [2] accento. Si no existe una lista de colores para la aplicacion privadada especificada en la configuracion se deuvelve una por defecto."""
+        configuration = cls.get_current_config()
+        if configuration.palette_private:
+            return [
+                configuration.palette_private.color1,
+                configuration.palette_private.color2,
+                configuration.palette_private.color3
+            ]
+        else:
+            return ["#dce0d9", "#fbf6ef", "#2b2d42"]
+
+    @classmethod
+    def get_public_palette(cls):
+        """Devuelve una lista de nombres de colores reconocidos por HTML. [0] color primario, [1] secundario y [2] accento. Si no existe una lista de colores para la aplicacion privadada especificada en la configuracion se deuvelve una por defecto."""
+        configuration = cls.get_current_config()
+        if configuration.palette_public:
+            return [
+                configuration.palette_public.color1,
+                configuration.palette_public.color2,
+                configuration.palette_public.color3
+            ]
+        else:
+            return ["#dce0d9", "#fbf6ef", "#2b2d42"]
+
+
+
+
+
+
+
+
 
     @classmethod
     def get(cls):
@@ -57,7 +127,7 @@ class Config(db.Model):
         """actualiza el criterio por defecto de ordenamiento de los puntos de encuentro"""
         config.sort_meeting_points = criteria
         db.session.commit()
-    
+
     @classmethod
     def modify_sort_criterion_flood_zones(cls, config, criteria):
         """actualiza el criterio por defecto de ordenamiento de las zonas inundables"""
@@ -77,7 +147,7 @@ class Config(db.Model):
         palette.Palette.newColor2(config.palette_private, newPalette[1])
         palette.Palette.newColor3(config.palette_private, newPalette[2])
         db.session.commit()
-    
+
     @classmethod
     def new_public_palette(cls, config, newPalette):
         """reemplaza la paleta de colores publica por otra. Recibe una lista de objeto Color."""
@@ -85,7 +155,7 @@ class Config(db.Model):
         palette.Palette.newColor2(config.palette_public, newPalette[1])
         palette.Palette.newColor3(config.palette_public, newPalette[2])
         db.session.commit()
-    
+
     @classmethod
     def update(cls):
         """Actualiza los datos de la configuracion."""
@@ -107,4 +177,3 @@ class Config(db.Model):
         self.sort_complaints = sort_complaints
         self.palette_private = palette.Palette()
         self.palette_public = palette.Palette()
-        

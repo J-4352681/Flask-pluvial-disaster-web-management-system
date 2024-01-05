@@ -53,19 +53,19 @@ __init__.py      # Application instance and routing
 
 - **Login**
 
-![Private section login](https://github.com/J-4352681/Flask-pluvial-disaster-web-management-system/blob/development/imgs/flask_pluvial-home.png?raw=true "Private section login")
+![Private section login](https://github.com/J-4352681/Flask-pluvial-disaster-web-management-system/blob/master/imgs/flask_pluvial-home.png?raw=true "Private section login")
 
 - **Home**
 
-![Private section main page](https://github.com/J-4352681/Flask-pluvial-disaster-web-management-system/blob/development/imgs/flask_pluvial-login.png?raw=true "Private section main page")
+![Private section main page](https://github.com/J-4352681/Flask-pluvial-disaster-web-management-system/blob/master/imgs/flask_pluvial-login.png?raw=true "Private section main page")
 
 - **List of flood-prone zones**
 
-![List of flood-prone zones](https://github.com/J-4352681/Flask-pluvial-disaster-web-management-system/blob/development/imgs/flask_pluvial-fzone.png?raw=true "List of flood-prone zones")
+![List of flood-prone zones](https://github.com/J-4352681/Flask-pluvial-disaster-web-management-system/blob/master/imgs/flask_pluvial-fzone.png?raw=true "List of flood-prone zones")
 
 - **Creation of flood-prone zones**
 
-![Creation of flood-prone zones](https://github.com/J-4352681/Flask-pluvial-disaster-web-management-system/blob/development/imgs/flask_pluvial-new_fzone.png?raw=true "Creation of flood-prone zones")
+![Creation of flood-prone zones](https://github.com/J-4352681/Flask-pluvial-disaster-web-management-system/blob/master/imgs/flask_pluvial-new_fzone.png?raw=true "Creation of flood-prone zones")
 
 ### Public section
 

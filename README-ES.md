@@ -53,19 +53,19 @@ __init__.py       # Instancia de la aplicación y ruteo
 
 - **Login**
 
-![Login de la aplicación privada](https://github.com/J-4352681/Flask-pluvial-disaster-web-management-system/blob/development/imgs/flask_pluvial-home.png?raw=true "Login de la aplicación privada")
+![Login de la aplicación privada](https://github.com/J-4352681/Flask-pluvial-disaster-web-management-system/blob/master/imgs/flask_pluvial-home.png?raw=true "Login de la aplicación privada")
 
 - **Home**
 
-![Página principal de la aplicación privada](https://github.com/J-4352681/Flask-pluvial-disaster-web-management-system/blob/development/imgs/flask_pluvial-login.png?raw=true "Página principal de la aplicación privada")
+![Página principal de la aplicación privada](https://github.com/J-4352681/Flask-pluvial-disaster-web-management-system/blob/master/imgs/flask_pluvial-login.png?raw=true "Página principal de la aplicación privada")
 
 - **Listado de zonas inundables**
 
-![Listado de zonas inundables](https://github.com/J-4352681/Flask-pluvial-disaster-web-management-system/blob/development/imgs/flask_pluvial-fzone.png?raw=true "Listado de zonas inundables")
+![Listado de zonas inundables](https://github.com/J-4352681/Flask-pluvial-disaster-web-management-system/blob/master/imgs/flask_pluvial-fzone.png?raw=true "Listado de zonas inundables")
 
 - **Creación de zonas inundables**
 
-![Creación de zonas inundables](https://github.com/J-4352681/Flask-pluvial-disaster-web-management-system/blob/development/imgs/flask_pluvial-new_fzone.png?raw=true "Creación de zonas inundables")
+![Creación de zonas inundables](https://github.com/J-4352681/Flask-pluvial-disaster-web-management-system/blob/master/imgs/flask_pluvial-new_fzone.png?raw=true "Creación de zonas inundables")
 
 ### Aplicación pública
 
